@@ -3,7 +3,7 @@ import time
 
 
 class TimingBot():
-    def main(self) -> None:
+    def main():
         pdi.FAILSAFE = True
 
         print("Starting in 5 sec")
@@ -20,5 +20,5 @@ class TimingBot():
         print("Pressed escape")
 
 
-tb = TimingBot()
-tb.main()
+if __name__ == "__main__":
+    TimingBot.main()

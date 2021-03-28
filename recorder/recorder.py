@@ -34,6 +34,13 @@ class Recorder():
             return
         else:
             self.append(key)
+        print("Key Pressed")
+
+    def on_click(x, y, button, pressed):
+        # when pressed is False, that means it's a release event.
+        # let's listen only to mouse click releases
+        if not pressed:
+            print("Clicked")
 
 
 if __name__ == "__main__":

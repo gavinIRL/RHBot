@@ -36,7 +36,14 @@ class Recorder():
             self.append(key)
         print("Key Pressed")
 
-    def on_click(x, y, button, pressed):
+    def on_release(self, key):
+        # mark key as no longer pressed
+        try:
+            self.unreleased_keys.remove(key)
+        except ValueError:
+            print('ERROR: {} not in unreleased_keys'.format(key))
+
+    def on_click(self, x, y, button, pressed):
         # when pressed is False, that means it's a release event.
         # let's listen only to mouse click releases
         if not pressed:

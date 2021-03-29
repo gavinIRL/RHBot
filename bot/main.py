@@ -1,11 +1,19 @@
 import pydirectinput as pdi
 import time
+import os
+import json
+import numpy as np
 
 
 class RHBot():
     def __init__(self) -> None:
         pdi.FAILSAFE = True
+        # The variable that will keep track of the zones
         self.current_zone = 0
+        # The variable that will estimate from the map the current position
+        # Used for checking if within attacking distance
+        # And also used for calculating what buttons to press to travel to the next area
+        self.current_pos = {0, 0}
 
         # These will hold the current skill cooldown finish times
         self.cooldown_end_time = {
@@ -71,6 +79,9 @@ class RHBot():
 
         # Then detect objects of interest when the map spawns in
         self.detect_map_objects()
+
+    def pick_up_loot(self):
+        pass
 
 
 if __name__ == "__main__":

@@ -2,23 +2,44 @@ import pydirectinput as pdi
 import time
 
 
-class TimingBot():
-    def main():
+class RHBot():
+    def __init__(self) -> None:
         pdi.FAILSAFE = True
+        self.current_zone = 0
 
-        print("Starting in 5 sec")
-        time.sleep(5)
+    def main(self, num_loops=10):
+        # Main flow of bot
+        # For a given number of loops, run through the dungeon
+        loop_counter = 0
+        while loop_counter < num_loops:
+            while self.current_zone < 10:
+                # To start => move to spawn the first enemies
+                self.move_to_next_area(self.current_zone)
+                # Then initiate combat
+                self.perform_combat()
+                # Once no more enemies left
+            # Then once the dungeon/level has been completed, perform level end tasks
+            self.level_end_sequence()
+            loop_counter += 1
 
-        # Trial press key down
-        pdi.keyDown("left")
-        time.sleep(1)
-        pdi.keyUp("left")
+    def move_to_next_area(self):
+        if self.current_zone == 0:
+            pass
+        pass
 
-        print("Done")
+    def perform_combat(self):
+        enemies_detected = True
+        while enemies_detected:
+            enemies_detected = False
+        # Do something
 
-        pdi.press("esc")
-        print("Pressed escape")
+    def level_end_sequence(self):
+        pass
+
+    def detect_map_objects(self):
+        pass
 
 
 if __name__ == "__main__":
-    TimingBot.main()
+    rhb = RHBot()
+    rhb.main()

@@ -3,6 +3,11 @@ import time
 import os
 import json
 import numpy as np
+# This will be the main bot class file
+# The intent is to thread the tasks and have a linear set of actions
+# While having multiple detectors in separate threads
+# But also have the order of actions be interruptable
+# In case the detectors identify something that requires attention
 
 
 class RHBot():
@@ -43,6 +48,10 @@ class RHBot():
     def move_to_next_area(self):
         if self.current_zone == 0:
             pass
+        else:
+            # First make sure all loot is picked up off ground
+            self.pick_up_loot()
+            # Then figure out the next area to move to
         pass
 
     def begin_combat(self):

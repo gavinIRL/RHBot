@@ -6,10 +6,15 @@ import os
 
 class Recorder():
     def __init__(self) -> None:
-        self.unreleased_keys = None
+        self.unreleased_keys = []
+        self.input_events = []
+        self.start_time = None
 
     def main(self):
         self.run_listeners()
+
+    def elapsed_time(self):
+        return time() - self.start_time
 
     def run_listeners(self):
 
@@ -29,12 +34,14 @@ class Recorder():
 
     def on_press(self, key):
         # we only want to record the first keypress event until that key has been released
-
         if key in self.unreleased_keys:
             return
         else:
-            self.append(key)
-        print("Key Pressed")
+            self.unreleased_keys.append(key)
+        try:
+            self.record_event("keyDown", self.elapsed_time(), key.char)
+        except AttributeError:
+            self.record_event("keyDown", self.elapsed_time(), key)
 
     def on_release(self, key):
         # mark key as no longer pressed
@@ -48,6 +55,14 @@ class Recorder():
         # let's listen only to mouse click releases
         if not pressed:
             print("Clicked")
+
+    def record_event(self, event_type, event_time, button, pos=None):
+        self.input_events.append({
+            'time': event_time,
+            'type': event_type,
+            'button': str(button),
+            'pos': pos
+        })
 
 
 if __name__ == "__main__":

@@ -10,7 +10,7 @@ import numpy as np
 # In case the detectors identify something that requires attention
 
 
-class RHBot():
+class CombatBot():
     def __init__(self) -> None:
         pdi.FAILSAFE = True
         # The variable that will keep track of the zones
@@ -94,5 +94,5 @@ class RHBot():
 
 
 if __name__ == "__main__":
-    rhb = RHBot()
+    rhb = CombatBot()
     rhb.main()

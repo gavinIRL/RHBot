@@ -8,17 +8,21 @@ import numpy as np
 class FollowerBot():
     def __init__(self) -> None:
         pdi.FAILSAFE = True
-        # The variable that will keep track of the zones
-        self.current_zone = 0
-        # The variable that will estimate from the map the current position
-        # Used for checking if within attacking distance
-        # And also used for calculating what buttons to press to travel to the next area
+        # The variable that will keep track of the position of player 1 and 2
+        self.target_pos = {0, 0}
         self.current_pos = {0, 0}
+        # Set up the keys for movement and control
 
-        # These will hold the current skill cooldown finish times
-        self.cooldown_end_time = {
-            "a": 0, "b": 0, "d": 0, "f": 0, "g": 0, "h": 0
-        }
+    def main(self):
+        # First detect the current player 1 and player 2 location
+        self.target_pos = self.detect_other_player_loc()
+        self.current_pos = self.detect_bot_loc()
+
+    def detect_other_player_loc(self):
+        pass
+
+    def detect_bot_loc(self):
+        pass
 
 
 if __name__ == "__main__":

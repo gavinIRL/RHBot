@@ -3,7 +3,7 @@ import time
 import os
 import json
 import numpy as np
-from bot_utils import WindowCapture
+from v1.bot_utils import WindowCapture
 import cv2 as cv
 
 

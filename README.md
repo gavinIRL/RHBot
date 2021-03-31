@@ -5,7 +5,14 @@ Simple bot to automate combat, selling gear at end of level, and other basic fun
 ## Motivation
 Alongside the DCW application (specifically the bot playground and creation aspect of DCW), I have an interest in assessing the automation of certain tasks. More specifically I have an interest in the efficiency of automating tasks in comparison to manually doing them. This bot application is intended as a learning experience for useful automation with a reasonably complex set of situations. The approaches to be taken include bot image recognition (probably using OpenCV or similar) and also the standard fixed-sequence movement patterns (using PyAutoGUI and/or PyDirectInput).
 
-## Planned Features - (Single level only at beginning)
+## Plans
+### Version 1 - Follower Bot (WIP)
+Will detect the position of the player-controlled character in the same party and aim to move to that character's location.
+
+### Version 2 - Follower Bot with Loot Pickup (WIP)
+Version 1 with the additional ability to detect and pick up all loot objects.
+
+### All Planned Features (Section will be removed soon and replaced by versions subsections in Plans)
 1) Automated movement to next area
 2) Automated basic combat, enemy detection, and target prioritising
 3) Automated loot pickup
@@ -16,5 +23,5 @@ Alongside the DCW application (specifically the bot playground and creation aspe
 
 Note: Will finish this section later.
 
-## Current Features
+## Current Features (Section will be removed soon and replaced by versions subsections in Plans)
 Will fill this out later

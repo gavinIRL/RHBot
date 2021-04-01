@@ -8,8 +8,7 @@ sample_img = cv.imread('capture2.jpg', cv.IMREAD_UNCHANGED)
 
 
 def detect(target):
-    result = cv.matchTemplate(sample_img, target_img, cv.TM_CCOEFF_NORMED)
-
+    result = cv.matchTemplate(sample_img, target, cv.TM_CCOEFF_NORMED)
     return result
 
 
@@ -32,10 +31,38 @@ def get_min_max(result, image, threshold=0.8):
 
         cv.imshow("Rectangle", sample_img)
         cv.waitKey()
+    else:
+        print("Object not found")
+
+
+def get_locations(result, image, threshold=0.8):
+    locations = np.where(result >= threshold)
+    locations = list(zip(*locations[::-1]))
+    # print(locations)
+
+    if locations:
+        print("Found object")
+        width = image.shape[1]
+        height = image.shape[0]
+        line_color = (0, 255, 0)
+        line_type = cv.LINE_4
+
+        for loc in locations:
+            # Determine the box positions
+            top_left = loc
+            bottom_right = (top_left[0] + width, top_left[1] + height)
+            # Draw the box
+            cv.rectangle(sample_img, top_left, bottom_right,
+                         line_color, line_type)
+
+        cv.imshow('Matches', sample_img)
+        cv.waitKey()
+    else:
+        print('Needle not found.')
 
 
 if __name__ == "__main__":
-    #target = 'enemy.jpg'
-    target = "player_nodir.jpg"
+    target = 'enemy.jpg'
+    #target = "player_nodir.jpg"
     target_img = cv.imread(target, cv.IMREAD_UNCHANGED)
-    get_min_max(detect(target_img), target_img)
+    get_locations(detect(target_img), target_img)

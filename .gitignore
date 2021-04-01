@@ -3,4 +3,7 @@ __pycache__/
 *.spec
 # This is the settings file extension
 *.cfg
-*.png
+# Remove hiding .png to allow test sample uploads
+# *.png
+# But hide folder instead
+screenshots/

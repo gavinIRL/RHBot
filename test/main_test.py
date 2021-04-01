@@ -35,7 +35,7 @@ def get_min_max(result, image, threshold=0.8):
 
 
 if __name__ == "__main__":
-    target = 'enemy.jpg'
+    #target = 'enemy.jpg'
+    target = "player_nodir.jpg"
     target_img = cv.imread(target, cv.IMREAD_UNCHANGED)
-    # target = "player_down.jpg"
     get_min_max(detect(target_img), target_img)

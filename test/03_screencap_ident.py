@@ -123,6 +123,8 @@ class WindowCapture:
         window_rect = win32gui.GetWindowRect(self.hwnd)
         self.w = window_rect[2] - window_rect[0]
         self.h = window_rect[3] - window_rect[1]
+        print(self.w)
+        print(self.h)
 
         # account for the window border and titlebar and cut them off
         border_pixels = 8
@@ -195,9 +197,9 @@ class WindowCapture:
 
 
 # Main loop
-WindowCapture.list_window_names()
-wincap = WindowCapture("Rusty Hearts: Revolution - Reborn ")
-vision_enemy = Vision("item3.jpg")
+# WindowCapture.list_window_names()
+wincap = WindowCapture("Snipping Tool")
+vision_enemy = Vision("enemy.jpg")
 
 loop_time = time()
 while(True):
@@ -206,7 +208,7 @@ while(True):
     screenshot = wincap.get_screenshot()
 
     #cv.imshow('Computer Vision', screenshot)
-    points = vision_enemy.find(screenshot, 0.5, "points")
+    points = vision_enemy.find(screenshot, 0.8, "points")
 
     # debug the loop rate
     print('FPS {}'.format(1 / (time() - loop_time)))

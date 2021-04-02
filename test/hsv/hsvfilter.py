@@ -1,4 +1,7 @@
+import typing
 # custom data structure to hold the state of an HSV filter
+
+
 class HsvFilter:
     def __init__(self, hMin=None, sMin=None, vMin=None, hMax=None, sMax=None, vMax=None,
                  sAdd=None, sSub=None, vAdd=None, vSub=None):
@@ -15,15 +18,21 @@ class HsvFilter:
 
 
 # Putting this here out of the way as it's a chonk
-def grab_preset_filter(object_name=None) -> HsvFilter:
+def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, list]:
     if object_name is None:
-        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
+        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [3, 32, 1280, 794]
     if object_name == "enemy_map_loc":
-        return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34)
+        if kwargs.get("big_map"):
+            return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [485, 280, 900, 734]
+        return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [1100, 50, 1260, 210]
     if object_name == "player_map_loc":
-        return HsvFilter(31, 94, 86, 73, 255, 255, 0, 0, 0, 0)
+        if kwargs.get("big_map"):
+            return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [485, 280, 900, 734]
+        return HsvFilter(31, 94, 86, 73, 255, 255, 0, 0, 0, 0), [1100, 50, 1260, 210]
     if object_name == "other_player_map_loc":
-        return HsvFilter(16, 172, 194, 26, 255, 255, 0, 0, 70, 37)
+        if kwargs.get("big_map"):
+            return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [485, 280, 900, 734]
+        return HsvFilter(16, 172, 194, 26, 255, 255, 0, 0, 70, 37), [1100, 50, 1260, 210]
     if object_name == "loot_distant":
         return HsvFilter(14, 116, 33, 32, 210, 59, 16, 0, 3, 0)
     if object_name == "loot_near":
@@ -73,6 +82,8 @@ def grab_preset_filter(object_name=None) -> HsvFilter:
     if object_name == "event_otherworld":
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
     if object_name == "loot_chest_special":
+        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
+    if object_name == "cards":
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
     if object_name == "":
         return HsvFilter()

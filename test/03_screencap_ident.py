@@ -198,8 +198,8 @@ class WindowCapture:
 
 # Main loop
 # WindowCapture.list_window_names()
-wincap = WindowCapture("Snipping Tool")
-vision_enemy = Vision("enemy.jpg")
+wincap = WindowCapture()
+vision_enemy = Vision("player_nodir2.jpg")
 
 loop_time = time()
 while(True):
@@ -208,11 +208,11 @@ while(True):
     screenshot = wincap.get_screenshot()
 
     #cv.imshow('Computer Vision', screenshot)
-    points = vision_enemy.find(screenshot, 0.8, "points")
+    points = vision_enemy.find(screenshot, 0.6, "points")
 
     # debug the loop rate
-    print('FPS {}'.format(1 / (time() - loop_time)))
-    loop_time = time()
+    #print('FPS {}'.format(1 / (time() - loop_time)))
+    #loop_time = time()
 
     # press 'q' with the output window focused to exit.
     # waits 1 ms every loop to process key presses

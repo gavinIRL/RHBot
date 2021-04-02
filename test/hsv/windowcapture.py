@@ -16,7 +16,7 @@ class WindowCapture:
     offset_y = 0
 
     # constructor
-    def __init__(self, window_name=None):
+    def __init__(self, window_name=None, custom_rect=None):
         # find the handle for the window we want to capture.
         # if no window name is given, capture the entire screen
         if window_name is None:
@@ -34,10 +34,16 @@ class WindowCapture:
         # account for the window border and titlebar and cut them off
         border_pixels = 8
         titlebar_pixels = 30
-        self.w = self.w - (border_pixels * 2)
-        self.h = self.h - titlebar_pixels - border_pixels
-        self.cropped_x = border_pixels
-        self.cropped_y = titlebar_pixels
+        if custom_rect is None:
+            self.w = self.w - (border_pixels * 2)
+            self.h = self.h - titlebar_pixels - border_pixels
+            self.cropped_x = border_pixels
+            self.cropped_y = titlebar_pixels
+        else:
+            self.w = custom_rect[2] - custom_rect[0]
+            self.h = custom_rect[3] - custom_rect[1]
+            self.cropped_x = custom_rect[0]
+            self.cropped_y = custom_rect[1]
 
         # set the cropped coordinates offset so we can translate screenshot
         # images into actual screen positions

@@ -12,7 +12,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 WindowCapture.list_window_names()
 # initialize the WindowCapture class
-wincap = WindowCapture('Document15 - Word')
+wincap = WindowCapture('Document16 - Word', custom_rect=[100, 100, 600, 600])
 
 # initialize the Vision class
 vision_limestone = Vision('player_nodir2.jpg')

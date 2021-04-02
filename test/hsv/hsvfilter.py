@@ -66,11 +66,13 @@ def grab_preset_filter(object_name=None) -> HsvFilter:
         return HsvFilter(126, 153, 0, 255, 255, 255, 0, 0, 0, 0)
     if object_name == "store_buttons":
         return HsvFilter(0, 0, 89, 43, 58, 240, 7, 1, 0, 0)
-    if object_name == "":
-        return HsvFilter()
-    if object_name == "":
-        return HsvFilter()
-    if object_name == "":
-        return HsvFilter()
+
+    # These are all To be done later
+    if object_name == "event_card_trade":
+        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
+    if object_name == "event_otherworld":
+        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
+    if object_name == "loot_chest_special":
+        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
     if object_name == "":
         return HsvFilter()

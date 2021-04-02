@@ -59,11 +59,13 @@ def grab_preset_filter(object_name=None) -> HsvFilter:
     if object_name == "inventory_blue_item":
         return HsvFilter(79, 169, 0, 109, 246, 188, 0, 0, 0, 0)
     if object_name == "inventory_yellow_item":
+        # This is a dangerous one as it can barely
+        # distinguish against green items and vice versa
         return HsvFilter(19, 91, 107, 31, 168, 181, 0, 11, 32, 21)
-    if object_name == "":
-        return HsvFilter()
-    if object_name == "":
-        return HsvFilter()
+    if object_name == "inventory_purple_item":
+        return HsvFilter(126, 153, 0, 255, 255, 255, 0, 0, 0, 0)
+    if object_name == "store_buttons":
+        return HsvFilter(0, 0, 89, 43, 58, 240, 7, 1, 0, 0)
     if object_name == "":
         return HsvFilter()
     if object_name == "":

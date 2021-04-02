@@ -48,6 +48,18 @@ def grab_preset_filter(object_name=None) -> HsvFilter:
     if object_name == "gate_map_pos":
         # This is a very difficult one to separate
         return HsvFilter(15, 45, 38, 18, 200, 135, 0, 119, 0, 0)
+    if object_name == "prompt_move_reward_screen":
+        return HsvFilter(72, 98, 92, 105, 255, 225, 0, 54, 24, 38)
+    if object_name == "prompt_select_card":
+        return HsvFilter(79, 149, 140, 255, 255, 255, 0, 0, 0, 0)
+    if object_name == "event_chest_special_appear":
+        return HsvFilter(0, 124, 62, 88, 217, 246, 0, 0, 0, 0)
+    if object_name == "inventory_green_item":
+        return HsvFilter(37, 147, 0, 61, 255, 255, 0, 0, 0, 0)
+    if object_name == "inventory_blue_item":
+        return HsvFilter(79, 169, 0, 109, 246, 188, 0, 0, 0, 0)
+    if object_name == "inventory_yellow_item":
+        return HsvFilter(19, 91, 107, 31, 168, 181, 0, 11, 32, 21)
     if object_name == "":
         return HsvFilter()
     if object_name == "":

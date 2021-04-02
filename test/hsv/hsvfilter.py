@@ -47,12 +47,12 @@ def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
     if object_name == "enemy_nametag":
         return HsvFilter(49, 0, 139, 91, 30, 197, 0, 0, 40, 38), [10, 145, 1084, 684]
     if object_name == "message_boss_encounter":
-        return HsvFilter(0, 92, 128, 13, 255, 255, 0, 0, 0, 0)
+        return HsvFilter(0, 92, 128, 13, 255, 255, 0, 0, 0, 0), [600, 470, 1080, 700]
     if object_name == "display_boss_name_and_healthbar":
-        return HsvFilter(0, 92, 123, 29, 255, 255, 0, 0, 0, 20)
+        return HsvFilter(0, 92, 123, 29, 255, 255, 0, 0, 0, 20), [415, 533, 888, 700]
     if object_name == "loot_chest_normal":
         # This is a difficult one to separate
-        return HsvFilter(0, 34, 38, 28, 152, 124, 0, 0, 5, 12)
+        return HsvFilter(0, 34, 38, 28, 152, 124, 0, 0, 5, 12), [10, 145, 1084, 684]
     if object_name == "map_outline":
         return HsvFilter(0, 85, 108, 12, 178, 205, 0, 13, 37, 50)
     if object_name == "gate_map_pos":
@@ -83,8 +83,10 @@ def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
     if object_name == "event_otherworld":
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
     if object_name == "loot_chest_special":
-        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
+        if kwargs.get("big_map"):
+            return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
     if object_name == "cards":
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
-    if object_name == "":
-        return HsvFilter()
+    if object_name == "enemy_arrow":
+        return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]

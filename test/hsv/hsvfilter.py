@@ -18,6 +18,7 @@ class HsvFilter:
 
 
 # Putting this here out of the way as it's a chonk
+# For a given item string case it will return the optimal filter and the correct position to look
 def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, list]:
     if object_name is None:
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [3, 32, 1280, 794]
@@ -34,17 +35,17 @@ def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
             return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [485, 280, 900, 734]
         return HsvFilter(16, 172, 194, 26, 255, 255, 0, 0, 70, 37), [1100, 50, 1260, 210]
     if object_name == "loot_distant":
-        return HsvFilter(14, 116, 33, 32, 210, 59, 16, 0, 3, 0)
+        return HsvFilter(14, 116, 33, 32, 210, 59, 16, 0, 3, 0), [10, 145, 1084, 684]
     if object_name == "loot_near":
-        return HsvFilter(0, 155, 135, 31, 240, 217, 0, 0, 0, 0)
+        return HsvFilter(0, 155, 135, 31, 240, 217, 0, 0, 0, 0), [460, 420, 855, 710]
     if object_name == "prompt_press_x_pickup":
-        return HsvFilter(78, 110, 110, 97, 189, 255, 0, 0, 0, 0)
+        return HsvFilter(78, 110, 110, 97, 189, 255, 0, 0, 0, 0), [1080, 660, 1255, 725]
     if object_name == "message_section_cleared":
-        return HsvFilter(0, 0, 214, 179, 65, 255, 0, 0, 0, 17)
+        return HsvFilter(0, 0, 214, 179, 65, 255, 0, 0, 0, 17), [444, 595, 835, 700]
     if object_name == "message_go":
         return HsvFilter(32, 114, 89, 58, 255, 255, 0, 12, 0, 0)
     if object_name == "enemy_nametag":
-        return HsvFilter(49, 0, 139, 91, 30, 197, 0, 0, 40, 38)
+        return HsvFilter(49, 0, 139, 91, 30, 197, 0, 0, 40, 38), [10, 145, 1084, 684]
     if object_name == "message_boss_encounter":
         return HsvFilter(0, 92, 128, 13, 255, 255, 0, 0, 0, 0)
     if object_name == "display_boss_name_and_healthbar":

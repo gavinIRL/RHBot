@@ -27,7 +27,7 @@ class Vision:
         # TM_CCOEFF, TM_CCOEFF_NORMED, TM_CCORR, TM_CCORR_NORMED, TM_SQDIFF, TM_SQDIFF_NORMED
         self.method = method
 
-    def find(self, haystack_img, threshold=0.5, max_results=10):
+    def find(self, haystack_img, threshold=0.7, max_results=10, epsilon=0.5):
         # run the OpenCV algorithm
         result = cv.matchTemplate(haystack_img, self.needle_img, self.method)
 
@@ -56,7 +56,7 @@ class Vision:
         # in the result. I've set eps to 0.5, which is:
         # "Relative difference between sides of the rectangles to merge them into a group."
         rectangles, weights = cv.groupRectangles(
-            rectangles, groupThreshold=1, eps=0.5)
+            rectangles, groupThreshold=1, eps=epsilon)
         # print(rectangles)
 
         # for performance reasons, return a limited number of results.

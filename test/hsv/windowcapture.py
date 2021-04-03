@@ -17,8 +17,11 @@ class WindowCapture:
 
     # constructor
     def __init__(self, window_name=None, custom_rect=None):
+        # Save this argument for updating later
+        self.custom_rect = custom_rect
         # find the handle for the window we want to capture.
         # if no window name is given, capture the entire screen
+        # at least up to the limit of capture ability
         if window_name is None:
             self.hwnd = win32gui.GetDesktopWindow()
         else:
@@ -26,29 +29,10 @@ class WindowCapture:
             if not self.hwnd:
                 raise Exception('Window not found: {}'.format(window_name))
 
-        # get the window size
-        window_rect = win32gui.GetWindowRect(self.hwnd)
-        self.w = window_rect[2] - window_rect[0]
-        self.h = window_rect[3] - window_rect[1]
-
-        # account for the window border and titlebar and cut them off
-        border_pixels = 8
-        titlebar_pixels = 30
-        if custom_rect is None:
-            self.w = self.w - (border_pixels * 2)
-            self.h = self.h - titlebar_pixels - border_pixels
-            self.cropped_x = border_pixels
-            self.cropped_y = titlebar_pixels
-        else:
-            self.w = custom_rect[2] - custom_rect[0]
-            self.h = custom_rect[3] - custom_rect[1]
-            self.cropped_x = custom_rect[0]
-            self.cropped_y = custom_rect[1]
-
-        # set the cropped coordinates offset so we can translate screenshot
-        # images into actual screen positions
-        self.offset_x = window_rect[0] + self.cropped_x
-        self.offset_y = window_rect[1] + self.cropped_y
+        # Declare all the class variables
+        self.w, self.h, self.cropped_x, self.cropped_y
+        self.offset_x, self.offset_y
+        self.update_window_position()
 
     def get_screenshot(self):
 
@@ -98,10 +82,35 @@ class WindowCapture:
                 print(hex(hwnd), win32gui.GetWindowText(hwnd))
         win32gui.EnumWindows(winEnumHandler, None)
 
+    def update_window_position(self):
+        # get the window size
+        window_rect = win32gui.GetWindowRect(self.hwnd)
+        self.w = window_rect[2] - window_rect[0]
+        self.h = window_rect[3] - window_rect[1]
+
+        # account for the window border and titlebar and cut them off
+        border_pixels = 8
+        titlebar_pixels = 30
+        if self.custom_rect is None:
+            self.w = self.w - (border_pixels * 2)
+            self.h = self.h - titlebar_pixels - border_pixels
+            self.cropped_x = border_pixels
+            self.cropped_y = titlebar_pixels
+        # Otherwise use a specified rectangle
+        else:
+            self.w = self.custom_rect[2] - self.custom_rect[0]
+            self.h = self.custom_rect[3] - self.custom_rect[1]
+            self.cropped_x = self.custom_rect[0]
+            self.cropped_y = self.custom_rect[1]
+
+        # set the cropped coordinates offset so we can translate screenshot
+        # images into actual screen positions
+        self.offset_x = window_rect[0] + self.cropped_x
+        self.offset_y = window_rect[1] + self.cropped_y
+
     # translate a pixel position on a screenshot image to a pixel position on the screen.
     # pos = (x, y)
-    # WARNING: if you move the window being captured after execution is started, this will
-    # return incorrect coordinates, because the window position is only calculated in
-    # the __init__ constructor.
+    # WARNING: need to call the update_window_position function to prevent errors
+    # That would come from moving the window after starting the bot
     def get_screen_position(self, pos):
         return (pos[0] + self.offset_x, pos[1] + self.offset_y)

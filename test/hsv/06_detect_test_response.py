@@ -11,16 +11,16 @@ from hsvfilter import HsvFilter, grab_object_preset
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 filter, custom_rect = grab_object_preset(
-    object_name="player_map_loc")
+    object_name="other_player_map_loc")
 # WindowCapture.list_window_names()
 # initialize the WindowCapture class
 wincap = WindowCapture(custom_rect=list(
     map(lambda x: int(x*1.5), custom_rect)))
 
 # initialize the Vision class
-vision_limestone = Vision('playerv2.jpg')
+vision_object = Vision('otherplayer.jpg')
 # initialize the trackbar window
-vision_limestone.init_control_gui()
+vision_object.init_control_gui()
 
 # limestone HSV filter
 # hsv_filter = HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
@@ -32,20 +32,21 @@ while(True):
     # get an updated image of the game
     screenshot = wincap.get_screenshot()
     # pre-process the image
-    output_image = vision_limestone.apply_hsv_filter(screenshot, hsv_filter)
+    output_image = vision_object.apply_hsv_filter(screenshot, hsv_filter)
     filter_image = output_image.copy()
-    # do object detection
-    rectangles = vision_limestone.find(
-        output_image, threshold=0.51, epsilon=0.5)
+    # do object detection, this time grab the points
+    rectangles = vision_object.find(
+        output_image, threshold=0.41, epsilon=0.5)
     # draw the detection results onto the original image
-    output_image = vision_limestone.draw_rectangles(screenshot, rectangles)
+    points = vision_object.get_click_points(rectangles)
+    output_image = vision_object.draw_crosshairs(screenshot, points)
     # display the processed image
     cv.imshow('Matches', output_image)
-    cv.imshow('Filtered', filter_image)
+    # cv.imshow('Filtered', filter_image)
 
     # debug the loop rate
-    # print('FPS {}'.format(1 / (time() - loop_time)))
-    # loop_time = time()
+    print('FPS {}'.format(1 / (time() - loop_time)))
+    loop_time = time()
 
     # press 'q' with the output window focused to exit.
     # waits 1 ms every loop to process key presses

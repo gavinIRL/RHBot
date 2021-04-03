@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 import os
-from time import time
+from time import time, sleep
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import HsvFilter, grab_object_preset
@@ -11,14 +11,14 @@ from hsvfilter import HsvFilter, grab_object_preset
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 filter, custom_rect = grab_object_preset(
-    object_name="other_player_map_loc")
+    object_name="player_map_loc")
 # WindowCapture.list_window_names()
 # initialize the WindowCapture class
 wincap = WindowCapture(custom_rect=list(
     map(lambda x: int(x*1.5), custom_rect)))
 
 # initialize the Vision class
-vision_object = Vision('otherplayer.jpg')
+vision_object = Vision('playerv2.jpg')
 # initialize the trackbar window
 vision_object.init_control_gui()
 
@@ -43,10 +43,14 @@ while(True):
     # display the processed image
     cv.imshow('Matches', output_image)
     # cv.imshow('Filtered', filter_image)
-
+    if len(points) == 1:
+        # print(points)
+        print("Other player detected at x={} y={}".format(
+            points[0][0], points[0][1]))
+        sleep(1)
     # debug the loop rate
-    print('FPS {}'.format(1 / (time() - loop_time)))
-    loop_time = time()
+    # print('FPS {}'.format(1 / (time() - loop_time)))
+    # loop_time = time()
 
     # press 'q' with the output window focused to exit.
     # waits 1 ms every loop to process key presses

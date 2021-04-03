@@ -10,44 +10,61 @@ from hsvfilter import HsvFilter, grab_object_preset
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+# The next block of code is for detecting the object in question
 filter, custom_rect = grab_object_preset(
     object_name="other_player_map_loc")
 # WindowCapture.list_window_names()
-# initialize the WindowCapture class
-wincap = WindowCapture(custom_rect=list(
-    map(lambda x: int(x*1.5), custom_rect)))
-
+# This is only for testing and fixing the 150% screen scaling I have
+custom_rect = list(map(lambda x: int(x*1.5), custom_rect))
+# initialize the WindowCapture class for object detection
+wincap_object = WindowCapture(custom_rect=custom_rect)
 # initialize the Vision class
 vision_object = Vision('otherplayer.jpg')
 # initialize the trackbar window
-vision_object.init_control_gui()
+# vision_object.init_control_gui()
 
-# limestone HSV filter
-# hsv_filter = HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
-hsv_filter = filter
+
+# This block of code is for detecting if in a dungeon or not
+
 
 loop_time = time()
 while(True):
 
     # get an updated image of the game
-    screenshot = wincap.get_screenshot()
-    # pre-process the image
-    output_image = vision_object.apply_hsv_filter(screenshot, hsv_filter)
-    filter_image = output_image.copy()
-    # do object detection, this time grab the points
-    rectangles = vision_object.find(
-        output_image, threshold=0.41, epsilon=0.5)
-    # draw the detection results onto the original image
-    points = vision_object.get_click_points(rectangles)
-    output_image = vision_object.draw_crosshairs(screenshot, points)
-    # display the processed image
-    cv.imshow('Matches', output_image)
-    # cv.imshow('Filtered', filter_image)
-    if len(points) == 1:
-        # print(points)
-        print("Other player is located relatively x={} y={}".format(
-            points[0][0]-131, 107-points[0][1]))
-        sleep(1)
+    screenshot = wincap_object.get_screenshot()
+
+    # pre-process the image to detect if currently in dungeon
+
+    # then check if currently in a dungeon
+    status_in_dungeon = True
+
+    if status_in_dungeon:
+        # then try to detect the other player
+        output_image = vision_object.apply_hsv_filter(screenshot, filter)
+        # filter_image = output_image.copy()
+        # do object detection, this time grab the points
+        rectangles = vision_object.find(
+            output_image, threshold=0.41, epsilon=0.5)
+        # draw the detection results onto the original image
+        points = vision_object.get_click_points(rectangles)
+        output_image = vision_object.draw_crosshairs(screenshot, points)
+        # display the processed image
+        cv.imshow('Matches', output_image)
+        # cv.imshow('Filtered', filter_image)
+        if len(points) == 1:
+            # If there is only one value found
+            # i.e. no false positives and players are not on top of each other
+            # Then figure out keypresses required to move towards other player
+            # And then implement
+            print("Other player is located relatively x={} y={}".format(
+                points[0][0]-131, 107-points[0][1]))
+            sleep(1)
+        else:
+            # Clear all keypresses
+            print("Can't detect other player, stopping movement")
+    else:
+        print("Not in dungeon, sleeping to slow refresh rate")
+
     # debug the loop rate
     # print('FPS {}'.format(1 / (time() - loop_time)))
     # loop_time = time()

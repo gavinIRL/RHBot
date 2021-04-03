@@ -4,15 +4,17 @@ import os
 from time import time
 from windowcapture import WindowCapture
 from vision import Vision
-from hsvfilter import HsvFilter
+from hsvfilter import HsvFilter, grab_preset_filter
 
 # Change the working directory to the folder this script is in.
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+filter, custom_rect = grab_preset_filter("enemy_map_loc")
 WindowCapture.list_window_names()
 # initialize the WindowCapture class
-wincap = WindowCapture('Document16 - Word', custom_rect=[100, 100, 600, 600])
+wincap = WindowCapture(
+    "Rusty Hearts: Revolution - Reborn ", custom_rect=[1100, 50, 1260, 210])
 
 # initialize the Vision class
 vision_limestone = Vision('player_nodir2.jpg')

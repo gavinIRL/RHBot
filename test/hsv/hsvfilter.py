@@ -21,18 +21,20 @@ class HsvFilter:
 # For a given item string case it will return the optimal filter and the correct position to look
 def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, list]:
     if object_name is None:
+        #print("Using default filter")
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [3, 32, 1280, 794]
     if object_name == "enemy_map_loc":
+        #print("Using enemy location filter")
         if kwargs.get("big_map"):
             return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [485, 280, 900, 734]
         return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [1100, 50, 1260, 210]
     if object_name == "player_map_loc":
         if kwargs.get("big_map"):
-            return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [485, 280, 900, 734]
+            return HsvFilter(31, 94, 86, 73, 255, 255, 0, 0, 0, 0), [485, 280, 900, 734]
         return HsvFilter(31, 94, 86, 73, 255, 255, 0, 0, 0, 0), [1100, 50, 1260, 210]
     if object_name == "other_player_map_loc":
         if kwargs.get("big_map"):
-            return HsvFilter(0, 128, 82, 8, 255, 255, 0, 66, 30, 34), [485, 280, 900, 734]
+            return HsvFilter(16, 172, 194, 26, 255, 255, 0, 0, 70, 37), [485, 280, 900, 734]
         return HsvFilter(16, 172, 194, 26, 255, 255, 0, 0, 70, 37), [1100, 50, 1260, 210]
     if object_name == "loot_distant":
         return HsvFilter(14, 116, 33, 32, 210, 59, 16, 0, 3, 0), [10, 145, 1084, 684]

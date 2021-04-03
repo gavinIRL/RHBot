@@ -24,7 +24,7 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
         #print("Using default filter")
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [3, 32, 1280, 794]
     if object_name == "dungeon_check":
-        return HsvFilter(0, 73, 94, 106, 255, 255, 0, 0, 0, 0), [1063, 285, 1171, 363]
+        return HsvFilter(0, 73, 94, 106, 255, 255, 0, 0, 0, 0), [1083, 295, 1188, 368]
     if object_name == "enemy_map_loc":
         #print("Using enemy location filter")
         if kwargs.get("big_map"):

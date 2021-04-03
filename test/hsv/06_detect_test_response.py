@@ -11,14 +11,14 @@ from hsvfilter import HsvFilter, grab_object_preset
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 filter, custom_rect = grab_object_preset(
-    object_name="player_map_loc")
+    object_name="other_player_map_loc")
 # WindowCapture.list_window_names()
 # initialize the WindowCapture class
 wincap = WindowCapture(custom_rect=list(
     map(lambda x: int(x*1.5), custom_rect)))
 
 # initialize the Vision class
-vision_object = Vision('playerv2.jpg')
+vision_object = Vision('otherplayer.jpg')
 # initialize the trackbar window
 vision_object.init_control_gui()
 
@@ -45,8 +45,8 @@ while(True):
     # cv.imshow('Filtered', filter_image)
     if len(points) == 1:
         # print(points)
-        print("Other player detected at x={} y={}".format(
-            points[0][0], points[0][1]))
+        print("Other player is located relatively x={} y={}".format(
+            points[0][0]-131, 107-points[0][1]))
         sleep(1)
     # debug the loop rate
     # print('FPS {}'.format(1 / (time() - loop_time)))

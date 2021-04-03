@@ -1,17 +1,18 @@
+from test.hsv.hsvfilter import grab_object_preset
 import cv2 as cv
 import numpy as np
 import os
 from time import time
 from windowcapture import WindowCapture
 from vision import Vision
-from hsvfilter import HsvFilter, grab_preset_filter
+from hsvfilter import HsvFilter, grab_object_preset
 
 # Change the working directory to the folder this script is in.
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-filter, custom_rect = grab_preset_filter(
-    object_name="player_map_loc", big_map=True)
+filter, custom_rect = grab_object_preset(
+    object_name="player_map_loc")
 # WindowCapture.list_window_names()
 # initialize the WindowCapture class
 wincap = WindowCapture(custom_rect=list(

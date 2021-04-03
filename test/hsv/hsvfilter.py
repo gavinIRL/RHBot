@@ -19,7 +19,7 @@ class HsvFilter:
 
 # Putting this here out of the way as it's a chonk
 # For a given item string case it will return the optimal filter and the correct position to look
-def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, list]:
+def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, list]:
     if object_name is None:
         #print("Using default filter")
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [3, 32, 1280, 794]
@@ -96,6 +96,7 @@ def grab_preset_filter(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [735, 32, 1085, 100]
     if object_name == "enemy_arrow":
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+
     # Buttons for clicking, known positions
     if object_name == "button_explore_again":
         return None, []

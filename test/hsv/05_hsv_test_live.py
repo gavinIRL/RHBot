@@ -1,4 +1,3 @@
-from test.hsv.hsvfilter import grab_object_preset
 import cv2 as cv
 import numpy as np
 import os

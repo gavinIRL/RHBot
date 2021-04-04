@@ -35,6 +35,7 @@ object_vision = Vision('otherplayer.jpg')
 player_filter, player_custom_rect = grab_object_preset(
     object_name="player_map_loc")
 player_vision = Vision('playerv2.jpg')
+player_vision_inverted = Vision("playerv2_inv.jpg")
 
 
 # This block of code is for detecting if in a dungeon or not
@@ -85,9 +86,9 @@ while(True):
             # Then grab the current player position and feed it in as coords
             player_image = player_vision.apply_hsv_filter(
                 screenshot, player_filter)
-            player_rectangles = object_vision.find(
+            player_rectangles = player_vision.find(
                 player_image, threshold=0.41, epsilon=0.5)
-            player_points = object_vision.get_click_points(player_rectangles)
+            player_points = player_vision.get_click_points(player_rectangles)
             if len(player_points) == 1:
                 output_image = object_vision.draw_crosshairs(
                     output_image, player_points)
@@ -96,9 +97,25 @@ while(True):
                 #actions.move_direction(relx, rely)
                 movement.movement_update_xy(relx, rely)
                 print(str(relx)+","+str(rely))
-                sleep(0.1)
+                # sleep(0.1)
             else:
-                movement.movement_update_xy(0, 0)
+                # Check to see if the image is just inverted
+                # Seem to have trouble if it is upside down
+                # Probably a function that can solve this problem somewhere
+                inverted_player_image = player_vision.apply_hsv_filter(
+                    screenshot, player_filter)
+                inverted_player_rectangles = player_vision.find(
+                    inverted_player_image, threshold=0.41, epsilon=0.5)
+                inverted_player_points = player_vision.get_click_points(
+                    inverted_player_rectangles)
+                if len(inverted_player_points) == 1:
+                    output_image = object_vision.draw_crosshairs(
+                        output_image, inverted_player_points)
+                    relx = points[0][0]-inverted_player_points[0][0]
+                    rely = inverted_player_points[0][1]-points[0][1]
+                    movement.movement_update_xy(relx, rely)
+                else:
+                    movement.movement_update_xy(0, 0)
         else:
             # Clear all keypresses
             print("Can't detect other player, stopping movement")
@@ -115,8 +132,8 @@ while(True):
         sleep(0.5)
 
     # debug the loop rate
-    # print('FPS {}'.format(1 / (time() - loop_time)))
-    # loop_time = time()
+    print('FPS {}'.format(1 / (time() - loop_time)))
+    loop_time = time()
 
     # press 'q' with the output window focused to exit.
     # waits 1 ms every loop to process key presses

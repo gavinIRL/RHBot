@@ -7,8 +7,10 @@ from vision import Vision
 from hsvfilter import HsvFilter, grab_object_preset
 from actions import Actions, Movement_Handler
 
+# Allow 3 seconds to open the gam window
+sleep(3)
+
 # Change the working directory to the folder this script is in.
-# Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Initialise the actions object
@@ -96,7 +98,7 @@ while(True):
                 rely = player_points[0][1]-points[0][1]
                 #actions.move_direction(relx, rely)
                 movement.movement_update_xy(relx, rely)
-                print(str(relx)+","+str(rely))
+                # print("found player facing down")
                 # sleep(0.1)
             else:
                 # Check to see if the image is just inverted
@@ -114,19 +116,20 @@ while(True):
                     relx = points[0][0]-inverted_player_points[0][0]
                     rely = inverted_player_points[0][1]-points[0][1]
                     movement.movement_update_xy(relx, rely)
+                    # print("found player facing up")
                 else:
                     movement.movement_update_xy(0, 0)
         else:
             # Clear all keypresses
-            print("Can't detect other player, stopping movement")
+            # print("Can't detect other player, stopping movement")
             # actions.stop_keypresses(movement_only=True)
             movement.movement_update_xy(0, 0)
-            sleep(0.25)
+            # sleep(0.25)
         # display the processed image
         cv.imshow('Matches', output_image)
         # cv.imshow('Filtered', filter_image)
     else:
-        print("Not in dungeon, slowing refresh rate")
+        # print("Not in dungeon, slowing refresh rate")
         # actions.stop_keypresses(movement_only=True)
         movement.movement_update_xy(0, 0)
         sleep(0.5)

@@ -128,6 +128,7 @@ class Movement_Handler():
 
     def movement_run(self):
         while not self.stopped:
+            time.sleep(0.2)
             if self.relx > 0:
                 # Check if opposite key held down
                 if "left" in self.pressed_keys:
@@ -213,7 +214,7 @@ class Movement_Handler():
                 pydirectinput.keyUp(key)
 
     def movement_update_xy(self, relx, rely):
-        self.lock.acquire()
+        # self.lock.acquire()
         self.relx = relx
         self.rely = rely
-        self.lock.release()
+        # self.lock.release()

@@ -45,7 +45,8 @@ dunchk_filter, dunchk_custom_rect = grab_object_preset(
     object_name="dungeon_check")
 # This is only for testing and fixing the 150% screen scaling I have
 # dunchk_custom_rect = list(map(lambda x: int(x*1.5), dunchk_custom_rect))
-dunchk_wincap = WindowCapture(custom_rect=dunchk_custom_rect)
+dunchk_wincap = WindowCapture(
+    "Rusty Hearts: Revolution - Reborn ", custom_rect=dunchk_custom_rect)
 dunchk_vision = Vision('dunchk.jpg')
 
 # Start the movement bot

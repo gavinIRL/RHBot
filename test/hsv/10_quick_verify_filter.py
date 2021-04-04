@@ -12,10 +12,14 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 filter, custom_rect = grab_object_preset(
     object_name="dungeon_check")
+#custom_rect = list(map(lambda x: int(x*1.5), custom_rect))
+#wincap = WindowCapture(custom_rect=custom_rect)
 
 wincap = WindowCapture("Rusty Hearts: Revolution - Reborn ", custom_rect)
-
-vision = Vision('dunchk.jpg')
+# target = 'dunchk.jpg'
+# target_img = cv.imread(target, cv.IMREAD_UNCHANGED)
+# target_filtered =
+vision = Vision('dunchk_67.jpg')
 
 loop_time = time()
 while(True):
@@ -23,7 +27,11 @@ while(True):
     screenshot = wincap.get_screenshot()
     output_image = vision.apply_hsv_filter(
         screenshot, filter)
-    cv.imshow('Viewbox', output_image)
+    dunchk_rectangles = vision.find(
+        output_image, threshold=0.57, epsilon=0.5)
+    output_image_rect = vision.draw_rectangles(screenshot, dunchk_rectangles)
+    cv.imshow('Filtered', output_image)
+    cv.imshow('Box', output_image_rect)
 
     if cv.waitKey(1) == ord('q'):
         cv.destroyAllWindows()

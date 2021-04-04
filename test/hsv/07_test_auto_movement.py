@@ -47,7 +47,7 @@ dunchk_filter, dunchk_custom_rect = grab_object_preset(
 # dunchk_custom_rect = list(map(lambda x: int(x*1.5), dunchk_custom_rect))
 dunchk_wincap = WindowCapture(
     "Rusty Hearts: Revolution - Reborn ", custom_rect=dunchk_custom_rect)
-dunchk_vision = Vision('dunchk.jpg')
+dunchk_vision = Vision('dunchk_67.jpg')
 
 # Start the movement bot
 movement.movement_start()
@@ -135,7 +135,7 @@ while(True):
         movement.movement_update_xy(0, 0)
         sleep(0.5)
 
-    cv.imshow("Dunchk", dunchk_screenshot)
+    cv.imshow("Dunchk", dunchk_output_image)
     # debug the loop rate
     print('FPS {}'.format(1 / (time() - loop_time)))
     loop_time = time()

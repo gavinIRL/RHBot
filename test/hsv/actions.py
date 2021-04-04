@@ -3,9 +3,10 @@ from time import sleep, time
 
 
 class Actions():
-    def __init__(self) -> None:
+    def __init__(self, test_mode=False) -> None:
         self.pressed_keys = []
         self.start_time = time()
+        self.test_mode = test_mode
 
     def move_direction(self, relx, rely):
         if relx > 0:
@@ -16,7 +17,10 @@ class Actions():
             if "right" not in self.pressed_keys:
                 self.pressed_keys.append("right")
                 # Hold the right key down
-                pag.keyDown("right")
+                if not self.test_mode:
+                    pag.keyDown("right")
+                else:
+                    print("Pressing right key")
 
     def click(self, x, y):
         pass

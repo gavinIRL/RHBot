@@ -127,7 +127,7 @@ while(True):
             movement.movement_update_xy(0, 0)
             # sleep(0.25)
         # display the processed image
-        cv.imshow('Matches', output_image)
+        cv.imshow('Matches', screenshot)
         # cv.imshow('Filtered', filter_image)
     else:
         # print("Not in dungeon, slowing refresh rate")
@@ -135,6 +135,7 @@ while(True):
         movement.movement_update_xy(0, 0)
         sleep(0.5)
 
+    cv.imshow("Dunchk", dunchk_screenshot)
     # debug the loop rate
     print('FPS {}'.format(1 / (time() - loop_time)))
     loop_time = time()

@@ -3,39 +3,30 @@
 import pyautogui
 import pydirectinput
 import time
-import threading
+from threading import Thread, Lock
 
 
-def test_move():
-    time.sleep(4)
-    pydirectinput.keyDown('left')
-    time.sleep(1)
-    pydirectinput.keyUp('left')
-
-
-def loop_move():
-    time.sleep(3)
-    count = 0
-    pydirectinput.keyDown("left")
-    while count < 5:
-        time.sleep(0.1)
-        count += 1
-    else:
-        pydirectinput.keyUp("left")
-
-
-class movement_handler():
+class Movement_Handler():
     def __init__(self) -> None:
+        self.stopped = True  # This refers to the thread
+        self.lock = Lock()
+        self.relx = 0
+        self.rely = 0
+
+    def movement_start(self):
+        self.stopped = False
+        t = Thread(target=self.movement_run)
+        t.start()
+
+    def movement_stop(self):
         self.stopped = True
 
-    def movement_thread_start():
-        pass
+    def movement_run(self):
+        while not self.stopped:
+            pass
 
-    def movement_thread_stop():
-        pass
-
-    def movement_thread_run():
-        pass
-
-    def movement_thread_update():
-        pass
+    def movement_update_xy(self, relx, rely):
+        self.lock.acquire()
+        self.relx = relx
+        self.rely = rely
+        self.lock.release()

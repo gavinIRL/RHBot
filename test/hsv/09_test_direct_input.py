@@ -3,6 +3,7 @@
 import pyautogui
 import pydirectinput
 import time
+import threading
 
 
 def test_move():
@@ -23,4 +24,18 @@ def loop_move():
         pydirectinput.keyUp("left")
 
 
-loop_move()
+class movement_handler():
+    def __init__(self) -> None:
+        self.stopped = True
+
+    def movement_thread_start():
+        pass
+
+    def movement_thread_stop():
+        pass
+
+    def movement_thread_run():
+        pass
+
+    def movement_thread_update():
+        pass

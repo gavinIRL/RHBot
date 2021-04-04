@@ -89,5 +89,18 @@ class Actions():
                 if not self.test_mode:
                     pag.keyUp("down")
 
+    def stop_keypresses(self, movement_only=False):
+        for key in self.pressed_keys:
+            if not movement_only:
+                self.pressed_keys.remove(key)
+                pag.keyUp(key)
+            else:
+                if key in ["up", "down", "left", "right"]:
+                    self.pressed_keys.remove(key)
+                    pag.keyUp(key)
+
     def click(self, x, y):
+        # Will need to figure out if including the click interval
+        # causes the thread to hang, assume it does
+        # therefore will need to multithread clicks probably
         pass

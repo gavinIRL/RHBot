@@ -5,7 +5,6 @@ from time import sleep, time
 class Actions():
     def __init__(self, test_mode=False) -> None:
         self.pressed_keys = []
-        self.start_time = time()
         self.test_mode = test_mode
 
     def move_direction(self, relx, rely):
@@ -92,6 +91,3 @@ class Actions():
 
     def click(self, x, y):
         pass
-
-    def elapsed_time(self):
-        return time()-self.start_time

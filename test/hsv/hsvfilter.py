@@ -45,13 +45,13 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
     if object_name == "prompt_press_x_pickup":
         return HsvFilter(78, 110, 110, 97, 189, 255, 0, 0, 0, 0), [1080, 660, 1255, 725]
     if object_name == "message_section_cleared":
-        return HsvFilter(0, 0, 214, 179, 65, 255, 0, 0, 0, 17), [444, 595, 835, 700]
+        return HsvFilter(0, 0, 214, 179, 65, 255, 0, 0, 0, 17), [464, 600, 855, 680]
     if object_name == "message_go":
         return HsvFilter(32, 114, 89, 58, 255, 255, 0, 12, 0, 0), [600, 222, 700, 275]
     if object_name == "enemy_nametag":
         return HsvFilter(49, 0, 139, 91, 30, 197, 0, 0, 40, 38), [10, 145, 1084, 684]
     if object_name == "message_boss_encounter":
-        return HsvFilter(0, 92, 128, 13, 255, 255, 0, 0, 0, 0), [600, 470, 1080, 700]
+        return HsvFilter(0, 92, 128, 13, 255, 255, 0, 0, 0, 0), [630, 520, 1120, 680]
     if object_name == "display_boss_name_and_healthbar":
         return HsvFilter(0, 92, 123, 29, 255, 255, 0, 0, 0, 20), [415, 533, 888, 700]
     if object_name == "loot_chest_normal":

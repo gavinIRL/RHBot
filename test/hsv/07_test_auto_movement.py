@@ -5,14 +5,15 @@ from time import time, sleep
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import HsvFilter, grab_object_preset
-from actions import Actions
+from actions import Actions, Movement_Handler
 
 # Change the working directory to the folder this script is in.
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 # Initialise the actions object
-actions = Actions(test_mode=True)
+# actions = Actions(test_mode=True)
+movement = Movement_Handler(test_mode=False)
 
 # The next block of code is for detecting the object in question
 object_filter, object_custom_rect = grab_object_preset(
@@ -28,6 +29,13 @@ object_vision = Vision('otherplayer.jpg')
 # initialize the trackbar window
 # object_vision.init_control_gui()
 
+# This next block of code is for detecting the current player position
+# It uses the same part of the screen as the other player bit above
+# So no need to grab another wincap object
+player_filter, player_custom_rect = grab_object_preset(
+    object_name="player_map_loc")
+player_vision = Vision('playerv2.jpg')
+
 
 # This block of code is for detecting if in a dungeon or not
 dunchk_filter, dunchk_custom_rect = grab_object_preset(
@@ -37,6 +45,8 @@ dunchk_filter, dunchk_custom_rect = grab_object_preset(
 dunchk_wincap = WindowCapture(custom_rect=dunchk_custom_rect)
 dunchk_vision = Vision('dunchk.jpg')
 
+# Start the movement bot
+movement.movement_start()
 
 loop_time = time()
 while(True):
@@ -71,19 +81,37 @@ while(True):
             # And then implement
             # print("Other player is located relatively x={} y={}".format(
             #     points[0][0]-131, 107-points[0][1]))
-            actions.move_direction(points[0][0]-131, 107-points[0][1])
-            sleep(0.1)
+
+            # Then grab the current player position and feed it in as coords
+            player_image = player_vision.apply_hsv_filter(
+                screenshot, player_filter)
+            player_rectangles = object_vision.find(
+                player_image, threshold=0.41, epsilon=0.5)
+            player_points = object_vision.get_click_points(player_rectangles)
+            if len(player_points) == 1:
+                output_image = object_vision.draw_crosshairs(
+                    output_image, player_points)
+                relx = points[0][0]-player_points[0][0]
+                rely = player_points[0][1]-points[0][1]
+                #actions.move_direction(relx, rely)
+                movement.movement_update_xy(relx, rely)
+                print(str(relx)+","+str(rely))
+                sleep(0.1)
+            else:
+                movement.movement_update_xy(0, 0)
         else:
             # Clear all keypresses
             print("Can't detect other player, stopping movement")
-            actions.stop_keypresses(movement_only=True)
+            # actions.stop_keypresses(movement_only=True)
+            movement.movement_update_xy(0, 0)
             sleep(0.25)
         # display the processed image
         cv.imshow('Matches', output_image)
         # cv.imshow('Filtered', filter_image)
     else:
         print("Not in dungeon, slowing refresh rate")
-        actions.stop_keypresses(movement_only=True)
+        # actions.stop_keypresses(movement_only=True)
+        movement.movement_update_xy(0, 0)
         sleep(0.5)
 
     # debug the loop rate
@@ -94,6 +122,7 @@ while(True):
     # waits 1 ms every loop to process key presses
     if cv.waitKey(1) == ord('q'):
         cv.destroyAllWindows()
+        movement.movement_stop()
         break
 
 print('Done.')

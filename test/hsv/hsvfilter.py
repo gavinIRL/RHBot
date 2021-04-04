@@ -36,8 +36,8 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
         return HsvFilter(31, 94, 86, 73, 255, 255, 0, 0, 0, 0), [1100, 50, 1260, 210]
     if object_name == "other_player_map_loc":
         if kwargs.get("big_map"):
-            return HsvFilter(16, 172, 194, 26, 255, 255, 0, 0, 70, 37), [485, 280, 900, 734]
-        return HsvFilter(16, 172, 194, 26, 255, 255, 0, 0, 70, 37), [1100, 50, 1260, 210]
+            return HsvFilter(16, 172, 194, 32, 255, 255, 0, 0, 70, 37), [485, 280, 900, 734]
+        return HsvFilter(16, 172, 194, 32, 255, 255, 0, 0, 70, 37), [1100, 50, 1260, 210]
     if object_name == "loot_distant":
         return HsvFilter(14, 116, 33, 32, 210, 59, 16, 0, 3, 0), [10, 145, 1084, 684]
     if object_name == "loot_near":

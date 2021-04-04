@@ -8,7 +8,7 @@ from windowcapture import WindowCapture
 from hsvfilter import grab_object_preset
 
 filter, custom_rect = grab_object_preset(
-    object_name="player_map_loc")
+    object_name="dungeon_check")
 
 wincap = WindowCapture("Rusty Hearts: Revolution - Reborn ", custom_rect)
 loop_time = time()

@@ -19,9 +19,10 @@ object_filter, object_custom_rect = grab_object_preset(
     object_name="other_player_map_loc")
 # WindowCapture.list_window_names()
 # This is only for testing and fixing the 150% screen scaling I have
-object_custom_rect = list(map(lambda x: int(x*1.5), object_custom_rect))
+# object_custom_rect = list(map(lambda x: int(x*1.5), object_custom_rect))
 # initialize the WindowCapture class for object detection
-object_wincap = WindowCapture(custom_rect=object_custom_rect)
+object_wincap = WindowCapture(
+    "Rusty Hearts: Revolution - Reborn ", custom_rect=object_custom_rect)
 # initialize the Vision class
 object_vision = Vision('otherplayer.jpg')
 # initialize the trackbar window
@@ -32,7 +33,7 @@ object_vision = Vision('otherplayer.jpg')
 dunchk_filter, dunchk_custom_rect = grab_object_preset(
     object_name="dungeon_check")
 # This is only for testing and fixing the 150% screen scaling I have
-dunchk_custom_rect = list(map(lambda x: int(x*1.5), dunchk_custom_rect))
+# dunchk_custom_rect = list(map(lambda x: int(x*1.5), dunchk_custom_rect))
 dunchk_wincap = WindowCapture(custom_rect=dunchk_custom_rect)
 dunchk_vision = Vision('dunchk.jpg')
 

@@ -1,4 +1,4 @@
-import pyautogui as pag
+import pydirectinput as pag
 from time import sleep, time
 
 

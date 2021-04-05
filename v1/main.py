@@ -4,8 +4,8 @@ import os
 from time import time, sleep
 from windowcapture import WindowCapture
 from vision import Vision
-from hsvfilter import HsvFilter, grab_object_preset
-from actions import Actions, Movement_Handler
+from hsvfilter import grab_object_preset
+from actions import Movement_Handler
 
 
 def main_loop():
@@ -16,22 +16,16 @@ def main_loop():
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
     # Initialise the actions object
-    # actions = Actions(test_mode=True)
     movement = Movement_Handler(test_mode=False)
 
     # The next block of code is for detecting the object in question
     object_filter, object_custom_rect = grab_object_preset(
         object_name="other_player_map_loc")
-    # WindowCapture.list_window_names()
-    # This is only for testing and fixing the 150% screen scaling I have
-    # object_custom_rect = list(map(lambda x: int(x*1.5), object_custom_rect))
     # initialize the WindowCapture class for object detection
     object_wincap = WindowCapture(
-        "Rusty Hearts: Revolution - Reborn ", custom_rect=object_custom_rect)
+        "Rusty Hearts: Revolution - Reborn ", object_custom_rect)
     # initialize the Vision class
     object_vision = Vision('otherplayer.jpg')
-    # initialize the trackbar window
-    # object_vision.init_control_gui()
 
     # This next block of code is for detecting the current player position
     # It uses the same part of the screen as the other player bit above
@@ -45,9 +39,8 @@ def main_loop():
     dunchk_filter, dunchk_custom_rect = grab_object_preset(
         object_name="dungeon_check")
     # This is only for testing and fixing the 150% screen scaling I have
-    # dunchk_custom_rect = list(map(lambda x: int(x*1.5), dunchk_custom_rect))
     dunchk_wincap = WindowCapture(
-        "Rusty Hearts: Revolution - Reborn ", custom_rect=dunchk_custom_rect)
+        "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
     dunchk_vision = Vision('dunchk_67.jpg')
 
     # Start the movement bot
@@ -72,7 +65,6 @@ def main_loop():
             # then try to detect the other player
             output_image = object_vision.apply_hsv_filter(
                 screenshot, object_filter)
-            # filter_image = output_image.copy()
             # do object detection, this time grab the points
             rectangles = object_vision.find(
                 output_image, threshold=0.41, epsilon=0.5)
@@ -83,11 +75,6 @@ def main_loop():
                     screenshot, points)
                 # If there is only one value found
                 # i.e. no false positives and players are not on top of each other
-                # Then figure out keypresses required to move towards other player
-                # And then implement
-                # print("Other player is located relatively x={} y={}".format(
-                #     points[0][0]-131, 107-points[0][1]))
-
                 # Then grab the current player position and feed it in as coords
                 player_image = player_vision.apply_hsv_filter(
                     screenshot, player_filter)
@@ -100,10 +87,7 @@ def main_loop():
                         output_image, player_points)
                     relx = points[0][0]-player_points[0][0]
                     rely = player_points[0][1]-points[0][1]
-                    #actions.move_direction(relx, rely)
                     movement.movement_update_xy(relx, rely)
-                    # print("found player facing down")
-                    # sleep(0.1)
                 else:
                     # Check to see if the image is just inverted
                     # Seem to have trouble if it is upside down
@@ -120,28 +104,20 @@ def main_loop():
                         relx = points[0][0]-inverted_player_points[0][0]
                         rely = inverted_player_points[0][1]-points[0][1]
                         movement.movement_update_xy(relx, rely)
-                        # print("found player facing up")
                     else:
                         movement.movement_update_xy(0, 0)
             else:
                 # Clear all keypresses
-                # print("Can't detect other player, stopping movement")
-                # actions.stop_keypresses(movement_only=True)
                 movement.movement_update_xy(0, 0)
-                # sleep(0.25)
-            # display the processed image
-            cv.imshow('Matches', screenshot)
-            # cv.imshow('Filtered', filter_image)
+            # cv.imshow('Matches', screenshot)
         else:
-            # print("Not in dungeon, slowing refresh rate")
-            # actions.stop_keypresses(movement_only=True)
             movement.movement_update_xy(0, 0)
             sleep(0.5)
 
-        cv.imshow("Dunchk", dunchk_output_image)
+        # cv.imshow("Dunchk", dunchk_output_image)
         # debug the loop rate
-        print('FPS {}'.format(1 / (time() - loop_time)))
-        loop_time = time()
+        #print('FPS {}'.format(1 / (time() - loop_time)))
+        #loop_time = time()
 
         # press 'q' with the output window focused to exit.
         # waits 1 ms every loop to process key presses
@@ -149,8 +125,7 @@ def main_loop():
             cv.destroyAllWindows()
             movement.movement_stop()
             break
-
-    print('Done.')
+    print('Exiting Script')
 
 
 if __name__ == "__main__":

@@ -129,7 +129,7 @@ class Movement_Handler():
     def movement_run(self):
         while not self.stopped:
             time.sleep(0.2)
-            if self.relx > 0:
+            if self.relx > 2:
                 # Check if opposite key held down
                 if "left" in self.pressed_keys:
                     self.pressed_keys.remove("left")
@@ -143,7 +143,7 @@ class Movement_Handler():
                         pydirectinput.keyDown("right")
                     else:
                         print("Pressing right key")
-            elif self.relx < 0:
+            elif self.relx < -2:
                 # Check if opposite key held down
                 if "right" in self.pressed_keys:
                     self.pressed_keys.remove("right")
@@ -169,7 +169,7 @@ class Movement_Handler():
                         pydirectinput.keyUp("left")
 
             # Handling for y-dir next
-            if self.rely > 0:
+            if self.rely > 2:
                 # Check if opposite key held down
                 if "down" in self.pressed_keys:
                     self.pressed_keys.remove("down")
@@ -183,7 +183,7 @@ class Movement_Handler():
                         pydirectinput.keyDown("up")
                     else:
                         print("Pressing up key")
-            elif self.rely < 0:
+            elif self.rely < -2:
                 # Check if opposite key held down
                 if "up" in self.pressed_keys:
                     self.pressed_keys.remove("up")

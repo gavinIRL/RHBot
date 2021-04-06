@@ -46,19 +46,38 @@ class RHBotV2():
         self.movement = Movement_Handler(test_mode=False)
 
         # The next block of code is setup for detecting the other player
+        self.object_filter, object_custom_rect = grab_object_preset(
+            object_name="other_player_map_loc")
+        # initialize the WindowCapture class for object detection
+        self.object_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", object_custom_rect)
+        # initialize the Vision class
+        self.object_vision = Vision('otherplayer.jpg')
 
         # The next block of code is setup for detecting the current player
+        self.player_filter, _ = grab_object_preset(
+            object_name="player_map_loc")
+        self.player_vision = Vision('playerv2.jpg')
 
         # The next block of code is setup for detecting nearby loot
+        self.lootnr_filter, lootnr_custom_rect = grab_object_preset(
+            object_name="loot_near")
+        self.lootnr_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", lootnr_custom_rect)
+        self.lootnr_vision = Vision('lootnear.jpg')
 
         # The next block of code is setup for detecting far loot
+        self.lootfr_filter, lootfr_custom_rect = grab_object_preset(
+            object_name="loot_far")
+        self.lootfr_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", lootfr_custom_rect)
+        self.lootfr_vision = Vision('lootfar.jpg')
 
         # The next block of code is setup for detecting if there is a pressx prompt
 
         # The next block of code is setup for detecting if in a dungeon
         self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
             object_name="dungeon_check")
-        # This is only for testing and fixing the 150% screen scaling I have
         self.dunchk_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
         self.dunchk_vision = Vision('dunchk_67.jpg')

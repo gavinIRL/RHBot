@@ -66,9 +66,24 @@ class RHBotV2():
                     # Without movement signifying stuck loot
                     if self.pressx_counter == 5:
                         self.bot_state = "movement"
-                    pass
-                pass
-            pass
+
+                # Grab the image to check for far loot
+                # Filter the image
+                # Check if any hits
+                if True:
+                    # Figure out closest item
+                    # Move towards closest item
+                    self.bot_state = "loot"
+                # otherwise go back to movement mode to follow player
+                else:
+                    self.bot_state = "movement"
+                    # Check for other player
+                    if True:
+                        # Check for current player
+                        if True:
+                            # Calculate relative position
+                            # Move towards other player
+                            pass
 
     def stop(self):
         self.bot_running = False

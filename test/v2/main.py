@@ -11,7 +11,7 @@ from time import time, sleep
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import grab_object_preset
-from actions import Movement_Handler
+from actionsv2 import Movement_Handler
 
 
 class RHBotV2():
@@ -21,9 +21,11 @@ class RHBotV2():
         # This is the variable for stopping the bot
         self.bot_running = False
         # This is the variable which enables or disables looting
-        self.looting = loot
+        self.looting_enabled = loot
         # This is the variable which prevents getting stuck picking loot
         self.pressx_counter = 0
+        # This is the movement handler object
+        self.movement = None
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -34,7 +36,8 @@ class RHBotV2():
         # Change the working directory to the folder this script is in.
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-        # Initialise the actions object
+        # Initialise the movement object
+        self.movement = Movement_Handler(test_mode=False)
 
         # The next block of code is setup for detecting the other player
 
@@ -49,6 +52,7 @@ class RHBotV2():
         # The next block of code is setup for detecting if in a dungeon
 
         # Start the movement bot
+        self.movement.movement_start()
         # Start the loot bot
 
         # Begin the main loop
@@ -94,8 +98,13 @@ class RHBotV2():
             if cv.waitKey(1) == ord('q'):
                 cv.destroyAllWindows()
                 # stop movement
-                # movement.movement_stop()
+                self.movement.movement_stop()
                 break
+            # Have a key to disable or enable looting
+            # Quick method of fixing a loot-seek loop
+            if cv.waitKey(1) == ord('w'):
+                self.looting_enabled = not self.looting_enabled
+                print("Looting has been set to {}".format(self.looting_enabled))
 
     def stop(self):
         self.bot_running = False

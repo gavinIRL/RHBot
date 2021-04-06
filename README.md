@@ -6,15 +6,15 @@ Simple bot to automate combat, selling gear at end of level, and other basic fun
 Alongside the DCW application (specifically the bot playground and creation aspect of DCW), I have an interest in assessing the automation of certain tasks. More specifically I have an interest in the efficiency of automating tasks in comparison to manually doing them. This bot application is intended as a learning experience for useful automation with a reasonably complex set of situations. The approaches to be taken include bot image recognition (probably using OpenCV or similar) and also the standard fixed-sequence movement patterns (using PyAutoGUI and/or PyDirectInput).
 
 ## Current Status
-* Version 1: In Progress
-* Version 2: Not Started
+* Version 1: Completed
+* Version 2: In Progress
 * Version 3: Not Started
 * Version 4: Not Started
 * Version 5: Not Started
 
 ## Plans
 ### Version 1 - Follower Bot
-Will detect the position of the player-controlled character in the same party and aim to move to that character's location.
+Will detect the position of the player-controlled character in the same party and move to that character's location.
 
 ### Version 2 - Follower Bot with Loot Pickup
 Version 1 with the additional ability to detect and pick up all loot objects.
@@ -41,7 +41,7 @@ The following are features not explicitly mentioned in the previous section that
 
 ## Program Structure
 ### Multithreading
-On the most advanced bots there will be threads for each of the following tasks:
+On all bots there will be threads for each of the following tasks:
 1) Main handling thread: this will decide which threads to start and stop and handle which mode to be in.
 2) Screencapture thread(s): this will provide the visual data for the other threads, potential to be GPU accelerated in future.
 3) Object detection threads: these will detect enemies, character position, level end, etc.

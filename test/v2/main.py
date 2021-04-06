@@ -32,6 +32,10 @@ class RHBotV2():
         self.loot_cd_max = loot_cd_max
         # This is the movement handler object
         self.movement = None
+        # This will hold the location of the nearest loot identified
+        self.nearest_loot_coords = [0, 0]
+        # This will hold the location of the other player
+        self.other_player_coords = [0, 0]
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -91,38 +95,37 @@ class RHBotV2():
 
     def main_loop(self):
         while self.bot_running:
-
-            dunchk_rectangles = self.check_if_in_dungeon()
-
-            if len(dunchk_rectangles) == 1:
-                # Then grab an image to check for nearby loot
-                # Filter the image
-                # Verify if nearby loot detected
-                if True:
-                    # Press the x key to pickup the loot
-                    self.pressx_counter += 1
-                    # Need to prevent more than 6 attempts in a row
-                    # Without movement signifying stuck loot
-                    if self.pressx_counter == 5:
+            if self.check_if_in_dungeon():
+                if self.looting_enabled:
+                    if not self.check_if_loot_cooldown():
+                        if self.check_if_nearby_loot():
+                            # Need to stop all movement
+                            self.movement.movement_update_xy(0, 0)
+                            # And then set the bot state to looting
+                            self.bot_state = "loot"
+                            while self.check_if_nearby_loot():
+                                self.pressx_counter += 1
+                                # Press the x button
+                                # TO-DO!!!
+                                if self.pressx_counter >= 5:
+                                    self.loot_cd = time() + self.loot_cd_max
+                                    break
+                        if self.check_if_far_loot():
+                            self.bot_state = "loot"
+                            relx, rely = self.nearest_loot_coords
+                            self.movement.movement_update_xy(relx, rely)
+                        else:
+                            self.bot_state = "movement"
+                    else:
                         self.bot_state = "movement"
-
-                # Grab the image to check for far loot
-                # Filter the image
-                # Check if any hits
-                if True:
-                    # Figure out closest item
-                    # Move towards closest item
-                    self.bot_state = "loot"
-                # otherwise go back to movement mode to follow player
                 else:
                     self.bot_state = "movement"
-                    # Check for other player
-                    if True:
-                        # Check for current player
-                        if True:
-                            # Calculate relative position
-                            # Move towards other player
-                            pass
+            if self.bot_state == "movement":
+                if self.can_see_both_players():
+                    relx, rely = self.other_player_coords
+                    self.movement.movement_update_xy(relx, rely)
+                else:
+                    self.movement.movement_update_xy(0, 0)
             # press 'q' with the output window focused to exit.
             # waits 1 ms every loop to process key presses
             if cv.waitKey(1) == ord('q'):
@@ -140,6 +143,11 @@ class RHBotV2():
         self.bot_running = False
 
     # Having these be separate methods as main loop too bulky
+    def can_see_both_players(self):
+        # This will return true if both players could be found
+        # Otherwise will set relative to 0,0 and return false
+        return True
+
     def find_other_player_pos(self):
         pass
 
@@ -153,11 +161,25 @@ class RHBotV2():
         dunchk_output_image = self.dunchk_vision.apply_hsv_filter(
             dunchk_screenshot, self.dunchk_filter)
         # do object detection, this time grab rectangles
-        return self.dunchk_vision.find(
+        dunchk_rectangles = self.dunchk_vision.find(
             dunchk_output_image, threshold=0.27, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(dunchk_rectangles) == 1:
+            return True
+        else:
+            return False
+
+    def check_if_loot_cooldown(self):
+        if not self.loot_cd == 0:
+            if (self.loot_cd-time()) < 0:
+                self.loot_cd = 0
 
     def check_if_nearby_loot(self):
-        pass
+        return True
 
     def check_if_far_loot(self):
-        pass
+        # Need to calc the coords of the nearest loot
+        relx = 0
+        rely = 0
+        self.nearest_loot_coords = [relx, rely]
+        return True

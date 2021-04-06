@@ -17,11 +17,14 @@ class RHBotV2():
         self.bot_running = False
         # This is the variable which enables or disables looting
         self.looting = loot
+        # This is the variable which prevents getting stuck picking loot
+        self.pressx_counter = 0
 
     def start(self):
         # Perform the prep required prior to main loop
         # Allow 3 seconds to open the game window
         sleep(3)
+        self.bot_running = True
 
         # Change the working directory to the folder this script is in.
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -32,7 +35,11 @@ class RHBotV2():
 
         # The next block of code is setup for detecting the current player
 
-        # The next block of code is setup for detecting the loot
+        # The next block of code is setup for detecting nearby loot
+
+        # The next block of code is setup for detecting far loot
+
+        # The next block of code is setup for detecting if there is a pressx prompt
 
         # The next block of code is setup for detecting if in a dungeon
 
@@ -42,7 +49,26 @@ class RHBotV2():
         # Begin the main loop
 
     def main_loop(self):
-        pass
+        while self.bot_running:
+            # First need to grab image for dunchk
+
+            # Then filter the image
+
+            # Then verify if in a dungeon
+            if True:
+                # Then grab an image to check for nearby loot
+                # Filter the image
+                # Verify if nearby loot detected
+                if True:
+                    # Press the x key to pickup the loot
+                    self.pressx_counter += 1
+                    # Need to prevent more than 6 attempts in a row
+                    # Without movement signifying stuck loot
+                    if self.pressx_counter == 5:
+                        self.bot_state = "movement"
+                    pass
+                pass
+            pass
 
     def stop(self):
-        pass
+        self.bot_running = False

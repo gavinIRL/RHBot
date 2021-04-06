@@ -15,7 +15,7 @@ from actionsv2 import Movement_Handler
 
 
 class RHBotV2():
-    def __init__(self, loot=True) -> None:
+    def __init__(self, loot=True, loot_cd_max=5) -> None:
         # Initialise the variables for bot state (looting, moving)
         self.bot_state = "startup"
         # This is the variable for stopping the bot
@@ -24,6 +24,12 @@ class RHBotV2():
         self.looting_enabled = loot
         # This is the variable which prevents getting stuck picking loot
         self.pressx_counter = 0
+        # This is the variable which will track cooldown on searching for loot
+        # After the bot has gotten stuck, format is seconds
+        # The value assigned will correspond to time when lootsearch can recommence
+        self.loot_cd = 0
+        # And the variable which determines the cooldown each time
+        self.loot_cd_max = loot_cd_max
         # This is the movement handler object
         self.movement = None
 
@@ -50,6 +56,12 @@ class RHBotV2():
         # The next block of code is setup for detecting if there is a pressx prompt
 
         # The next block of code is setup for detecting if in a dungeon
+        self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
+            object_name="dungeon_check")
+        # This is only for testing and fixing the 150% screen scaling I have
+        self.dunchk_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
+        self.dunchk_vision = Vision('dunchk_67.jpg')
 
         # Start the movement bot
         self.movement.movement_start()
@@ -59,12 +71,17 @@ class RHBotV2():
 
     def main_loop(self):
         while self.bot_running:
-            # First need to grab image for dunchk
 
-            # Then filter the image
+            # get an updated image of the game at specified area
+            dunchk_screenshot = self.dunchk_wincap.get_screenshot()
+            # pre-process the image to help with detection
+            dunchk_output_image = self.dunchk_vision.apply_hsv_filter(
+                dunchk_screenshot, self.dunchk_filter)
+            # do object detection, this time grab the points
+            dunchk_rectangles = self.dunchk_vision.find(
+                dunchk_output_image, threshold=0.27, epsilon=0.5)
 
-            # Then verify if in a dungeon
-            if True:
+            if len(dunchk_rectangles) == 1:
                 # Then grab an image to check for nearby loot
                 # Filter the image
                 # Verify if nearby loot detected

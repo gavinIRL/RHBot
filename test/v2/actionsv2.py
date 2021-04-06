@@ -6,10 +6,9 @@ from threading import Thread, Lock
 
 
 class Actions():
-    def __init__(self, bot_state, test_mode=False) -> None:
+    def __init__(self, test_mode=False) -> None:
         self.pressed_keys = []
         self.test_mode = test_mode
-        self.bot_state = bot_state
 
     def move_direction(self, relx, rely):
         # Handling for x-dir first

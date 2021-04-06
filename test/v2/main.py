@@ -36,7 +36,7 @@ class RHBotV2():
         # Change the working directory to the folder this script is in.
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-        # Initialise the movement object
+        # Initialise the movement object and pass the state object
         self.movement = Movement_Handler(test_mode=False)
 
         # The next block of code is setup for detecting the other player

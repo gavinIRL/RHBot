@@ -5,8 +5,13 @@
 # Note that this prelim loot pickup will not include a search
 # for items that have dropped in the same area but off screen
 
+import cv2 as cv
 import os
 from time import time, sleep
+from windowcapture import WindowCapture
+from vision import Vision
+from hsvfilter import grab_object_preset
+from actions import Movement_Handler
 
 
 class RHBotV2():
@@ -84,6 +89,13 @@ class RHBotV2():
                             # Calculate relative position
                             # Move towards other player
                             pass
+            # press 'q' with the output window focused to exit.
+            # waits 1 ms every loop to process key presses
+            if cv.waitKey(1) == ord('q'):
+                cv.destroyAllWindows()
+                # stop movement
+                # movement.movement_stop()
+                break
 
     def stop(self):
         self.bot_running = False

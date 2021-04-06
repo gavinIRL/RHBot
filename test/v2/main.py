@@ -37,7 +37,6 @@ class RHBotV2():
         # Perform the prep required prior to main loop
         # Allow 3 seconds to open the game window
         sleep(3)
-        self.bot_running = True
 
         # Change the working directory to the folder this script is in.
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -74,6 +73,7 @@ class RHBotV2():
         self.lootfr_vision = Vision('lootfar.jpg')
 
         # The next block of code is setup for detecting if there is a pressx prompt
+        # NOTE: MAY NOT USE THIS TO CHECK AT ALL, LOOTNEAR SHOULD BE SUFFICIENT
 
         # The next block of code is setup for detecting if in a dungeon
         self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
@@ -84,21 +84,15 @@ class RHBotV2():
 
         # Start the movement bot
         self.movement.movement_start()
-        # Start the loot bot
 
         # Begin the main loop
+        self.bot_running = True
+        self.main_loop()
 
     def main_loop(self):
         while self.bot_running:
 
-            # get an updated image of the game at specified area
-            dunchk_screenshot = self.dunchk_wincap.get_screenshot()
-            # pre-process the image to help with detection
-            dunchk_output_image = self.dunchk_vision.apply_hsv_filter(
-                dunchk_screenshot, self.dunchk_filter)
-            # do object detection, this time grab the points
-            dunchk_rectangles = self.dunchk_vision.find(
-                dunchk_output_image, threshold=0.27, epsilon=0.5)
+            dunchk_rectangles = self.check_if_in_dungeon()
 
             if len(dunchk_rectangles) == 1:
                 # Then grab an image to check for nearby loot
@@ -144,3 +138,26 @@ class RHBotV2():
 
     def stop(self):
         self.bot_running = False
+
+    # Having these be separate methods as main loop too bulky
+    def find_other_player_pos(self):
+        pass
+
+    def find_current_player_pos(self):
+        pass
+
+    def check_if_in_dungeon(self):
+        # get an updated image of the game at specified area
+        dunchk_screenshot = self.dunchk_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        dunchk_output_image = self.dunchk_vision.apply_hsv_filter(
+            dunchk_screenshot, self.dunchk_filter)
+        # do object detection, this time grab rectangles
+        return self.dunchk_vision.find(
+            dunchk_output_image, threshold=0.27, epsilon=0.5)
+
+    def check_if_nearby_loot(self):
+        pass
+
+    def check_if_far_loot(self):
+        pass

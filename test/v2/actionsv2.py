@@ -15,7 +15,7 @@ class Actions():
         pydirectinput.keyUp(key)
 
     def move_mouse_centre():
-        pass
+        pydirectinput.moveTo(400, 500, 0.05)
 
     def click(x, y):
         # Will need to figure out if including the click interval

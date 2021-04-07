@@ -11,7 +11,7 @@ from time import time, sleep
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import grab_object_preset
-from actionsv2 import Movement_Handler
+from actionsv2 import Movement_Handler, Actions
 
 
 class RHBotV2():
@@ -36,6 +36,8 @@ class RHBotV2():
         self.nearest_loot_coords = [0, 0]
         # This will hold the location of the other player
         self.other_player_coords = [0, 0]
+        # This will hold the location of the current player
+        self.current_player_coords = [0, 0]
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -76,9 +78,6 @@ class RHBotV2():
             "Rusty Hearts: Revolution - Reborn ", lootfr_custom_rect)
         self.lootfr_vision = Vision('lootfar.jpg')
 
-        # The next block of code is setup for detecting if there is a pressx prompt
-        # NOTE: MAY NOT USE THIS TO CHECK AT ALL, LOOTNEAR SHOULD BE SUFFICIENT
-
         # The next block of code is setup for detecting if in a dungeon
         self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
             object_name="dungeon_check")
@@ -106,7 +105,7 @@ class RHBotV2():
                             while self.check_if_nearby_loot():
                                 self.pressx_counter += 1
                                 # Press the x button
-                                # TO-DO!!!
+                                Actions.press_key_once("x")
                                 if self.pressx_counter >= 5:
                                     self.loot_cd = time() + self.loot_cd_max
                                     break
@@ -149,7 +148,24 @@ class RHBotV2():
         return True
 
     def find_other_player_pos(self):
-        pass
+        # get an updated image of the game at map loc
+        screenshot = self.object_wincap.get_screenshot()
+        # then try to detect the other player
+        output_image = self.object_vision.apply_hsv_filter(
+            screenshot, self.object_filter)
+        # do object detection, this time grab the points
+        rectangles = self.object_vision.find(
+            output_image, threshold=0.41, epsilon=0.5)
+        points = self.object_vision.get_click_points(rectangles)
+        if len(points) == 1:
+            self.other_player_coords[0] = points[0][0]
+            self.other_player_coords[1] = points[0][1]
+            return True
+        else:
+            # Should this be set to 0,0 or left as is? Come back to this later
+            # Maybe set it to the current player coords instead
+            self.other_player_coords = [0, 0]
+            return False
 
     def find_current_player_pos(self):
         pass
@@ -166,13 +182,14 @@ class RHBotV2():
         # then return answer to whether currently in dungeon
         if len(dunchk_rectangles) == 1:
             return True
-        else:
-            return False
+        return False
 
     def check_if_loot_cooldown(self):
         if not self.loot_cd == 0:
             if (self.loot_cd-time()) < 0:
                 self.loot_cd = 0
+                return False
+            return True
 
     def check_if_nearby_loot(self):
         return True

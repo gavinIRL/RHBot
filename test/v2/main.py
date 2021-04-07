@@ -8,6 +8,7 @@
 import cv2 as cv
 import os
 from time import time, sleep
+import numpy as np
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import grab_object_preset
@@ -230,11 +231,30 @@ class RHBotV2():
         return False
 
     def check_if_far_loot(self):
-        # Need to calc the coords of the nearest loot
-        relx = 0
-        rely = 0
-        self.nearest_loot_coords = [relx, rely]
-        return True
+        # get an updated image of the game at specified area
+        lootfr_screenshot = self.lootfr_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        lootfr_output_image = self.lootfr_vision.apply_hsv_filter(
+            lootfr_screenshot, self.lootfr_filter)
+        # do object detection, this time grab rectangles
+        lootfr_rectangles = self.lootfr_vision.find(
+            lootfr_output_image, threshold=0.27, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(lootfr_rectangles) >= 1:
+            # Need to calc the coords of the nearest loot
+            minx, miny, mindist = None
+            for x, y in lootfr_rectangles:
+                relx = x-52
+                rely = y-52
+                # Assuming y values are twice distance of x values
+                dist = np.sqrt([(2*rely) ^ 2+relx ^ 2])
+                if dist < mindist:
+                    mindist = dist
+                    minx = relx
+                    miny = rely
+            self.nearest_loot_coords = [minx, miny]
+            return True
+        return False
 
 
 if __name__ == "__main__":

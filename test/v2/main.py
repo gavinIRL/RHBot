@@ -38,6 +38,8 @@ class RHBotV2():
         self.other_player_coords = [0, 0]
         # This will hold the location of the current player
         self.current_player_coords = [0, 0]
+        # This will be the shared screenshot for detecting both players
+        self.player_screenshot = None
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -147,12 +149,12 @@ class RHBotV2():
         # Otherwise will set relative to 0,0 and return false
         return True
 
-    def find_other_player_pos(self):
+    def can_find_other_player(self):
         # get an updated image of the game at map loc
-        screenshot = self.object_wincap.get_screenshot()
+        self.player_screenshot = self.object_wincap.get_screenshot()
         # then try to detect the other player
         output_image = self.object_vision.apply_hsv_filter(
-            screenshot, self.object_filter)
+            self.player_screenshot, self.object_filter)
         # do object detection, this time grab the points
         rectangles = self.object_vision.find(
             output_image, threshold=0.41, epsilon=0.5)
@@ -167,8 +169,26 @@ class RHBotV2():
             self.other_player_coords = [0, 0]
             return False
 
-    def find_current_player_pos(self):
-        pass
+    def can_find_current_player(self):
+        # Will make this forward compatible for multiple modes e.g. enemy detection
+        # Have placeholder for now
+        combat_mode = False
+        if combat_mode:
+            self.player_screenshot = self.object_wincap.get_screenshot()
+        # Main logic for this method is below
+        player_image = self.player_vision.apply_hsv_filter(
+            self.player_screenshot, self.player_filter)
+        player_rectangles = self.player_vision.find(
+            player_image, threshold=0.41, epsilon=0.5)
+        player_points = self.player_vision.get_click_points(
+            player_rectangles)
+        if len(player_points) == 1:
+            self.current_player_coords[0] = player_points[0][0]
+            self.current_player_coords[1] = player_points[0][1]
+            return True
+        else:
+            # Should this be set to 0,0 or left as is? Come back to this later
+            return False
 
     def check_if_in_dungeon(self):
         # get an updated image of the game at specified area

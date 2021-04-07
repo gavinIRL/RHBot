@@ -122,7 +122,7 @@ class RHBotV2():
                 else:
                     self.bot_state = "movement"
             if self.bot_state == "movement":
-                if self.can_see_both_players():
+                if self.can_find_both_players():
                     relx, rely = self.other_player_coords
                     self.movement.movement_update_xy(relx, rely)
                 else:
@@ -144,10 +144,13 @@ class RHBotV2():
         self.bot_running = False
 
     # Having these be separate methods as main loop too bulky
-    def can_see_both_players(self):
+    def can_find_both_players(self):
         # This will return true if both players could be found
         # Otherwise will set relative to 0,0 and return false
-        return True
+        if self.can_find_other_player:
+            if self.can_find_current_player:
+                return True
+        return False
 
     def can_find_other_player(self):
         # get an updated image of the game at map loc
@@ -188,6 +191,7 @@ class RHBotV2():
             return True
         else:
             # Should this be set to 0,0 or left as is? Come back to this later
+            # Will leave as is for now, probably useful for enemy detect
             return False
 
     def check_if_in_dungeon(self):
@@ -212,7 +216,18 @@ class RHBotV2():
             return True
 
     def check_if_nearby_loot(self):
-        return True
+        # get an updated image of the game at specified area
+        lootnr_screenshot = self.lootnr_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        lootnr_output_image = self.lootnr_vision.apply_hsv_filter(
+            lootnr_screenshot, self.lootnr_filter)
+        # do object detection, this time grab rectangles
+        lootnr_rectangles = self.lootnr_vision.find(
+            lootnr_output_image, threshold=0.8, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(lootnr_rectangles) >= 1:
+            return True
+        return False
 
     def check_if_far_loot(self):
         # Need to calc the coords of the nearest loot
@@ -220,3 +235,8 @@ class RHBotV2():
         rely = 0
         self.nearest_loot_coords = [relx, rely]
         return True
+
+
+if __name__ == "__main__":
+    rhbv2 = RHBotV2()
+    rhbv2.start()

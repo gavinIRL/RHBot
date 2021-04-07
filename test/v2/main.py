@@ -244,15 +244,20 @@ class RHBotV2():
             # Need to calc the coords of the nearest loot
             minx, miny, mindist = None
             for x, y in lootfr_rectangles:
+                # Need to update this with the correct values later
                 relx = x-52
                 rely = y-52
                 # Assuming y values are twice distance of x values
-                dist = np.sqrt([(2*rely) ^ 2+relx ^ 2])
+                dist = np.sqrt([((2*rely) ^ 2)+(relx ^ 2)])
                 if dist < mindist:
                     mindist = dist
                     minx = relx
                     miny = rely
-            self.nearest_loot_coords = [minx, miny]
+            # Approx conversion from minimap to mainscreen is 1/20
+            # However it updates frequently enough that it'll get there eventually
+            # Worst case would be making too small steps between updates
+            # Therefore will use /15 instead of /20
+            self.nearest_loot_coords = [int(minx/15), int(miny/15)]
             return True
         return False
 

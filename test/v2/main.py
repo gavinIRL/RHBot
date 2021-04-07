@@ -36,7 +36,7 @@ class RHBotV2():
         # This will hold the location of the nearest loot identified
         self.nearest_loot_coords = [0, 0]
         # This will hold the location of the other player
-        self.other_player_coords = [0, 0]
+        self.other_player_rel_coords = [0, 0]
         # This will hold the location of the current player
         self.current_player_coords = [0, 0]
         # This will be the shared screenshot for detecting both players
@@ -124,7 +124,7 @@ class RHBotV2():
                     self.bot_state = "movement"
             if self.bot_state == "movement":
                 if self.can_find_both_players():
-                    relx, rely = self.other_player_coords
+                    relx, rely = self.other_player_rel_coords
                     self.movement.movement_update_xy(relx, rely)
                 else:
                     self.movement.movement_update_xy(0, 0)
@@ -164,13 +164,14 @@ class RHBotV2():
             output_image, threshold=0.41, epsilon=0.5)
         points = self.object_vision.get_click_points(rectangles)
         if len(points) == 1:
-            self.other_player_coords[0] = points[0][0]
-            self.other_player_coords[1] = points[0][1]
+            self.other_player_rel_coords[0] = points[0][0] - \
+                self.current_player_coords[0]
+            self.other_player_rel_coords[1] = self.current_player_coords[1] - points[0][1]
             return True
         else:
             # Should this be set to 0,0 or left as is? Come back to this later
             # Maybe set it to the current player coords instead
-            self.other_player_coords = [0, 0]
+            self.other_player_rel_coords = [0, 0]
             return False
 
     def can_find_current_player(self):
@@ -244,10 +245,12 @@ class RHBotV2():
             # Need to calc the coords of the nearest loot
             minx, miny, mindist = None
             for x, y in lootfr_rectangles:
-                # Need to update this with the correct values later
-                relx = x-52
-                rely = y-52
-                # Assuming y values are twice distance of x values
+                # These are the approximate player feet location
+                # Pickup radius is large enough that won't be a major issue
+                relx = 640-x
+                rely = y-521
+                # Assuming y pixel values are twice distance of x values
+                # Due to the ~30-35deg angle of the view
                 dist = np.sqrt([((2*rely) ^ 2)+(relx ^ 2)])
                 if dist < mindist:
                     mindist = dist

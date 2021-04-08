@@ -96,14 +96,17 @@ class RHBotV2():
         self.main_loop()
 
     def main_loop(self):
-        # This variable is used to refresh/reset button presses
+        # These variable is used to prevent getting stuck, assume a frame is 10ms
         # And also move the mouse to prevent issues with MWB or logitech flow
         movement_frames = 0
+        # Loot movement frames stops constant attempts to reach inaccessible loot
+        loot_movement_frames = 0
         while self.bot_running:
             if self.check_if_in_dungeon():
                 if self.looting_enabled:
                     if not self.check_if_loot_cooldown():
                         if self.check_if_nearby_loot():
+                            movement_frames = 0
                             # Need to stop all movement
                             self.movement.movement_update_xy(0, 0)
                             # And then set the bot state to looting
@@ -115,7 +118,11 @@ class RHBotV2():
                                 if self.pressx_counter >= 5:
                                     self.loot_cd = time() + self.loot_cd_max
                                     break
+                            if loot_movement_frames >= 80:
+                                self.loot_cd = time() + self.loot_cd_max
+                                self.bot_state = "movement"
                         if self.check_if_far_loot():
+                            loot_movement_frames += 1
                             self.bot_state = "loot"
                             relx, rely = self.nearest_loot_coords
                             self.movement.movement_update_xy(relx, rely)
@@ -126,6 +133,7 @@ class RHBotV2():
                 else:
                     self.bot_state = "movement"
             if self.bot_state == "movement":
+                loot_movement_frames = 0
                 if self.can_find_both_players():
                     movement_frames += 1
                     relx, rely = self.other_player_rel_coords

@@ -95,6 +95,12 @@ class RHBotV2():
         self.bot_running = True
         self.main_loop()
 
+    def loot_loop(self):
+        pass
+
+    def move_to_other_player(self):
+        pass
+
     def main_loop(self):
         # These variable is used to prevent getting stuck, assume a frame is 10ms
         # And also move the mouse to prevent issues with MWB or logitech flow

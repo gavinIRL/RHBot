@@ -41,7 +41,7 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
     if object_name == "loot_far":
         return HsvFilter(14, 116, 33, 32, 210, 59, 16, 0, 3, 0), [10, 145, 1084, 684]
     if object_name == "loot_near":
-        return HsvFilter(0, 155, 135, 31, 240, 217, 0, 0, 0, 0), [460, 420, 855, 710]
+        return HsvFilter(0, 155, 135, 31, 240, 217, 0, 0, 0, 0), [10, 145, 1084, 684]
     if object_name == "prompt_press_x_pickup":
         return HsvFilter(78, 110, 110, 97, 189, 255, 0, 0, 0, 0), [1080, 660, 1255, 725]
     if object_name == "message_section_cleared":

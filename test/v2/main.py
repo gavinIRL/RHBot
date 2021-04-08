@@ -101,66 +101,65 @@ class RHBotV2():
         self.bot_running = True
         self.main_loop()
 
-    def loot_loop(self):
-        pass
+    def check_for_loot(self):
+        if not self.check_if_loot_cooldown():
+            if self.check_if_nearby_loot():
+                self.general_frames = 0
+                # Need to stop all movement
+                self.movement.movement_update_xy(0, 0)
+                # And then set the bot state to looting
+                self.bot_state = "loot"
+                while self.check_if_nearby_loot():
+                    self.pressx_counter += 1
+                    # Press the x button
+                    Actions.press_key_once("x")
+                    if self.pressx_counter >= 5:
+                        self.loot_cd = time() + self.loot_cd_max
+                        break
+                if self.loot_movement_framess >= 80:
+                    self.loot_cd = time() + self.loot_cd_max
+                    self.bot_state = "movement"
+            if self.check_if_far_loot():
+                self.loot_movement_frames += 1
+                self.bot_state = "loot"
+                relx, rely = self.nearest_loot_coords
+                self.movement.movement_update_xy(relx, rely)
+            else:
+                self.bot_state = "movement"
+        else:
+            self.bot_state = "movement"
 
     def move_to_other_player(self):
-        pass
+        self.loot_movement_frames = 0
+        if self.can_find_both_players():
+            self.general_frames += 1
+            relx, rely = self.other_player_rel_coords
+            self.movement.movement_update_xy(relx, rely)
+        else:
+            self.movement.movement_update_xy(0, 0)
+        # Reset the mouse and keypresses every so often
+        if self.general_frames >= 50:
+            Actions.move_mouse_centre()
+            Actions.stop_keypresses()
+            self.general_frames = 0
 
     def main_loop(self):
         while self.bot_running:
             if self.check_if_in_dungeon():
                 if self.looting_enabled:
-                    if not self.check_if_loot_cooldown():
-                        if self.check_if_nearby_loot():
-                            self.general_frames = 0
-                            # Need to stop all movement
-                            self.movement.movement_update_xy(0, 0)
-                            # And then set the bot state to looting
-                            self.bot_state = "loot"
-                            while self.check_if_nearby_loot():
-                                self.pressx_counter += 1
-                                # Press the x button
-                                Actions.press_key_once("x")
-                                if self.pressx_counter >= 5:
-                                    self.loot_cd = time() + self.loot_cd_max
-                                    break
-                            if self.loot_movement_framess >= 80:
-                                self.loot_cd = time() + self.loot_cd_max
-                                self.bot_state = "movement"
-                        if self.check_if_far_loot():
-                            self.loot_movement_frames += 1
-                            self.bot_state = "loot"
-                            relx, rely = self.nearest_loot_coords
-                            self.movement.movement_update_xy(relx, rely)
-                        else:
-                            self.bot_state = "movement"
-                    else:
-                        self.bot_state = "movement"
+                    self.check_for_loot()
                 else:
                     self.bot_state = "movement"
-            if self.bot_state == "movement":
-                self.loot_movement_frames = 0
-                if self.can_find_both_players():
-                    self.general_frames += 1
-                    relx, rely = self.other_player_rel_coords
-                    self.movement.movement_update_xy(relx, rely)
-                else:
-                    self.movement.movement_update_xy(0, 0)
-            # Reset the mouse and keypresses every so often
-            if self.general_frames >= 50:
-                Actions.move_mouse_centre()
-                Actions.stop_keypresses()
-                self.general_frames = 0
-            # press 'q' with the output window focused to exit.
-            # waits 1 ms every loop to process key presses
+                # Perform movement towards other player
+                if self.bot_state == "movement":
+                    self.move_to_other_player()
+            # press 'q' on output window to exit
             if cv.waitKey(1) == ord('q'):
                 cv.destroyAllWindows()
                 # stop movement
                 self.movement.movement_stop()
                 break
-            # Have a key to disable or enable looting
-            # Quick method of fixing a loot-seek loop
+            # press w on output window to enable/disable looting
             if cv.waitKey(1) == ord('w'):
                 self.looting_enabled = not self.looting_enabled
                 print("Looting has been set to {}".format(self.looting_enabled))

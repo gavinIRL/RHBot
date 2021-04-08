@@ -14,6 +14,9 @@ from vision import Vision
 from hsvfilter import grab_object_preset
 from actionsv2 import Movement_Handler, Actions
 
+# Change the working directory to the folder this script is in.
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 
 class RHBotV2():
     def __init__(self, loot=True, loot_cd_max=5) -> None:
@@ -46,9 +49,6 @@ class RHBotV2():
         # Perform the prep required prior to main loop
         # Allow 3 seconds to open the game window
         sleep(3)
-
-        # Change the working directory to the folder this script is in.
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
         # Initialise the movement object and pass the state object
         self.movement = Movement_Handler(test_mode=False)
@@ -96,6 +96,9 @@ class RHBotV2():
         self.main_loop()
 
     def main_loop(self):
+        # This variable is used to refresh/reset button presses
+        # And also move the mouse to prevent issues with MWB or logitech flow
+        movement_frames = 0
         while self.bot_running:
             if self.check_if_in_dungeon():
                 if self.looting_enabled:
@@ -124,10 +127,16 @@ class RHBotV2():
                     self.bot_state = "movement"
             if self.bot_state == "movement":
                 if self.can_find_both_players():
+                    movement_frames += 1
                     relx, rely = self.other_player_rel_coords
                     self.movement.movement_update_xy(relx, rely)
                 else:
                     self.movement.movement_update_xy(0, 0)
+            # Reset the mouse and keypresses every so often
+            if movement_frames >= 50:
+                Actions.move_mouse_centre()
+                Actions.stop_keypresses()
+                movement_frames = 0
             # press 'q' with the output window focused to exit.
             # waits 1 ms every loop to process key presses
             if cv.waitKey(1) == ord('q'):
@@ -266,5 +275,5 @@ class RHBotV2():
 
 
 if __name__ == "__main__":
-    rhbv2 = RHBotV2()
+    rhbv2 = RHBotV2(loot=False)
     rhbv2.start()

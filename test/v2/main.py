@@ -28,6 +28,12 @@ class RHBotV2():
         self.looting_enabled = loot
         # This is the variable which prevents getting stuck picking loot
         self.pressx_counter = 0
+        # This is the variable which prevents getting stuck trying to
+        # Access inaccessible loot, assume 1frame is ~10ms
+        self.loot_movement_frames = 0
+        # This is the variable which resets the keyboard and mouse periodically
+        # Assume 1frame is ~10ms
+        self.general_frames = 0
         # This is the variable which will track cooldown on searching for loot
         # After the bot has gotten stuck, format is seconds
         # The value assigned will correspond to time when lootsearch can recommence
@@ -102,17 +108,12 @@ class RHBotV2():
         pass
 
     def main_loop(self):
-        # These variable is used to prevent getting stuck, assume a frame is 10ms
-        # And also move the mouse to prevent issues with MWB or logitech flow
-        movement_frames = 0
-        # Loot movement frames stops constant attempts to reach inaccessible loot
-        loot_movement_frames = 0
         while self.bot_running:
             if self.check_if_in_dungeon():
                 if self.looting_enabled:
                     if not self.check_if_loot_cooldown():
                         if self.check_if_nearby_loot():
-                            movement_frames = 0
+                            self.general_frames = 0
                             # Need to stop all movement
                             self.movement.movement_update_xy(0, 0)
                             # And then set the bot state to looting
@@ -124,11 +125,11 @@ class RHBotV2():
                                 if self.pressx_counter >= 5:
                                     self.loot_cd = time() + self.loot_cd_max
                                     break
-                            if loot_movement_frames >= 80:
+                            if self.loot_movement_framess >= 80:
                                 self.loot_cd = time() + self.loot_cd_max
                                 self.bot_state = "movement"
                         if self.check_if_far_loot():
-                            loot_movement_frames += 1
+                            self.loot_movement_frames += 1
                             self.bot_state = "loot"
                             relx, rely = self.nearest_loot_coords
                             self.movement.movement_update_xy(relx, rely)
@@ -139,18 +140,18 @@ class RHBotV2():
                 else:
                     self.bot_state = "movement"
             if self.bot_state == "movement":
-                loot_movement_frames = 0
+                self.loot_movement_frames = 0
                 if self.can_find_both_players():
-                    movement_frames += 1
+                    self.general_frames += 1
                     relx, rely = self.other_player_rel_coords
                     self.movement.movement_update_xy(relx, rely)
                 else:
                     self.movement.movement_update_xy(0, 0)
             # Reset the mouse and keypresses every so often
-            if movement_frames >= 50:
+            if self.general_frames >= 50:
                 Actions.move_mouse_centre()
                 Actions.stop_keypresses()
-                movement_frames = 0
+                self.general_frames = 0
             # press 'q' with the output window focused to exit.
             # waits 1 ms every loop to process key presses
             if cv.waitKey(1) == ord('q'):

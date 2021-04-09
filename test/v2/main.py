@@ -9,6 +9,7 @@ import cv2 as cv
 import os
 from time import time, sleep
 import numpy as np
+from pynput.keyboard import Key, Listener
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import grab_object_preset
@@ -50,6 +51,8 @@ class RHBotV2():
         self.current_player_coords = [0, 0]
         # This will be the shared screenshot for detecting both players
         self.player_screenshot = None
+        # The variables for shortcuts such as terminating bot, etc.
+        self.listener = None
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -123,7 +126,10 @@ class RHBotV2():
                 print("Looting has been set to {}".format(self.looting_enabled))
 
     def start_keypress_listener(self):
-        pass
+        if self.listener == None:
+            self.listener = Listener(on_press=on_press,
+                                     on_release=on_release, suppress=True)
+            self.listener.start()
 
     def check_for_loot(self):
         if not self.check_if_loot_cooldown():

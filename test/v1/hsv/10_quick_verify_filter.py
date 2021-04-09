@@ -29,7 +29,7 @@ while(True):
     output_image = vision.apply_hsv_filter(
         screenshot, filter)
     dunchk_rectangles = vision.find(
-        output_image, threshold=0.61, epsilon=0.4)
+        output_image, threshold=0.31, epsilon=0.4)
     output_image_rect = vision.draw_rectangles(screenshot, dunchk_rectangles)
     cv.imshow('Filtered', output_image)
     cv.imshow('Box', output_image_rect)

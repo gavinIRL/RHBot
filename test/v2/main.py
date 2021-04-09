@@ -242,7 +242,7 @@ class RHBotV2():
             dunchk_screenshot, self.dunchk_filter)
         # do object detection, this time grab rectangles
         dunchk_rectangles = self.dunchk_vision.find(
-            dunchk_output_image, threshold=0.27, epsilon=0.5)
+            dunchk_output_image, threshold=0.31, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(dunchk_rectangles) == 1:
             return True

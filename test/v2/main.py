@@ -127,9 +127,18 @@ class RHBotV2():
 
     def start_keypress_listener(self):
         if self.listener == None:
-            self.listener = Listener(on_press=on_press,
-                                     on_release=on_release, suppress=True)
+            self.listener = Listener(on_press=self.on_press,
+                                     on_release=self.on_release, suppress=True)
             self.listener.start()
+
+    def on_press(self, key):
+        if key == Key.esc:
+            self.bot_running = False
+            return False
+
+    def on_release(self):
+        # Do nothing
+        pass
 
     def check_for_loot(self):
         if not self.check_if_loot_cooldown():

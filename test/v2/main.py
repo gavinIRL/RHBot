@@ -101,6 +101,9 @@ class RHBotV2():
         self.bot_running = True
         self.main_loop()
 
+    def start_keypress_listener(self):
+        pass
+
     def check_for_loot(self):
         if not self.check_if_loot_cooldown():
             if self.check_if_nearby_loot():

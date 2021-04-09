@@ -133,7 +133,7 @@ class RHBotV2():
             self.looting_enabled = not self.looting_enabled
             print("Looting has been set to {}".format(self.looting_enabled))
 
-    def on_release(self):
+    def on_release(self, key):
         # Do nothing
         pass
 

@@ -9,7 +9,7 @@ import cv2 as cv
 import os
 from time import time, sleep
 import numpy as np
-from pynput.keyboard import Key, Listener
+from pynput.keyboard import Key, Listener, KeyCode
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import grab_object_preset
@@ -105,6 +105,7 @@ class RHBotV2():
         self.main_loop()
 
     def main_loop(self):
+        self.start_keypress_listener()
         while self.bot_running:
             if self.check_if_in_dungeon():
                 if self.looting_enabled:
@@ -114,16 +115,8 @@ class RHBotV2():
                 # Perform movement towards other player
                 if self.bot_state == "movement":
                     self.move_to_other_player()
-            # press 'q' on output window to exit
-            if cv.waitKey(1) == ord('q'):
-                cv.destroyAllWindows()
-                # stop movement
-                self.movement.movement_stop()
-                break
-            # press w on output window to enable/disable looting
-            if cv.waitKey(1) == ord('w'):
-                self.looting_enabled = not self.looting_enabled
-                print("Looting has been set to {}".format(self.looting_enabled))
+        cv.destroyAllWindows()
+        self.movement.movement_stop()
 
     def start_keypress_listener(self):
         if self.listener == None:
@@ -132,9 +125,13 @@ class RHBotV2():
             self.listener.start()
 
     def on_press(self, key):
-        if key == Key.esc:
+        if key == KeyCode(char='q'):
+            cv.destroyAllWindows()
             self.bot_running = False
             return False
+        if key == KeyCode(char='w'):
+            self.looting_enabled = not self.looting_enabled
+            print("Looting has been set to {}".format(self.looting_enabled))
 
     def on_release(self):
         # Do nothing

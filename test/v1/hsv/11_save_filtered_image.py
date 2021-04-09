@@ -44,8 +44,8 @@ class SaveFilteredImage():
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 filter, _ = grab_object_preset(
-    object_name="loot_near")
+    object_name="dungeon_check")
 sfi = SaveFilteredImage()
-existing_image = "lootnear67.jpg"
-save_image = "lootnear67filt.jpg"
+existing_image = "dunchk_67.jpg"
+save_image = "dunchk_67filt.jpg"
 sfi.save_and_convert(filter, existing_image, save_image)

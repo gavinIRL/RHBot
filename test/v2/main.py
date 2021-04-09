@@ -101,6 +101,27 @@ class RHBotV2():
         self.bot_running = True
         self.main_loop()
 
+    def main_loop(self):
+        while self.bot_running:
+            if self.check_if_in_dungeon():
+                if self.looting_enabled:
+                    self.check_for_loot()
+                else:
+                    self.bot_state = "movement"
+                # Perform movement towards other player
+                if self.bot_state == "movement":
+                    self.move_to_other_player()
+            # press 'q' on output window to exit
+            if cv.waitKey(1) == ord('q'):
+                cv.destroyAllWindows()
+                # stop movement
+                self.movement.movement_stop()
+                break
+            # press w on output window to enable/disable looting
+            if cv.waitKey(1) == ord('w'):
+                self.looting_enabled = not self.looting_enabled
+                print("Looting has been set to {}".format(self.looting_enabled))
+
     def start_keypress_listener(self):
         pass
 
@@ -145,27 +166,6 @@ class RHBotV2():
             Actions.move_mouse_centre()
             Actions.stop_keypresses()
             self.general_frames = 0
-
-    def main_loop(self):
-        while self.bot_running:
-            if self.check_if_in_dungeon():
-                if self.looting_enabled:
-                    self.check_for_loot()
-                else:
-                    self.bot_state = "movement"
-                # Perform movement towards other player
-                if self.bot_state == "movement":
-                    self.move_to_other_player()
-            # press 'q' on output window to exit
-            if cv.waitKey(1) == ord('q'):
-                cv.destroyAllWindows()
-                # stop movement
-                self.movement.movement_stop()
-                break
-            # press w on output window to enable/disable looting
-            if cv.waitKey(1) == ord('w'):
-                self.looting_enabled = not self.looting_enabled
-                print("Looting has been set to {}".format(self.looting_enabled))
 
     def stop(self):
         self.bot_running = False

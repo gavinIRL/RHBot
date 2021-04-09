@@ -263,7 +263,7 @@ class RHBotV2():
             lootnr_screenshot, self.lootnr_filter)
         # do object detection, this time grab rectangles
         lootnr_rectangles = self.lootnr_vision.find(
-            lootnr_output_image, threshold=0.8, epsilon=0.5)
+            lootnr_output_image, threshold=0.31, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(lootnr_rectangles) >= 1:
             return True
@@ -277,7 +277,7 @@ class RHBotV2():
             lootfr_screenshot, self.lootfr_filter)
         # do object detection, this time grab rectangles
         lootfr_rectangles = self.lootfr_vision.find(
-            lootfr_output_image, threshold=0.27, epsilon=0.5)
+            lootfr_output_image, threshold=0.31, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(lootfr_rectangles) >= 1:
             # Need to calc the coords of the nearest loot

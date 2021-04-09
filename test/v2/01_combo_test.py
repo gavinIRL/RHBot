@@ -59,11 +59,14 @@ def basic_combo():
 # Attempt 3, fixing problem of not being threaded
 listener = None
 keyPressed = None
+running = True
 
 
 def on_press(key):
     if key == Key.esc:
         # Stop listener
+        global running
+        running = False
         return False
 
 
@@ -80,3 +83,8 @@ def CheckWhichKeyIsPressed():
                             on_release=on_release, suppress=True)
         listener.start()
     print("Got to here")
+
+
+CheckWhichKeyIsPressed()
+while running:
+    sleep(0.1)

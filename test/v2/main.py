@@ -55,6 +55,9 @@ class RHBotV2():
         self.listener = None
         # The variable for ensuring momentum of player movement
         self.momentum = 0
+        # The variable for ensuring positive nearloot detection
+        # Requires at least 2 positive frames in a row to start action
+        self.loot_positive_frames = 0
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -151,22 +154,28 @@ class RHBotV2():
     def check_for_loot(self):
         if not self.check_if_loot_cooldown():
             if self.check_if_nearby_loot():
-                # Need to stop all movement
-                self.movement.movement_update_xy(0, 0)
-                # And then set the bot state to looting
-                self.bot_state = "loot"
-                while self.check_if_nearby_loot():
-                    self.pressx_counter += 1
-                    # Press the x button
-                    Actions.press_key_once("x")
-                    sleep(0.1)
-                    if self.pressx_counter >= 5:
+                # Ensure there are at least 2 frames in a row
+                self.loot_positive_frames += 1
+                if self.loot_positive_frames >= 2:
+                    # Need to stop all movement
+                    self.movement.movement_update_xy(0, 0)
+                    # And then set the bot state to looting
+                    self.bot_state = "loot"
+                    # Clear all button presses
+                    Actions.move_mouse_centre()
+                    Actions.stop_keypresses(self.movement)
+                    while self.check_if_nearby_loot():
+                        self.pressx_counter += 1
+                        # Press the x button
+                        Actions.press_key_once("x")
+                        sleep(0.15)
+                        if self.pressx_counter >= 5:
+                            self.loot_cd = time() + self.loot_cd_max
+                            break
+                    Actions.stop_keypresses(self.movement)
+                    if self.loot_movement_frames >= 80:
                         self.loot_cd = time() + self.loot_cd_max
-                        break
-                Actions.stop_keypresses(self.movement)
-                if self.loot_movement_frames >= 80:
-                    self.loot_cd = time() + self.loot_cd_max
-                    self.bot_state = "movement"
+                        self.bot_state = "movement"
             elif self.check_if_far_loot():
                 self.loot_movement_frames += 1
                 self.bot_state = "loot"
@@ -275,7 +284,7 @@ class RHBotV2():
             lootnr_screenshot, self.lootnr_filter)
         # do object detection, this time grab rectangles
         lootnr_rectangles = self.lootnr_vision.find(
-            lootnr_output_image, threshold=0.31, epsilon=0.5)
+            lootnr_output_image, threshold=0.27, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(lootnr_rectangles) >= 1:
             return True

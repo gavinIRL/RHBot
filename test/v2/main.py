@@ -108,6 +108,7 @@ class RHBotV2():
         # self.start_keypress_listener()
         while self.bot_running:
             if self.check_if_in_dungeon():
+                self.general_frames += 1
                 if self.looting_enabled:
                     self.check_for_loot()
                 else:
@@ -118,6 +119,11 @@ class RHBotV2():
             else:
                 # print("Not in dungeon")
                 sleep(0.5)
+            # Reset the mouse and keypresses every so often
+            if self.general_frames >= 75:
+                Actions.move_mouse_centre()
+                Actions.stop_keypresses(self.movement)
+                self.general_frames = 0
         cv.destroyAllWindows()
         self.movement.movement_stop()
 
@@ -143,7 +149,6 @@ class RHBotV2():
     def check_for_loot(self):
         if not self.check_if_loot_cooldown():
             if self.check_if_nearby_loot():
-                self.general_frames = 0
                 # Need to stop all movement
                 self.movement.movement_update_xy(0, 0)
                 # And then set the bot state to looting
@@ -152,6 +157,7 @@ class RHBotV2():
                     self.pressx_counter += 1
                     # Press the x button
                     Actions.press_key_once("x")
+                    sleep(0.1)
                     if self.pressx_counter >= 5:
                         self.loot_cd = time() + self.loot_cd_max
                         break
@@ -173,17 +179,10 @@ class RHBotV2():
         # print("Trying to find both players")
         self.loot_movement_frames = 0
         if self.can_find_both_players():
-            # print("Found both players")
-            self.general_frames += 1
             relx, rely = self.other_player_rel_coords
             self.movement.movement_update_xy(relx, rely)
         else:
             self.movement.movement_update_xy(0, 0)
-        # Reset the mouse and keypresses every so often
-        if self.general_frames >= 50:
-            Actions.move_mouse_centre()
-            Actions.stop_keypresses()
-            self.general_frames = 0
 
     def stop(self):
         self.bot_running = False

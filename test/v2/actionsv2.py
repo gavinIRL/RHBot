@@ -5,9 +5,11 @@ from threading import Thread, Lock
 
 
 class Actions():
-    def stop_keypresses():
+    def stop_keypresses(mh):
         for key in ["up", "down", "left", "right"]:
             pydirectinput.keyUp(key)
+            if key in mh.pressed_keys:
+                mh.pressed_keys.remove(key)
 
     def press_key_once(key):
         pydirectinput.keyDown(key)
@@ -15,7 +17,7 @@ class Actions():
         pydirectinput.keyUp(key)
 
     def move_mouse_centre():
-        pydirectinput.moveTo(400, 500, 0.05)
+        pydirectinput.moveTo(900, 500, 0.05)
 
     def click(x, y):
         # Will need to figure out if including the click interval

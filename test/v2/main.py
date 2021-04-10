@@ -155,10 +155,11 @@ class RHBotV2():
                     if self.pressx_counter >= 5:
                         self.loot_cd = time() + self.loot_cd_max
                         break
+                Actions.stop_keypresses(self.movement)
                 if self.loot_movement_frames >= 80:
                     self.loot_cd = time() + self.loot_cd_max
                     self.bot_state = "movement"
-            if self.check_if_far_loot():
+            elif self.check_if_far_loot():
                 self.loot_movement_frames += 1
                 self.bot_state = "loot"
                 relx, rely = self.nearest_loot_coords

@@ -184,6 +184,7 @@ class RHBotV2():
             else:
                 self.bot_state = "movement"
             self.near_loot_positive_frames = 0
+            self.pressx_counter = 0
         else:
             self.bot_state = "movement"
 

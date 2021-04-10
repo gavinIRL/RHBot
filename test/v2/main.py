@@ -105,7 +105,7 @@ class RHBotV2():
         self.main_loop()
 
     def main_loop(self):
-        self.start_keypress_listener()
+        # self.start_keypress_listener()
         while self.bot_running:
             if self.check_if_in_dungeon():
                 if self.looting_enabled:

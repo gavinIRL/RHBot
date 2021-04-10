@@ -155,7 +155,7 @@ class RHBotV2():
                     if self.pressx_counter >= 5:
                         self.loot_cd = time() + self.loot_cd_max
                         break
-                if self.loot_movement_framess >= 80:
+                if self.loot_movement_frames >= 80:
                     self.loot_cd = time() + self.loot_cd_max
                     self.bot_state = "movement"
             if self.check_if_far_loot():

@@ -116,7 +116,7 @@ class RHBotV2():
                 if self.bot_state == "movement":
                     self.move_to_other_player()
             else:
-                print("Not in dungeon")
+                # print("Not in dungeon")
                 sleep(0.5)
         cv.destroyAllWindows()
         self.movement.movement_stop()
@@ -169,10 +169,10 @@ class RHBotV2():
             self.bot_state = "movement"
 
     def move_to_other_player(self):
-        print("Trying to find both players")
+        # print("Trying to find both players")
         self.loot_movement_frames = 0
         if self.can_find_both_players():
-            print("Found both players")
+            # print("Found both players")
             self.general_frames += 1
             relx, rely = self.other_player_rel_coords
             self.movement.movement_update_xy(relx, rely)
@@ -309,5 +309,5 @@ class RHBotV2():
 
 
 if __name__ == "__main__":
-    rhbv2 = RHBotV2(loot=False)
+    rhbv2 = RHBotV2(loot=True)
     rhbv2.start()

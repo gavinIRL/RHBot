@@ -191,8 +191,8 @@ class RHBotV2():
     def can_find_both_players(self):
         # This will return true if both players could be found
         # Otherwise will set relative to 0,0 and return false
-        if self.can_find_other_player:
-            if self.can_find_current_player:
+        if self.can_find_other_player():
+            if self.can_find_current_player():
                 return True
         return False
 

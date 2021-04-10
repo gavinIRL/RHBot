@@ -53,6 +53,8 @@ class RHBotV2():
         self.player_screenshot = None
         # The variables for shortcuts such as terminating bot, etc.
         self.listener = None
+        # The variable for ensuring momentum of player movement
+        self.momentum = 0
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -181,8 +183,13 @@ class RHBotV2():
         if self.can_find_both_players():
             relx, rely = self.other_player_rel_coords
             self.movement.movement_update_xy(relx, rely)
+            self.momentum = 2
         else:
-            self.movement.movement_update_xy(0, 0)
+            if self.momentum < 1:
+                self.movement.movement_update_xy(0, 0)
+                self.momentum = 0
+            else:
+                self.momentum -= 1
 
     def stop(self):
         self.bot_running = False

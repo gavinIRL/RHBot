@@ -2,36 +2,44 @@
 # And will include the preferred combinations of attacks
 # And hold the basic information of cooldown times, etc.
 
-class WeaponBag():
+class WeaponBagFocused():
     # The preferred layout of skills for this class is as follows:
-    # a =
-    # s =
-    # d =
-    # f =
-    # g =
+    # a = overhand
+    # s = backhand
+    # d = cannon spike
+    # f = lock on
+    # g = jet bike
+    # h = summon mk-2
+    # s+a = electric line
+    # s+s = shockmine
+    # s+d = sentry laser
+    # s+f = spiked mat
+    # f1 = stun grenade
+    # f2 = concentration
+
     def __init__(self, level, focused) -> None:
         self.level = level
         self.focused = focused
 
     def grab_base_cooldowns(self):
-        cooldowns = {"a": 5}
-        cooldowns["s"] = 5
-        cooldowns["d"] = 5
-        cooldowns["f"] = 5
-        cooldowns["g"] = 5
-        cooldowns["h"] = 5
+        cooldowns = {"a": 5.5}
+        cooldowns["s"] = 5.3
+        cooldowns["d"] = 4.4
+        cooldowns["f"] = 8.8
+        cooldowns["g"] = 17
+        cooldowns["h"] = 41
 
-        cooldowns["s+a"] = 5
-        cooldowns["s+s"] = 5
-        cooldowns["s+d"] = 5
-        cooldowns["s+f"] = 5
-        cooldowns["s+g"] = 5
-        cooldowns["s+h"] = 5
+        cooldowns["s+a"] = 10.2
+        cooldowns["s+s"] = 7.8
+        cooldowns["s+d"] = 17.6
+        cooldowns["s+f"] = 30
+        cooldowns["s+g"] = False
+        cooldowns["s+h"] = False
 
-        cooldowns["f1"] = 5
-        cooldowns["f2"] = 5
-        cooldowns["f3"] = 5
-        cooldowns["f4"] = 5
+        cooldowns["f1"] = 85
+        cooldowns["f2"] = 300
+        cooldowns["f3"] = False
+        cooldowns["f4"] = False
         # Need to adjust based on level and if focused or not
         return cooldowns
 

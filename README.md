@@ -7,8 +7,8 @@ Alongside the DCW application (specifically the bot playground and creation aspe
 
 ## Current Status
 * Version 1: Completed
-* Version 2: In Progress
-* Version 3: Not Started
+* Version 2: Completed (Partially)
+* Version 3: In Progress
 * Version 4: Not Started
 * Version 5: Not Started
 
@@ -17,7 +17,7 @@ Alongside the DCW application (specifically the bot playground and creation aspe
 Will detect the position of the player-controlled character in the same party and move to that character's location.
 
 ### Version 2 - Follower Bot with Loot Pickup
-Version 1 with the additional ability to detect and pick up all loot objects.
+Version 1 with the additional ability to detect and pick up all loot objects. Current state of this version is that it can pick up all object it gets a prompt to pick up, but can't navigate independently to faraway loot.
 
 ### Version 3 - Follower Bot with Loot Pickup and Basic Combat
 Version 2 with the additional ability to detect when enemies are present and perform basic attacks or combos.
@@ -37,21 +37,6 @@ The following are features not explicitly mentioned in the previous section that
 ### Additional Features (depending on project progression)
 1) General dungeon handler instead of hardcoded for 1 dungeon.
 2) Impending enemy attack detection.
-4) Automated enemy attack blocking.
+3) Automated enemy attack blocking.
+4) GPU scaling rather than single CPU core scaling
 
-## Program Structure
-### Multithreading
-On all bots there will be threads for each of the following tasks:
-1) Main handling thread: this will decide which threads to start and stop and handle which mode to be in.
-2) Screencapture thread(s): this will provide the visual data for the other threads, potential to be GPU accelerated in future.
-3) Object detection threads: these will detect enemies, character position, level end, etc.
-4) Action thread: this will handle implementation of movement, combat, loot pickup, etc.
-### Modes
-On the most advanced bots there will be multiple modes (in order to limit processor resource draw)
-1) Movement mode: this will be the lightest mode that will have low frequency loot checking and very low frequency enemy detection.
-2) Combat mode: this will include high frequency enemy detection, high frequency enemy prioritisation, and no loot detection.
-3) Single enemy combat mode: this will include high frequency enemy detection, no enemy prioritisation, and no loot detection.
-4) Loot mode: this will include high frequency loot detection and low frequency enemy detection.
-### Object Detection
-In each detection category the following objects will be the target images:
-* TBC

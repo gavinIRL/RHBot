@@ -1,9 +1,9 @@
-# This will be the test file for the v2 bot
+# This will be the test file for the v3 bot
 # As a reminder the features of this bot are intended to be the following:
 # 1 - Ability to follow the existing player as per v1
-# 2 - Ability to identify and pick up looton screen
-# Note that this prelim loot pickup will not include a search
-# for items that have dropped in the same area but off screen
+# 2 - Ability to identify and pick up loot on screen as per v2
+# 3 - Ability to perform basic combos and attacks
+# Initial combat will only support the WB class due to simplicity in play
 
 import cv2 as cv
 import os
@@ -19,7 +19,7 @@ from actionsv2 import Movement_Handler, Actions
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
-class RHBotV2():
+class RHBotV3():
     def __init__(self, loot=True, loot_cd_max=5) -> None:
         # Initialise the variables for bot state (looting, moving)
         self.bot_state = "startup"
@@ -352,5 +352,5 @@ class RHBotV2():
 
 
 if __name__ == "__main__":
-    rhbv2 = RHBotV2(loot=True)
-    rhbv2.start()
+    rhbv3 = RHBotV3(loot=False)
+    rhbv3.start()

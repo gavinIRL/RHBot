@@ -157,28 +157,30 @@ class RHBotV2():
     def check_for_loot(self):
         if not self.check_if_loot_cooldown():
             if self.check_if_nearby_loot():
-                # Ensure there are at least 2 frames in a row
-                self.near_loot_positive_frames += 1
-                if self.near_loot_positive_frames >= 2:
-                    # Need to stop all movement
-                    self.movement.movement_update_xy(0, 0)
-                    # And then set the bot state to looting
-                    self.bot_state = "loot"
-                    # Clear all button presses
-                    Actions.move_mouse_centre()
-                    Actions.stop_keypresses(self.movement)
-                    while self.check_if_nearby_loot():
-                        self.pressx_counter += 1
-                        # Press the x button
-                        Actions.press_key_once("x")
-                        sleep(0.3)
-                        if self.pressx_counter >= 10:
-                            self.near_loot_cd = time() + self.near_loot_cd_max
-                            break
-                    Actions.stop_keypresses(self.movement)
-                    if self.loot_movement_frames >= 80:
-                        self.near_loot_cd = time() + self.near_loot_cd_max
-                        self.bot_state = "movement"
+                # Now need to check if there is a prompt
+                if self.check_for_x_prompt():
+                    # Ensure there are at least 2 frames in a row
+                    self.near_loot_positive_frames += 1
+                    if self.near_loot_positive_frames >= 2:
+                        # Need to stop all movement
+                        self.movement.movement_update_xy(0, 0)
+                        # And then set the bot state to looting
+                        self.bot_state = "loot"
+                        # Clear all button presses
+                        Actions.move_mouse_centre()
+                        Actions.stop_keypresses(self.movement)
+                        while self.check_if_nearby_loot():
+                            self.pressx_counter += 1
+                            # Press the x button
+                            Actions.press_key_once("x")
+                            sleep(0.3)
+                            if self.pressx_counter >= 10:
+                                self.near_loot_cd = time() + self.near_loot_cd_max
+                                break
+                        Actions.stop_keypresses(self.movement)
+            # elif self.loot_movement_frames >= 80:
+            #     self.near_loot_cd = time() + self.near_loot_cd_max
+            #     self.bot_state = "movement"
             # elif self.check_if_far_loot():
             #     self.loot_movement_frames += 1
             #     self.bot_state = "loot"

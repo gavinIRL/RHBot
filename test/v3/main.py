@@ -20,11 +20,13 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 class RHBotV3():
-    def __init__(self, loot=True, loot_cd_max=5) -> None:
+    def __init__(self, combat=True, loot=True, loot_cd_max=5) -> None:
         # Initialise the variables for bot state (looting, moving)
         self.bot_state = "startup"
         # This is the variable for stopping the bot
         self.bot_running = False
+        # This is the variable which enables or disables combat
+        self.combat_enabled = combat
         # This is the variable which enables or disables looting
         self.looting_enabled = loot
         # This is the variable which prevents getting stuck picking loot
@@ -58,6 +60,11 @@ class RHBotV3():
         self.momentum = 0
         self.max_momentum = 2
         self.momentum_accel = 10
+        # The variables for only allowing combat at sensible times
+        self.boss_fight = False
+        self.cleared_recently = False
+        self.go_recently = False
+        self.positive_enemy_frames = 0
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -152,6 +159,9 @@ class RHBotV3():
         if key == KeyCode(char='w'):
             self.looting_enabled = not self.looting_enabled
             print("Looting has been set to {}".format(self.looting_enabled))
+        if key == KeyCode(char='e'):
+            self.combat_enabled = not self.combat_enabled
+            print("Combat has been set to {}".format(self.combat_enabled))
 
     def on_release(self, key):
         # Do nothing

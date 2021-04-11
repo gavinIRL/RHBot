@@ -54,8 +54,10 @@ class RHBotV2():
         # The variables for shortcuts such as terminating bot, etc.
         self.listener = None
         # The variable for ensuring momentum of player movement
+        self.movement_frames = 0
         self.momentum = 0
-        self.max_momentum = 0
+        self.max_momentum = 2
+        self.momentum_accel = 10
         # The variable for ensuring positive nearloot detection
         # Requires at least 2 positive frames in a row to start action
         self.near_loot_positive_frames = 0
@@ -195,13 +197,20 @@ class RHBotV2():
         if self.can_find_both_players():
             relx, rely = self.other_player_rel_coords
             self.movement.movement_update_xy(relx, rely)
-            self.momentum = self.max_momentum
+            self.movement_frames += 1
+            if self.movement_frames % self.momentum_accel == 0:
+                if not self.momentum >= self.max_momentum:
+                    self.momentum += 1
         else:
             if self.momentum < 1:
                 self.movement.movement_update_xy(0, 0)
                 self.momentum = 0
+                # Have the consecutive move count only reset if momentum gone
+                self.movement_frames = 0
             else:
                 self.momentum -= 1
+                # Only slightly remove the momentum progress
+                self.movement_frames -= (int(self.momentum_accel/2))
 
     def stop(self):
         self.bot_running = False

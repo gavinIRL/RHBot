@@ -174,7 +174,7 @@ class RHBotV2():
                         self.pressx_counter += 1
                         # Press the x button
                         Actions.press_key_once("x")
-                        sleep(0.2)
+                        sleep(0.1)
                         if self.pressx_counter >= 10:
                             self.near_loot_cd = time() + self.near_loot_cd_max
                             break

@@ -110,7 +110,7 @@ class RHBotV2():
             object_name="prompt_press_x_pickup")
         self.xprompt_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", xprompt_custom_rect)
-        self.xprompt_vision = Vision("xprompt_67filt.jpg")
+        self.xprompt_vision = Vision("xprompt67filtv2.jpg")
 
         # Start the movement bot
         self.movement.movement_start()
@@ -291,7 +291,18 @@ class RHBotV2():
         return False
 
     def check_for_x_prompt(self):
-        pass
+        # get an updated image of the game at specified area
+        xprompt_screenshot = self.xprompt_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        xprompt_output_image = self.xprompt_vision.apply_hsv_filter(
+            xprompt_screenshot, self.xprompt_filter)
+        # do object detection, this time grab rectangles
+        xprompt_rectangles = self.xprompt_vision.find(
+            xprompt_output_image, threshold=0.61, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(xprompt_rectangles) == 1:
+            return True
+        return False
 
     def check_if_loot_cooldown(self):
         if not self.near_loot_cd == 0:

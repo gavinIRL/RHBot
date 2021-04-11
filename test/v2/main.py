@@ -55,6 +55,7 @@ class RHBotV2():
         self.listener = None
         # The variable for ensuring momentum of player movement
         self.momentum = 0
+        self.max_momentum = 0
         # The variable for ensuring positive nearloot detection
         # Requires at least 2 positive frames in a row to start action
         self.near_loot_positive_frames = 0
@@ -194,7 +195,7 @@ class RHBotV2():
         if self.can_find_both_players():
             relx, rely = self.other_player_rel_coords
             self.movement.movement_update_xy(relx, rely)
-            self.momentum = 2
+            self.momentum = self.max_momentum
         else:
             if self.momentum < 1:
                 self.movement.movement_update_xy(0, 0)

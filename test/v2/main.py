@@ -58,9 +58,6 @@ class RHBotV2():
         self.momentum = 0
         self.max_momentum = 2
         self.momentum_accel = 10
-        # The variable for ensuring positive nearloot detection
-        # Requires at least 2 positive frames in a row to start action
-        self.near_loot_positive_frames = 0
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -166,24 +163,21 @@ class RHBotV2():
             if self.check_if_nearby_loot():
                 # Now need to check if there is a prompt
                 if self.check_for_x_prompt():
-                    # Ensure there are at least 2 frames in a row
-                    self.near_loot_positive_frames += 1
-                    if self.near_loot_positive_frames >= 2:
-                        # Need to stop all movement
-                        self.movement.movement_update_xy(0, 0)
-                        # And then set the bot state to looting
-                        self.bot_state = "loot"
-                        # Clear all button presses
-                        Actions.move_mouse_centre()
-                        Actions.stop_keypresses(self.movement)
-                        while self.check_if_nearby_loot():
-                            self.pressx_counter += 1
-                            # Press the x button
-                            Actions.press_key_once("x")
-                            sleep(0.3)
-                            if self.pressx_counter >= 10:
-                                self.near_loot_cd = time() + self.near_loot_cd_max
-                                break
+                    # Need to stop all movement
+                    self.movement.movement_update_xy(0, 0)
+                    # And then set the bot state to looting
+                    self.bot_state = "loot"
+                    # Clear all button presses
+                    Actions.move_mouse_centre()
+                    Actions.stop_keypresses(self.movement)
+                    while self.check_for_x_prompt():
+                        self.pressx_counter += 1
+                        # Press the x button
+                        Actions.press_key_once("x")
+                        sleep(0.2)
+                        if self.pressx_counter >= 10:
+                            self.near_loot_cd = time() + self.near_loot_cd_max
+                            break
                         Actions.stop_keypresses(self.movement)
             # elif self.loot_movement_frames >= 80:
             #     self.near_loot_cd = time() + self.near_loot_cd_max
@@ -195,7 +189,6 @@ class RHBotV2():
             #     self.movement.movement_update_xy(relx, rely)
             else:
                 self.bot_state = "movement"
-            self.near_loot_positive_frames = 0
             self.pressx_counter = 0
         else:
             self.bot_state = "movement"

@@ -129,7 +129,6 @@ class RHBotV2():
                 if self.bot_state == "movement":
                     self.move_to_other_player()
             else:
-                # print("Not in dungeon")
                 sleep(0.5)
             # Reset the mouse and keypresses every so often
             if self.general_frames >= 75:
@@ -194,7 +193,6 @@ class RHBotV2():
             self.bot_state = "movement"
 
     def move_to_other_player(self):
-        # print("Trying to find both players")
         self.loot_movement_frames = 0
         if self.can_find_both_players():
             relx, rely = self.other_player_rel_coords

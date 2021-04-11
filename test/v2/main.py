@@ -305,7 +305,7 @@ class RHBotV2():
         if len(lootfr_rectangles) >= 1:
             points = self.lootfr_vision.get_click_points(lootfr_rectangles)
             # Need to calc the coords of the nearest loot
-            minx, miny, mindist = {None, None, None}
+            minx, miny, mindist = [1000, 1000, 10000]
             for x, y in points:
                 # These are the approximate player feet location
                 # Pickup radius is large enough that won't be a major issue

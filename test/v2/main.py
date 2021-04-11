@@ -38,9 +38,9 @@ class RHBotV2():
         # This is the variable which will track cooldown on searching for loot
         # After the bot has gotten stuck, format is seconds
         # The value assigned will correspond to time when lootsearch can recommence
-        self.loot_cd = 0
+        self.near_loot_cd = 0
         # And the variable which determines the cooldown each time
-        self.loot_cd_max = loot_cd_max
+        self.near_loot_cd_max = loot_cd_max
         # This is the movement handler object
         self.movement = None
         # This will hold the location of the nearest loot identified
@@ -170,11 +170,11 @@ class RHBotV2():
                         Actions.press_key_once("x")
                         sleep(0.3)
                         if self.pressx_counter >= 10:
-                            self.loot_cd = time() + self.loot_cd_max
+                            self.near_loot_cd = time() + self.near_loot_cd_max
                             break
                     Actions.stop_keypresses(self.movement)
                     if self.loot_movement_frames >= 80:
-                        self.loot_cd = time() + self.loot_cd_max
+                        self.near_loot_cd = time() + self.near_loot_cd_max
                         self.bot_state = "movement"
             elif self.check_if_far_loot():
                 self.loot_movement_frames += 1
@@ -272,9 +272,9 @@ class RHBotV2():
         return False
 
     def check_if_loot_cooldown(self):
-        if not self.loot_cd == 0:
-            if (self.loot_cd-time()) < 0:
-                self.loot_cd = 0
+        if not self.near_loot_cd == 0:
+            if (self.near_loot_cd-time()) < 0:
+                self.near_loot_cd = 0
                 return False
             return True
 

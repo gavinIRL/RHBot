@@ -304,7 +304,7 @@ class RHBotV2():
         # then return answer to whether currently in dungeon
         if len(lootfr_rectangles) >= 1:
             # Need to calc the coords of the nearest loot
-            minx, miny, mindist = None
+            minx, miny, mindist = {None, None, None}
             for x, y in lootfr_rectangles:
                 # These are the approximate player feet location
                 # Pickup radius is large enough that won't be a major issue
@@ -312,7 +312,7 @@ class RHBotV2():
                 rely = y-521
                 # Assuming y pixel values are twice distance of x values
                 # Due to the ~30-35deg angle of the view
-                dist = np.sqrt([((2*rely) ^ 2)+(relx ^ 2)])
+                dist = rely+relx
                 if dist < mindist:
                     mindist = dist
                     minx = relx

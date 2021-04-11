@@ -303,9 +303,10 @@ class RHBotV2():
             lootfr_output_image, threshold=0.31, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(lootfr_rectangles) >= 1:
+            points = self.lootfr_vision.get_click_points(lootfr_rectangles)
             # Need to calc the coords of the nearest loot
             minx, miny, mindist = {None, None, None}
-            for x, y in lootfr_rectangles:
+            for x, y in points:
                 # These are the approximate player feet location
                 # Pickup radius is large enough that won't be a major issue
                 relx = 640-x

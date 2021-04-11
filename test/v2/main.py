@@ -105,6 +105,13 @@ class RHBotV2():
             "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
         self.dunchk_vision = Vision('dunchk_67.jpg')
 
+        # The next block of code is setup for detecting if there is an x prompt
+        self.xprompt_filter, xprompt_custom_rect = grab_object_preset(
+            object_name="prompt_press_x_pickup")
+        self.xprompt_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", xprompt_custom_rect)
+        self.xprompt_vision = Vision("xprompt_67filt.jpg")
+
         # Start the movement bot
         self.movement.movement_start()
 
@@ -282,6 +289,9 @@ class RHBotV2():
         if len(dunchk_rectangles) == 1:
             return True
         return False
+
+    def check_for_x_prompt(self):
+        pass
 
     def check_if_loot_cooldown(self):
         if not self.near_loot_cd == 0:

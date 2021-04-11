@@ -177,11 +177,11 @@ class RHBotV2():
                     if self.loot_movement_frames >= 80:
                         self.near_loot_cd = time() + self.near_loot_cd_max
                         self.bot_state = "movement"
-            elif self.check_if_far_loot():
-                self.loot_movement_frames += 1
-                self.bot_state = "loot"
-                relx, rely = self.nearest_loot_coords
-                self.movement.movement_update_xy(relx, rely)
+            # elif self.check_if_far_loot():
+            #     self.loot_movement_frames += 1
+            #     self.bot_state = "loot"
+            #     relx, rely = self.nearest_loot_coords
+            #     self.movement.movement_update_xy(relx, rely)
             else:
                 self.bot_state = "movement"
             self.near_loot_positive_frames = 0

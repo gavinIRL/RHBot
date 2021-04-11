@@ -51,3 +51,47 @@ class WeaponBagFocused():
     def grab_zoneprep(current_cds):
         # This will
         pass
+
+
+class WeaponBagUnfocused():
+    # The preferred layout of skills for this class is as follows:
+    # s = spiked mat
+    # d = charge shot
+    # f = lock on
+    # g = shockmine
+    # h = sentry laser
+
+    def __init__(self, level, focused) -> None:
+        self.level = level
+        self.focused = focused
+
+    def grab_base_cooldowns(self):
+        cooldowns = {"a": False}
+        cooldowns["s"] = 5.3
+        cooldowns["d"] = 4.4
+        cooldowns["f"] = 8.8
+        cooldowns["g"] = 17
+        cooldowns["h"] = 41
+
+        cooldowns["s+a"] = False
+        cooldowns["s+s"] = False
+        cooldowns["s+d"] = False
+        cooldowns["s+f"] = False
+        cooldowns["s+g"] = False
+        cooldowns["s+h"] = False
+
+        cooldowns["f1"] = False
+        cooldowns["f2"] = False
+        cooldowns["f3"] = False
+        cooldowns["f4"] = False
+        # Need to adjust based on level and if focused or not
+        return cooldowns
+
+    def grab_preferred_combo(current_cds):
+        # For a given set of conditions this will choose
+        # the preferred attack combination
+        pass
+
+    def grab_zoneprep(current_cds):
+        # This will
+        pass

@@ -179,12 +179,19 @@ class RHBotV3():
                     # Clear all button presses
                     Actions.move_mouse_centre()
                     Actions.stop_keypresses(self.movement)
+                    # Press x a couple times off the bat
+                    Actions.press_key_once("x")
+                    sleep(0.1)
+                    Actions.press_key_once("x")
+                    sleep(0.1)
                     while self.check_for_x_prompt():
-                        self.pressx_counter += 1
-                        # Press the x button
+                        self.pressx_counter += 2
+                        # Press the x button twice
                         Actions.press_key_once("x")
                         sleep(0.1)
-                        if self.pressx_counter >= 10:
+                        Actions.press_key_once("x")
+                        sleep(0.1)
+                        if self.pressx_counter >= 8:
                             self.near_loot_cd = time() + self.near_loot_cd_max
                             break
                         Actions.stop_keypresses(self.movement)
@@ -252,6 +259,7 @@ class RHBotV3():
         elif len(points) >= 2:
             # Will grab the point closest to the centre of the minimap and track that
             # Allowing some small amount of redundancy for short-range following
+            # In event that the background is also picked up
             middle_x = 0
             middle_y = 0
             dist = 1000

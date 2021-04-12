@@ -44,8 +44,8 @@ class SaveFilteredImage():
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 filter, _ = grab_object_preset(
-    object_name="dungeon_check")
+    object_name="tough_enemy_tag")
 sfi = SaveFilteredImage()
-existing_image = "dunchk_67.jpg"
-save_image = "dunchk_67filt.jpg"
+existing_image = "toughenemytagonly100.jpg"
+save_image = "toughenemytagonly100filt.jpg"
 sfi.save_and_convert(filter, existing_image, save_image)

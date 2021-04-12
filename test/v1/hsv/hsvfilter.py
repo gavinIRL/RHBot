@@ -98,6 +98,11 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [735, 32, 1085, 100]
     if object_name == "enemy_arrow":
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+    if object_name == "healthbars":
+        return HsvFilter(10, 86, 190, 28, 184, 255, 0, 0, 0, 50), [10, 145, 1084, 684]
+
+    if object_name == "healthbarsv2":
+        return HsvFilter(15, 116, 149, 64, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
 
     # Buttons for clicking, known positions
     if object_name == "button_explore_again":

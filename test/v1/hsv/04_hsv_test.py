@@ -10,11 +10,11 @@ from hsvfilter import HsvFilter, grab_object_preset
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-filter, custom_rect = grab_object_preset("enemy_map_loc")
+filter, custom_rect = grab_object_preset("healthbars")
 WindowCapture.list_window_names()
 # initialize the WindowCapture class
-wincap = WindowCapture(
-    "DifficultMapImage.docx - Word")
+wincap = WindowCapture(custom_rect=list(
+    map(lambda x: int(x*1.5), custom_rect)))
 
 # initialize the Vision class
 vision_limestone = Vision('player_nodir2.jpg')
@@ -39,7 +39,7 @@ while(True):
     cv.imshow('Matches', output_image)
 
     # debug the loop rate
-    print('FPS {}'.format(1 / (time() - loop_time)))
+    # print('FPS {}'.format(1 / (time() - loop_time)))
     loop_time = time()
 
     # press 'q' with the output window focused to exit.

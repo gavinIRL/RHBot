@@ -249,6 +249,20 @@ class RHBotV3():
                 self.current_player_coords[0]
             self.other_player_rel_coords[1] = self.current_player_coords[1] - points[0][1]
             return True
+        elif len(points) >= 2:
+            # Will grab the point closest to the centre of the minimap and track that
+            # Allowing some small amount of redundancy for short-range following
+            middle_x = 0
+            middle_y = 0
+            dist = 1000
+            for x, y in points:
+                if (x+y) < dist:
+                    dist = x+y
+                    middle_x = x
+                    middle_y = y
+            self.other_player_rel_coords[0] = middle_x - \
+                self.current_player_coords[0]
+            self.other_player_rel_coords[1] = self.current_player_coords[1] - middle_y
         else:
             # Should this be set to 0,0 or left as is? Come back to this later
             # Maybe set it to the current player coords instead

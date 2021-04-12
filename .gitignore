@@ -9,4 +9,6 @@ __pycache__/
 screenshots/
 # Hide the senstive images with player names
 sameplayertag.jpg
+sameplayertag100.jpg
 otherplayertag.jpg
+otherplayertag100.jpg

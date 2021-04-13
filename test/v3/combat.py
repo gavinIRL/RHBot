@@ -6,6 +6,9 @@ from windowcapture import WindowCapture
 from vision import Vision
 import os
 import combo
+import threading
+import time
+import pydirectinput
 
 
 class Combat():
@@ -19,7 +22,11 @@ class Combat():
         # Variable for storing mainloop object
         self.mainloop = main
         # List for storing actions to carry out
-        self.move_queue = []
+        # Format of each entry will be as follows:
+        # button or none, length of action
+        self.combo_queue = []
+        # Cooldown on combat to reduce false positive rate
+        self.combat_cooldown = 0
 
         # Variables for keeping track of which skills are on cooldown
         # Basic asdfgh skills up first
@@ -67,20 +74,23 @@ class Combat():
         # Will have this choose the right object depending on weapon in future
         self.combobot = combo.WeaponBagUnfocused()
 
+        # This will start a separate thread for the combo actions
+        t = threading.Thread(target=self.start_combo, daemon=True)
+        t.start()
+        # And finally run the actual bot
         self.run()
 
     def run(self):
         while self.running:
             # Need to check for section cleared message
             if self.check_for_sect_clear():
-                break
+                # Put the combat bot on cooldown
+                self.combat_cooldown = time.time() + 6
+                # And then break out of the loop
+                # Using a method instead of break for clarity
+                self.stop()
             if self.check_for_enemies():
-                # Need to figure out if have moves ongoing/remaining
-                if len(self.move_queue) < 2:
-                    self.move_queue = self.combobot.grab_preferred_combo()
-                # Then carry out the combo until no detections
-            elif len(self.move_queue) > 0:
-                # Need to check to see if combo count still rising
+                # Need to calculate where to aim
                 pass
 
     def stop(self):
@@ -101,3 +111,21 @@ class Combat():
     def check_for_sect_clear(self):
         # Placeholder for now
         return False
+
+    def start_combo(self):
+        while self.running:
+            if len(self.combo_queue) > 0:
+                key, duration = self.combo_queue[0]
+                if key is None:
+                    time.sleep(duration)
+                elif key == "move":
+                    # Need to move closer to the enemies
+                    # Calculate where to point the player and then move in that direction
+                    pass
+                else:
+                    pydirectinput.keyDown(key)
+                    time.sleep(duration)
+                    pydirectinput.keyUp(key)
+                self.combo_queue.pop(0)
+            else:
+                self.combo_queue.append(self.combobot.grab_preferred_combo())

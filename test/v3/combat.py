@@ -5,18 +5,21 @@ from hsvfilter import grab_object_preset
 from windowcapture import WindowCapture
 from vision import Vision
 import os
+import combo
 
 
 class Combat():
-    def __init__(self, main, combat_enabled, weapon="WB") -> None:
+    def __init__(self, main, combat_running, weapon="WB") -> None:
         # Change the working directory to the folder this script is in.
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         # Variable to turn combat on/off from main loop
-        self.enabled = combat_enabled
+        self.running = combat_running
         # Variable to determine which combos to use
         self.weapon = weapon
         # Variable for storing mainloop object
         self.mainloop = main
+        # List for storing actions to carry out
+        self.move_queue = []
 
         # Variables for keeping track of which skills are on cooldown
         # Basic asdfgh skills up first
@@ -60,11 +63,25 @@ class Combat():
         # initialize the Vision class
         self.sect_clear_vision = Vision('otherplayer67.jpg')
 
+        # Initialised the combo object
+        # Will have this choose the right object depending on weapon in future
+        self.combobot = combo.WeaponBagUnfocused()
+
         self.run()
 
     def run(self):
-        while self.enabled:
-            self.mainloop.minimap_screenshot
+        while self.running:
+            # Need to check for section cleared message
+            if self.check_for_sect_clear():
+                break
+            if self.check_for_enemies():
+                # Need to figure out if have moves ongoing/remaining
+                if len(self.move_queue) < 2:
+                    self.move_queue = self.combobot.grab_preferred_combo()
+                # Then carry out the combo until no detections
+            elif len(self.move_queue) > 0:
+                # Need to check to see if combo count still rising
+                pass
 
     def stop(self):
         self.enabled = False
@@ -73,3 +90,14 @@ class Combat():
         # This is for pointing character in correct direction
         # Want to always be pointed towards the bulk of the enemies
         pass
+
+    def check_for_enemies(self):
+        # Placeholder for now
+        # Grab enemy positions
+        self.mainloop.minimap_screenshot
+        # Figure out if
+        return False
+
+    def check_for_sect_clear(self):
+        # Placeholder for now
+        return False

@@ -27,6 +27,13 @@ class Combat():
         self.combo_queue = []
         # Cooldown on combat to reduce false positive rate
         self.combat_cooldown = 0
+        # This variable will change combat behaviour
+        # If nearest enemy distance is too big, will move towards them
+        self.nearest_enemy_dist = 1
+        # Calculate the centre mass angle if multiple enemies
+        self.centre_mass_angle = 90
+        # If up against boss, will move less
+        self.boss_fight = False
 
         # Variables for keeping track of which skills are on cooldown
         # Basic asdfgh skills up first
@@ -90,7 +97,9 @@ class Combat():
                 # Using a method instead of break for clarity
                 self.stop()
             if self.check_for_enemies():
-                # Need to calculate where to aim
+                # Need to calculate how far the nearest enemy is
+                # From that calculate a travel time to get into range if required
+                # And then add a move command to the combo queue
                 pass
 
     def stop(self):
@@ -105,7 +114,8 @@ class Combat():
         # Placeholder for now
         # Grab enemy positions
         self.mainloop.minimap_screenshot
-        # Figure out if
+        # If more than 3 detections then aim centre mass
+        # Otherwise calculate the closest enemy and aim at that
         return False
 
     def check_for_sect_clear(self):
@@ -122,10 +132,14 @@ class Combat():
                     # Need to move closer to the enemies
                     # Calculate where to point the player and then move in that direction
                     pass
+                elif key == "point":
+                    # Need to point at centre mass of enemies or nearest in range enemy
+                    pass
                 else:
                     pydirectinput.keyDown(key)
                     time.sleep(duration)
                     pydirectinput.keyUp(key)
+                    time.sleep(0.05)
                 self.combo_queue.pop(0)
             else:
                 self.combo_queue.append(self.combobot.grab_preferred_combo())

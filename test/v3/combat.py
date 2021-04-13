@@ -1,20 +1,22 @@
 # This will be the file which handles the combat mode
 # The keypresses themselves will be drawn from the combo file
 # In particular the relevant weapon in the combo file
-from hsvfilter import grab_enemy_minimap_preset
+from hsvfilter import grab_object_preset
 from windowcapture import WindowCapture
 from vision import Vision
 import os
 
 
 class Combat():
-    def __init__(self, enabled, weapon="WB") -> None:
+    def __init__(self, main, combat_enabled, weapon="WB") -> None:
         # Change the working directory to the folder this script is in.
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         # Variable to turn combat on/off from main loop
-        self.enabled = enabled
+        self.enabled = combat_enabled
         # Variable to determine which combos to use
         self.weapon = weapon
+        # Variable for storing mainloop object
+        self.mainloop = main
 
         # Variables for keeping track of which skills are on cooldown
         # Basic asdfgh skills up first
@@ -41,19 +43,28 @@ class Combat():
         pass
 
     def start(self):
-        # The next block of code is setup for detecting the other player
-        self.enemy_minimap_filter, enemy_minimap_custom_rect = grab_enemy_minimap_preset(
+
+        # The next block of code is setup for detecting enemies on minimap
+        # This uses same image as player minimap in mainloop
+        self.enemy_minimap_filter, _ = grab_object_preset(
             enemy_minimap_name="enemy_map_locv3")
-        # initialize the WindowCapture class for enemy_minimap detection
-        self.enemy_minimap_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", enemy_minimap_custom_rect)
         # initialize the Vision class
         self.enemy_minimap_vision = Vision('enemy67.jpg')
+
+        # The next block of code is setup for detecting the section cleared msg
+        self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
+            sect_clear_name="message_section_cleared")
+        # initialize the WindowCapture class for sect_clear detection
+        self.sect_clear_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", sect_clear_custom_rect)
+        # initialize the Vision class
+        self.sect_clear_vision = Vision('otherplayer67.jpg')
+
         self.run()
 
     def run(self):
         while self.enabled:
-            pass
+            self.mainloop.minimap_screenshot
 
     def stop(self):
         self.enabled = False

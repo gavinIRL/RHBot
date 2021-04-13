@@ -108,6 +108,10 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
         return HsvFilter(0, 131, 104, 13, 255, 226, 0, 0, 0, 0), [10, 145, 1084, 684]
     if object_name == "otherplayertag":
         return HsvFilter(0, 110, 83, 121, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+    if object_name == "enemy_map_locv2":
+        return HsvFilter(0, 132, 102, 14, 255, 255, 0, 0, 0, 0), [1100, 50, 1260, 210]
+    if object_name == "enemy_map_locv3":
+        return HsvFilter(0, 198, 163, 14, 255, 255, 0, 0, 0, 0), [1100, 50, 1260, 210]
 
     # Buttons for clicking, known positions
     if object_name == "button_explore_again":

@@ -1,9 +1,16 @@
 # This will be the file which handles the combat mode
 # The keypresses themselves will be drawn from the combo file
 # In particular the relevant weapon in the combo file
+from hsvfilter import grab_enemy_minimap_preset
+from windowcapture import WindowCapture
+from vision import Vision
+import os
+
 
 class Combat():
     def __init__(self, enabled, weapon="WB") -> None:
+        # Change the working directory to the folder this script is in.
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
         # Variable to turn combat on/off from main loop
         self.enabled = enabled
         # Variable to determine which combos to use
@@ -34,13 +41,22 @@ class Combat():
         pass
 
     def start(self):
-        pass
+        # The next block of code is setup for detecting the other player
+        self.enemy_minimap_filter, enemy_minimap_custom_rect = grab_enemy_minimap_preset(
+            enemy_minimap_name="enemy_map_locv3")
+        # initialize the WindowCapture class for enemy_minimap detection
+        self.enemy_minimap_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", enemy_minimap_custom_rect)
+        # initialize the Vision class
+        self.enemy_minimap_vision = Vision('enemy67.jpg')
+        self.run()
 
     def run(self):
-        pass
+        while self.enabled:
+            pass
 
     def stop(self):
-        pass
+        self.enabled = False
 
     def update_target(self):
         # This is for pointing character in correct direction

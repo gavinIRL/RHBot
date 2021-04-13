@@ -10,7 +10,7 @@ from hsvfilter import HsvFilter, grab_object_preset
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
-filter, custom_rect = grab_object_preset("tough_enemy_tag")
+filter, custom_rect = grab_object_preset("enemy_map_loc")
 WindowCapture.list_window_names()
 # initialize the WindowCapture class
 wincap = WindowCapture(custom_rect=list(
@@ -21,9 +21,6 @@ vision_limestone = Vision('player_nodir2.jpg')
 # initialize the trackbar window
 vision_limestone.init_control_gui()
 
-# limestone HSV filter
-hsv_filter = HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
-
 loop_time = time()
 while(True):
 
@@ -31,10 +28,6 @@ while(True):
     screenshot = wincap.get_screenshot()
     # pre-process the image
     output_image = vision_limestone.apply_hsv_filter(screenshot)
-    # do object detection
-    #rectangles = vision_limestone.find(screenshot, 0.5)
-    # draw the detection results onto the original image
-    #output_image = vision_limestone.draw_rectangles(screenshot, rectangles)
     # display the processed image
     cv.imshow('Matches', output_image)
 

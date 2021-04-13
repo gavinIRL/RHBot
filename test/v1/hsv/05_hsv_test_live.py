@@ -11,17 +11,15 @@ from hsvfilter import HsvFilter, grab_object_preset
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 filter, custom_rect = grab_object_preset(
-    object_name="otherplayertag")
+    object_name="normal_enemy_tag")
 # WindowCapture.list_window_names()
 # initialize the WindowCapture class
 wincap = WindowCapture(custom_rect=list(
     map(lambda x: int(x*1.5), custom_rect)))
 
-# initialize the Vision class
-vision_limestone = Vision('otherplayertag100.jpg')
+vision_limestone = Vision('normalenemytag.jpg')
 # initialize the trackbar window
-vision_limestone.init_control_gui()
-
+# vision_limestone.init_control_gui()
 # limestone HSV filter
 # hsv_filter = HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0)
 hsv_filter = filter
@@ -36,7 +34,7 @@ while(True):
     filter_image = output_image.copy()
     # do object detection
     rectangles = vision_limestone.find(
-        output_image, threshold=0.63, epsilon=0.5)
+        output_image, threshold=0.61, epsilon=0.5)
     # draw the detection results onto the original image
     output_image = vision_limestone.draw_rectangles(screenshot, rectangles)
     # display the processed image

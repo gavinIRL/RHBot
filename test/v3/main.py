@@ -52,7 +52,7 @@ class RHBotV3():
         # This will hold the location of the current player
         self.current_player_coords = [0, 0]
         # This will be the shared screenshot for detecting both players
-        self.player_screenshot = None
+        self.minimap_screenshot = None
         # The variables for shortcuts such as terminating bot, etc.
         self.listener = None
         # The variable for ensuring momentum of player movement
@@ -78,7 +78,7 @@ class RHBotV3():
         self.object_filter, object_custom_rect = grab_object_preset(
             object_name="other_player_map_loc")
         # initialize the WindowCapture class for object detection
-        self.object_wincap = WindowCapture(
+        self.minimap_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", object_custom_rect)
         # initialize the Vision class
         self.object_vision = Vision('otherplayer67.jpg')
@@ -128,6 +128,8 @@ class RHBotV3():
         while self.bot_running:
             if self.check_if_in_dungeon():
                 self.general_frames += 1
+                # Will now update the minimap here
+                self.minimap_screenshot = self.minimap_wincap.get_screenshot()
                 if self.looting_enabled:
                     self.check_for_loot()
                 else:
@@ -242,11 +244,9 @@ class RHBotV3():
         return False
 
     def can_find_other_player(self):
-        # get an updated image of the game at map loc
-        self.player_screenshot = self.object_wincap.get_screenshot()
         # then try to detect the other player
         output_image = self.object_vision.apply_hsv_filter(
-            self.player_screenshot, self.object_filter)
+            self.minimap_screenshot, self.object_filter)
         # do object detection, this time grab the points
         rectangles = self.object_vision.find(
             output_image, threshold=0.41, epsilon=0.5)
@@ -278,14 +278,9 @@ class RHBotV3():
             return False
 
     def can_find_current_player(self):
-        # Will make this forward compatible for multiple modes e.g. enemy detection
-        # Have placeholder for now
-        combat_mode = False
-        if combat_mode:
-            self.player_screenshot = self.object_wincap.get_screenshot()
         # Main logic for this method is below
         player_image = self.player_vision.apply_hsv_filter(
-            self.player_screenshot, self.player_filter)
+            self.minimap_screenshot, self.player_filter)
         player_rectangles = self.player_vision.find(
             player_image, threshold=0.41, epsilon=0.5)
         player_points = self.player_vision.get_click_points(

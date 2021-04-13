@@ -43,12 +43,12 @@ class WeaponBagFocused():
         # Need to adjust based on level and if focused or not
         return cooldowns
 
-    def grab_preferred_combo(current_cds):
+    def grab_preferred_combo(self):
         # For a given set of conditions this will choose
         # the preferred attack combination
         pass
 
-    def grab_zoneprep(current_cds):
+    def grab_zoneprep(self):
         # This will
         pass
 
@@ -87,11 +87,11 @@ class WeaponBagUnfocused():
         # Need to adjust based on level and if focused or not
         return cooldowns
 
-    def grab_preferred_combo(current_cds):
+    def grab_preferred_combo(self):
         # For a given set of conditions this will choose
         # the preferred attack combination
         pass
 
-    def grab_zoneprep(current_cds):
+    def grab_zoneprep(self):
         # This will
         pass

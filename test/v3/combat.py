@@ -75,11 +75,20 @@ class Combat():
         self.sect_clear_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", sect_clear_custom_rect)
         # initialize the Vision class
-        self.sect_clear_vision = Vision('otherplayer67.jpg')
+        self.sect_clear_vision = Vision('SectionCleared67.jpg')
 
-        # Initialised the combo object
+        # The next block of code is setup for detecting the combo count
+        self.combo_count_filter, combo_count_custom_rect = grab_object_preset(
+            combo_count_name="combo_count")
+        # initialize the WindowCapture class for combo_count detection
+        self.combo_count_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", combo_count_custom_rect)
+        # initialize the Vision class
+        self.combo_count_vision = Vision('combocount67.jpg')
+
+        # Initialise the combo object
         # Will have this choose the right object depending on weapon in future
-        self.combobot = combo.WeaponBagUnfocused()
+        self.combos = combo.WeaponBagUnfocused()
 
         # This will start a separate thread for the combo actions
         t = threading.Thread(target=self.start_combo, daemon=True)
@@ -142,4 +151,4 @@ class Combat():
                     time.sleep(0.05)
                 self.combo_queue.pop(0)
             else:
-                self.combo_queue.append(self.combobot.grab_preferred_combo())
+                self.combo_queue.append(self.combos.grab_preferred_combo())

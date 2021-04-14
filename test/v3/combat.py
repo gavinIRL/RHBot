@@ -9,6 +9,7 @@ import combo
 import threading
 import time
 import pydirectinput
+import math
 
 
 class Combat():
@@ -30,6 +31,7 @@ class Combat():
         # This variable will change combat behaviour
         # If nearest enemy distance is too big, will move towards them
         self.nearest_enemy_dist = 1
+        self.dist_threshold = 80  # To-do: update this value based on testing
         # Calculate the centre mass angle if multiple enemies
         self.centre_mass_angle = 90
         # If up against boss, will move less
@@ -193,22 +195,31 @@ class Combat():
         # Placeholder for now
         # Grab enemy positions
         self.mainloop.minimap_screenshot = self.mainloop.minimap_wincap.get_screenshot()
-        ss = self.mainloop.minimap_screenshot
         # pre-process the image to help with detection
         enemy_output_image = self.enemy_minimap_vision.apply_hsv_filter(
-            ss, self.enemy_minimap_filter)
+            self.mainloop.minimap_screenshot, self.enemy_minimap_filter)
         # do object detection, this time grab points
         enemy_rectangles = self.enemy_minimap_vision.find(
             enemy_output_image, threshold=0.45, epsilon=0.5)
         # then return answer to whether enemies are detected
         if len(enemy_rectangles) >= 1:
             # grab points
-
+            points = self.enemy_minimap_vision.get_click_points(
+                enemy_rectangles)
+            points = self.get_relative_to_player(points)
+            # To-do: translate to relative position vs player
             if len(enemy_rectangles) >= 3:
+                closest = 1000
+                for x, y in points:
+                    if x + y < closest:
+                        closest = x + y
+                        nearestx = x
+                        nearesty = y
                 # check if they are close enough
-                if True:
+                if closest < self.dist_threshold:
                     # aim at the centre of the pack
-                    pass
+                    self.centre_mass_angle = self.grab_angle(
+                        nearestx, nearesty)
                 else:
                     # add a move command
                     pass
@@ -257,3 +268,23 @@ class Combat():
                 self.combo_queue.append(self.combos.grab_preferred_combo())
         else:
             self.combo_queue = []
+
+    def get_relative_to_player(self, abs_list):
+        # This will convert the points in a list
+        # To be relative to the player
+        playerx = self.mainloop.current_player_coords[0]
+        playery = self.mainloop.current_player_coords[1]
+        returnlist = []
+        for x, y in abs_list:
+            relx = x - playerx
+            rely = playery - y
+            returnlist.append([relx, rely])
+        return returnlist
+
+    def grab_angle(self, relx, rely):
+        angle = math.degrees(math.atan2(rely, relx))
+        if angle <= 90:
+            angle = angle * -1 + 90
+        else:
+            angle = 360 + (angle-90) * -1
+        return angle

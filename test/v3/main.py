@@ -271,6 +271,7 @@ class RHBotV3():
             self.other_player_rel_coords[0] = middle_x - \
                 self.current_player_coords[0]
             self.other_player_rel_coords[1] = self.current_player_coords[1] - middle_y
+            return True
         else:
             # Should this be set to 0,0 or left as is? Come back to this later
             # Maybe set it to the current player coords instead

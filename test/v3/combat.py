@@ -36,6 +36,7 @@ class Combat():
         self.boss_fight = False
         # Flag to say if there is an ongoing combo counter or not
         self.ongoing_combo_count = False
+        self.frames_since_combo_detect = 1000
         # Variable to say if other player detected recently
         self.ongoing_other_player_visible = False
 
@@ -103,20 +104,45 @@ class Combat():
 
     def run(self):
         while self.running:
+            # To do: incorporate a dungeon check
             if (self.combat_cooldown - time.time()) > 0:
-                time.sleep(0.5)
+                time.sleep(0.25)
             else:
+                self.frames_since_combo_detect += 1
+                do_enemy_check = False
                 # Need to check for section cleared message
                 if self.check_for_sect_clear():
                     # Put the combat bot on cooldown
                     self.combat_cooldown = time.time() + 6
+                    # Tell the main loop the section is clear
+
                     # And then break out of the loop
                     # Using a method instead of break for clarity
                     self.stop()
-                if self.check_for_enemies():
+                # Otherwise if combo detected in either of previous
+                # 4 frames then check again rather than enemy checking
+                elif self.frames_since_combo_detect <= 4:
+                    if self.check_for_ongoing_combo():
+                        self.frames_since_combo_detect = 0
+                # Otherwise special handling for boss fight
+                elif self.boss_fight:
+                    # If can detect other player move towards
+
+                    # Otherwise do an enemy map check
+                    pass
+                # If not in boss fight and performing moves then check for combo
+                elif len(self.combo_queue) > 0:
+                    if self.check_for_ongoing_combo():
+                        self.frames_since_combo_detect = 0
+                    else:
+                        do_enemy_check = True
+                # Otherwise need to see where enemies are on map
+                # And move towards them
+                elif self.check_for_enemies():
                     # Need to calculate how far the nearest enemy is
                     # From that calculate a travel time to get into range if required
                     # And then add a move command to the combo queue
+                    # And reassess all moves after the move command
                     pass
 
     def stop(self):
@@ -168,3 +194,5 @@ class Combat():
                 self.combo_queue.pop(0)
             else:
                 self.combo_queue.append(self.combos.grab_preferred_combo())
+        else:
+            self.combo_queue = []

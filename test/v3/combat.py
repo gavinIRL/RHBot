@@ -208,28 +208,39 @@ class Combat():
                 enemy_rectangles)
             points = self.get_relative_to_player(points)
             # To-do: translate to relative position vs player
-            if len(enemy_rectangles) >= 3:
+            if len(points) > 3:
                 closest = 1000
+                avgx = 0
+                avgy = 0
                 for x, y in points:
                     if x + y < closest:
                         closest = x + y
                         nearestx = x
                         nearesty = y
+                    avgx += x
+                    avgy += y
+                avgx = avgx / len(points)
+                avgy = avgy / len(points)
+                self.centre_mass_angle = self.grab_angle(
+                    nearestx, nearesty)
                 # check if they are close enough
-                if closest < self.dist_threshold:
-                    # aim at the centre of the pack
-                    self.centre_mass_angle = self.grab_angle(
-                        nearestx, nearesty)
-                else:
-                    # add a move command
-                    pass
-                pass
+                if closest > self.dist_threshold:
+                    # Move closer based on distance
+                    self.add_move_next_action()
             else:
                 # figure out closest enemy
-                pass
+                for x, y in points:
+                    if x + y < closest:
+                        closest = x + y
+                        nearestx = x
+                        nearesty = y
+                self.centre_mass_angle = self.grab_angle(
+                    nearestx, nearesty)
+                # Then figure out if need to move closer
+                if closest > self.dist_threshold:
+                    # Move closer based on distance
+                    self.add_move_next_action()
             return True
-        # If more than 3 detections then aim centre mass
-        # Otherwise calculate the closest enemy and aim at that
         return False
 
     def check_for_sect_clear(self):
@@ -288,3 +299,6 @@ class Combat():
         else:
             angle = 360 + (angle-90) * -1
         return angle
+
+    def add_move_next_action(self):
+        pass

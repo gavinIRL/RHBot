@@ -39,6 +39,8 @@ class Combat():
         self.frames_since_combo_detect = 1000
         # Variable to say if other player detected recently
         self.ongoing_other_player_visible = False
+        # Momentum variables for dunchk
+        self.dunchk_momentum = 0
 
         # Variables for keeping track of which skills are on cooldown
         # The numbers will correspond to time at which off cooldown next
@@ -108,43 +110,66 @@ class Combat():
 
     def run(self):
         while self.running:
-            # To do: incorporate a dungeon check
-            self.frames_since_combo_detect += 1
-            do_enemy_check = False
-            # Need to check for section cleared message
-            if self.check_for_sect_clear():
-                # Put the combat bot on cooldown
-                self.combat_cooldown = time.time() + 2
-                # Tell the main loop the section is clear
+            if self.mainloop.check_if_in_dungeon():
+                if self.dunchk_momentum < 4:
+                    self.dunchk_momentum += 1
+                self.frames_since_combo_detect += 1
+                do_enemy_check = False
+                # Need to check for section cleared message
+                if self.check_for_sect_clear():
+                    # Put the combat bot on cooldown
+                    self.combat_cooldown = time.time() + 2
+                    # Tell the main loop the section is clear
 
-                # And then break out of the loop
-                # Using a method instead of break for clarity
-                self.stop()
-            # Otherwise if combo detected in either of previous
-            # 4 frames then check again rather than enemy checking
-            elif self.frames_since_combo_detect <= 4:
-                if self.check_for_ongoing_combo():
-                    self.frames_since_combo_detect = 0
-            # Otherwise special handling for boss fight
-            elif self.boss_fight:
-                # If can detect other player move towards
+                    # And then break out of the loop
+                    # Using a method instead of break for clarity
+                    self.stop()
+                # Otherwise if combo detected in either of previous
+                # 4 frames then check again rather than enemy checking
+                elif self.frames_since_combo_detect <= 4:
+                    if self.check_for_ongoing_combo():
+                        self.frames_since_combo_detect = 0
+                # Otherwise special handling for boss fight
+                elif self.boss_fight:
+                    # If can detect other player move towards
 
-                # Otherwise do an enemy map check
-                pass
-            # If not in boss fight and performing moves then check for combo
-            elif len(self.combo_queue) > 0:
-                if self.check_for_ongoing_combo():
-                    self.frames_since_combo_detect = 0
+                    # Otherwise do an enemy map check
+                    pass
+                # If not in boss fight and performing moves then check for combo
+                # this only occurs when no combo detected in a while
+                elif len(self.combo_queue) > 0:
+                    if self.check_for_ongoing_combo():
+                        self.frames_since_combo_detect = 0
+                    else:
+                        do_enemy_check = True
+                # Otherwise need to see where enemies are on map
+                # And move towards them
+                elif do_enemy_check:
+                    if self.check_for_enemies():
+                        pass
+                        # Need to calculate how far the nearest enemy is
+                        # From that calculate a travel time to get into range if required
+                        # And then add a move command to the combo queue
+                        # And reassess all moves after the move command
+                    else:
+                        if self.dunchk_momentum >= 2:
+                            self.dunchk_momentum -= 2
+                        else:
+                            self.stop()
+                # Need to figure out if this is redundant
                 else:
-                    do_enemy_check = True
-            # Otherwise need to see where enemies are on map
-            # And move towards them
-            elif self.check_for_enemies():
-                # Need to calculate how far the nearest enemy is
-                # From that calculate a travel time to get into range if required
-                # And then add a move command to the combo queue
-                # And reassess all moves after the move command
-                pass
+                    if self.dunchk_momentum >= 1:
+                        self.dunchk_momentum -= 1
+                    else:
+                        self.stop()
+                # Todo exit combat mode as a failsafe if don't detect enemies for a while
+                # Or at least revert to loot mode with a frequent enemy check
+                # Need a handler if don't detect enemies for a while
+            elif self.dunchk_momentum >= 1:
+                self.dunchk_momentum -= 1
+            else:
+                # Need a handler for exiting combat mode here
+                self.stop()
 
     def stop(self):
         self.enabled = False

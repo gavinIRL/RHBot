@@ -34,8 +34,13 @@ class Combat():
         self.centre_mass_angle = 90
         # If up against boss, will move less
         self.boss_fight = False
+        # Flag to say if there is an ongoing combo counter or not
+        self.ongoing_combo_count = False
+        # Variable to say if other player detected recently
+        self.ongoing_other_player_visible = False
 
         # Variables for keeping track of which skills are on cooldown
+        # The numbers will correspond to time at which off cooldown next
         # Basic asdfgh skills up first
         self.cd_a = 0
         self.cd_s = 0
@@ -98,18 +103,21 @@ class Combat():
 
     def run(self):
         while self.running:
-            # Need to check for section cleared message
-            if self.check_for_sect_clear():
-                # Put the combat bot on cooldown
-                self.combat_cooldown = time.time() + 6
-                # And then break out of the loop
-                # Using a method instead of break for clarity
-                self.stop()
-            if self.check_for_enemies():
-                # Need to calculate how far the nearest enemy is
-                # From that calculate a travel time to get into range if required
-                # And then add a move command to the combo queue
-                pass
+            if (self.combat_cooldown - time.time()) > 0:
+                time.sleep(0.5)
+            else:
+                # Need to check for section cleared message
+                if self.check_for_sect_clear():
+                    # Put the combat bot on cooldown
+                    self.combat_cooldown = time.time() + 6
+                    # And then break out of the loop
+                    # Using a method instead of break for clarity
+                    self.stop()
+                if self.check_for_enemies():
+                    # Need to calculate how far the nearest enemy is
+                    # From that calculate a travel time to get into range if required
+                    # And then add a move command to the combo queue
+                    pass
 
     def stop(self):
         self.enabled = False
@@ -131,6 +139,9 @@ class Combat():
         # Placeholder for now
         return False
 
+    def check_for_ongoing_combo(self):
+        pass
+
     def start_combo(self):
         while self.running:
             if len(self.combo_queue) > 0:
@@ -138,8 +149,13 @@ class Combat():
                 if key is None:
                     time.sleep(duration)
                 elif key == "move":
-                    # Need to move closer to the enemies
-                    # Calculate where to point the player and then move in that direction
+                    # First check if there is an ongoing combo
+                    if self.ongoing_combo_count:
+                        pass
+                    # Otherwise need to move closer to the other player
+                    elif self.ongoing_other_player_visible:
+                        pass
+                    # Otherwise move towards centre mass of enemies
                     pass
                 elif key == "point":
                     # Need to point at centre mass of enemies or nearest in range enemy

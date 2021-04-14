@@ -92,6 +92,10 @@ class Combat():
         # initialize the Vision class
         self.combo_count_vision = Vision('combocount67.jpg')
 
+        # Need to start off by pointing in the right direction
+        self.check_for_enemies()
+        self.point_at_target()
+
         # Initialise the combo object
         # Will have this choose the right object depending on weapon in future
         self.combos = combo.WeaponBagUnfocused()
@@ -105,50 +109,58 @@ class Combat():
     def run(self):
         while self.running:
             # To do: incorporate a dungeon check
-            if (self.combat_cooldown - time.time()) > 0:
-                time.sleep(0.25)
-            else:
-                self.frames_since_combo_detect += 1
-                do_enemy_check = False
-                # Need to check for section cleared message
-                if self.check_for_sect_clear():
-                    # Put the combat bot on cooldown
-                    self.combat_cooldown = time.time() + 6
-                    # Tell the main loop the section is clear
+            self.frames_since_combo_detect += 1
+            do_enemy_check = False
+            # Need to check for section cleared message
+            if self.check_for_sect_clear():
+                # Put the combat bot on cooldown
+                self.combat_cooldown = time.time() + 2
+                # Tell the main loop the section is clear
 
-                    # And then break out of the loop
-                    # Using a method instead of break for clarity
-                    self.stop()
-                # Otherwise if combo detected in either of previous
-                # 4 frames then check again rather than enemy checking
-                elif self.frames_since_combo_detect <= 4:
-                    if self.check_for_ongoing_combo():
-                        self.frames_since_combo_detect = 0
-                # Otherwise special handling for boss fight
-                elif self.boss_fight:
-                    # If can detect other player move towards
+                # And then break out of the loop
+                # Using a method instead of break for clarity
+                self.stop()
+            # Otherwise if combo detected in either of previous
+            # 4 frames then check again rather than enemy checking
+            elif self.frames_since_combo_detect <= 4:
+                if self.check_for_ongoing_combo():
+                    self.frames_since_combo_detect = 0
+            # Otherwise special handling for boss fight
+            elif self.boss_fight:
+                # If can detect other player move towards
 
-                    # Otherwise do an enemy map check
-                    pass
-                # If not in boss fight and performing moves then check for combo
-                elif len(self.combo_queue) > 0:
-                    if self.check_for_ongoing_combo():
-                        self.frames_since_combo_detect = 0
-                    else:
-                        do_enemy_check = True
-                # Otherwise need to see where enemies are on map
-                # And move towards them
-                elif self.check_for_enemies():
-                    # Need to calculate how far the nearest enemy is
-                    # From that calculate a travel time to get into range if required
-                    # And then add a move command to the combo queue
-                    # And reassess all moves after the move command
-                    pass
+                # Otherwise do an enemy map check
+                pass
+            # If not in boss fight and performing moves then check for combo
+            elif len(self.combo_queue) > 0:
+                if self.check_for_ongoing_combo():
+                    self.frames_since_combo_detect = 0
+                else:
+                    do_enemy_check = True
+            # Otherwise need to see where enemies are on map
+            # And move towards them
+            elif self.check_for_enemies():
+                # Need to calculate how far the nearest enemy is
+                # From that calculate a travel time to get into range if required
+                # And then add a move command to the combo queue
+                # And reassess all moves after the move command
+                pass
 
     def stop(self):
         self.enabled = False
 
-    def update_target(self):
+    def point_at_target(self):
+        if self.centre_mass_angle >= 300 or self.centre_mass_angle <= 60:
+            pydirectinput.keyDown("up")
+        if self.centre_mass_angle >= 210 and self.centre_mass_angle <= 330:
+            pydirectinput.keyDown("left")
+        if self.centre_mass_angle >= 120 and self.centre_mass_angle <= 240:
+            pydirectinput.keyDown("down")
+        if self.centre_mass_angle >= 30 and self.centre_mass_angle <= 150:
+            pydirectinput.keyDown("right")
+        time.sleep(0.05)
+        for key in ["up", "down", "left", "right"]:
+            pydirectinput.keyUp(key)
         # This is for pointing character in correct direction
         # Want to always be pointed towards the bulk of the enemies
         pass

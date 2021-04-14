@@ -188,12 +188,35 @@ class Combat():
             pydirectinput.keyUp(key)
         # This is for pointing character in correct direction
         # Want to always be pointed towards the bulk of the enemies
-        pass
 
     def check_for_enemies(self):
         # Placeholder for now
         # Grab enemy positions
-        self.mainloop.minimap_screenshot
+        self.mainloop.minimap_screenshot = self.mainloop.minimap_wincap.get_screenshot()
+        ss = self.mainloop.minimap_screenshot
+        # pre-process the image to help with detection
+        enemy_output_image = self.enemy_minimap_vision.apply_hsv_filter(
+            ss, self.enemy_minimap_filter)
+        # do object detection, this time grab points
+        enemy_rectangles = self.enemy_minimap_vision.find(
+            enemy_output_image, threshold=0.45, epsilon=0.5)
+        # then return answer to whether enemies are detected
+        if len(enemy_rectangles) >= 1:
+            # grab points
+
+            if len(enemy_rectangles) >= 3:
+                # check if they are close enough
+                if True:
+                    # aim at the centre of the pack
+                    pass
+                else:
+                    # add a move command
+                    pass
+                pass
+            else:
+                # figure out closest enemy
+                pass
+            return True
         # If more than 3 detections then aim centre mass
         # Otherwise calculate the closest enemy and aim at that
         return False
@@ -212,6 +235,7 @@ class Combat():
                 if key is None:
                     time.sleep(duration)
                 elif key == "move":
+                    # Todo: remove this decision logic as it is done elsewhere
                     # First check if there is an ongoing combo
                     if self.ongoing_combo_count:
                         pass

@@ -43,6 +43,8 @@ class Combat():
         self.ongoing_other_player_visible = False
         # Momentum variables for dunchk
         self.dunchk_momentum = 0
+        # Variable to prevent combo starting prior to mainloop
+        self.combo_running = False
 
         # Variables for keeping track of which skills are on cooldown
         # The numbers will correspond to time at which off cooldown next
@@ -113,6 +115,7 @@ class Combat():
     def run(self):
         while self.running:
             if self.mainloop.check_if_in_dungeon():
+                self.combo_running = True
                 if self.dunchk_momentum < 4:
                     self.dunchk_momentum += 1
                 self.frames_since_combo_detect += 1
@@ -175,6 +178,7 @@ class Combat():
 
     def stop(self):
         self.enabled = False
+        self.combo_running = False
 
     def point_at_target(self):
         if self.centre_mass_angle >= 300 or self.centre_mass_angle <= 60:
@@ -252,23 +256,21 @@ class Combat():
 
     def start_combo(self):
         while self.running:
-            if len(self.combo_queue) > 0:
+            # Need to catch waiting for detections to happen
+            # Caused by asyncronous threading
+            if not self.combo_running:
+                time.sleep(0.2)
+            elif len(self.combo_queue) > 0:
                 key, duration = self.combo_queue[0]
                 if key is None:
                     time.sleep(duration)
                 elif key == "move":
-                    # Todo: remove this decision logic as it is done elsewhere
-                    # First check if there is an ongoing combo
-                    if self.ongoing_combo_count:
-                        pass
-                    # Otherwise need to move closer to the other player
-                    elif self.ongoing_other_player_visible:
-                        pass
-                    # Otherwise move towards centre mass of enemies
-                    pass
+                    # Need to calculate time to press buttons in function
+                    # And then press the required buttons
+                    self.move_towards_target()
                 elif key == "point":
                     # Need to point at centre mass of enemies or nearest in range enemy
-                    pass
+                    self.point_at_target()
                 else:
                     pydirectinput.keyDown(key)
                     time.sleep(duration)
@@ -301,4 +303,7 @@ class Combat():
         return angle
 
     def add_move_next_action(self):
+        pass
+
+    def move_towards_target(self):
         pass

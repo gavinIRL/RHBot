@@ -90,7 +90,30 @@ class WeaponBagUnfocused():
     def grab_preferred_combo(self):
         # For a given set of conditions this will choose
         # the preferred attack combination
-        pass
+        returnlist = []
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["point", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["point", 0.2])
+        return returnlist
 
     def grab_zoneprep(self):
         # This will

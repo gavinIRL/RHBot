@@ -124,13 +124,11 @@ class Combat():
                     # Put the combat bot on cooldown
                     self.combat_cooldown = time.time() + 2
                     # Tell the main loop the section is clear
-
-                    # And then break out of the loop
-                    # Using a method instead of break for clarity
                     self.stop()
+                    break
                 # Otherwise if combo detected in either of previous
-                # 4 frames then check again rather than enemy checking
-                elif self.frames_since_combo_detect <= 4:
+                # 2 frames then check again rather than enemy checking
+                elif self.frames_since_combo_detect <= 2:
                     if self.check_for_ongoing_combo():
                         self.frames_since_combo_detect = 0
                 # Otherwise special handling for boss fight
@@ -231,6 +229,8 @@ class Combat():
                 # check if they are close enough
                 if closest > self.dist_threshold:
                     # Move closer based on distance
+                    self.target_relative_coords[0] = int(nearestx*0.6)
+                    self.target_relative_coords[1] = int(nearesty*0.6)
                     self.add_move_next_action()
             else:
                 # figure out closest enemy
@@ -243,9 +243,19 @@ class Combat():
                     nearestx, nearesty)
                 # Then figure out if need to move closer
                 if closest > self.dist_threshold:
+                    self.target_relative_coords[0] = int(nearestx*0.6)
+                    self.target_relative_coords[1] = int(nearesty*0.6)
                     # Move closer based on distance
                     self.add_move_next_action()
             return True
+        else:
+            # Change the target to be the other player
+            if self.mainloop.can_find_other_player():
+                self.target_relative_coords[0] = self.mainloop.other_player_rel_coords[0]
+                self.target_relative_coords[1] = self.mainloop.other_player_rel_coords[1]
+            else:
+                # Just go with the most recent target I guess
+                pass
         return False
 
     def check_for_sect_clear(self):

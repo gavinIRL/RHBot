@@ -47,6 +47,8 @@ class Combat():
         self.combo_running = False
         # Veriable to store target relative position (nearest enemy, player)
         self.target_relative_coords = [0, 0]
+        # Variable to determine if there is already a move thread in progress
+        self.move_thread_running = False
 
         # Variables for keeping track of which skills are on cooldown
         # The numbers will correspond to time at which off cooldown next
@@ -101,8 +103,9 @@ class Combat():
         self.combos = combo.WeaponBagFocused()
 
         # This will start a separate thread for the combo actions
-        t = threading.Thread(target=self.start_combo, daemon=True)
-        t.start()
+        if not self.move_thread_running:
+            t = threading.Thread(target=self.start_combo, daemon=True)
+            t.start()
         # And finally run the actual bot
         self.run()
 
@@ -356,6 +359,7 @@ class Combat():
         self.combo_queue.append(["move", 2])
 
     def move_towards_target(self):
+        self.move_thread_running = True
         # Default pixels/sec test move rate was 50pixels in 2.5sec minimap
         # Which is 20pixels/sec
         xdist_to_move = self.target_relative_coords[0]
@@ -396,3 +400,4 @@ class Combat():
                 pydirectinput.keyUp("up")
                 pydirectinput.keyUp("down")
                 break
+        self.move_thread_running = False

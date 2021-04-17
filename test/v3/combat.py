@@ -101,7 +101,7 @@ class Combat():
 
         # Initialise the combo object
         # Will have this choose the right object depending on weapon in future
-        self.combos = combo.WeaponBagUnfocused()
+        self.combos = combo.WeaponBagFocused()
 
         # This will start a separate thread for the combo actions
         t = threading.Thread(target=self.start_combo, daemon=True)

@@ -65,7 +65,7 @@ class RHBotV3():
         self.boss_fight = False
         self.cleared_recently = False
         self.go_recently = False
-        self.positive_enemy_frames = 0
+        self.enemy_detect_frames = 0
 
     def start(self):
         # Perform the prep required prior to main loop
@@ -88,6 +88,13 @@ class RHBotV3():
         self.player_filter, _ = grab_object_preset(
             object_name="player_map_loc")
         self.player_vision = Vision('playerv2_67.jpg')
+
+        # The next block of code is setup for detecting enemies on minimap
+        # This uses same image as player minimap
+        self.enemy_minimap_filter, _ = grab_object_preset(
+            enemy_minimap_name="enemy_map_locv3")
+        # initialize the Vision class
+        self.enemy_minimap_vision = Vision('enemy67.jpg')
 
         # The next block of code is setup for detecting nearby loot
         self.lootnr_filter, lootnr_custom_rect = grab_object_preset(
@@ -137,6 +144,10 @@ class RHBotV3():
                 self.general_frames += 1
                 # Will now update the minimap here
                 self.minimap_screenshot = self.minimap_wincap.get_screenshot()
+                # First check for enemies
+                if self.combat_enabled:
+                    self.perform_enemy_check()
+                # Then check for loot
                 if self.looting_enabled:
                     self.check_for_loot()
                 else:
@@ -175,6 +186,18 @@ class RHBotV3():
     def on_release(self, key):
         # Do nothing
         pass
+
+    def perform_enemy_check(self):
+        if self.check_for_enemies():
+            self.enemy_detect_frames += 1
+            if self.enemy_detect_frames >= 2:
+                self.combat_running = True
+                self.combat_bot.start()
+                # Reset the detect frames once combat ended
+                self.enemy_detect_frames = 0
+        else:
+            self.enemy_detect_frames = 0
+            self.bot_state = "movement"
 
     def check_for_loot(self):
         if not self.check_if_loot_cooldown():
@@ -388,7 +411,16 @@ class RHBotV3():
         return False
 
     def check_for_enemies(self):
-        pass
+        # pre-process the image to help with detection
+        enemy_output_image = self.enemy_minimap_vision.apply_hsv_filter(
+            self.minimap_screenshot, self.enemy_minimap_filter)
+        # do object detection, this time grab points
+        enemy_rectangles = self.enemy_minimap_vision.find(
+            enemy_output_image, threshold=0.45, epsilon=0.5)
+        # then return answer to whether enemies are detected
+        if len(enemy_rectangles) >= 1:
+            return True
+        return False
 
 
 if __name__ == "__main__":

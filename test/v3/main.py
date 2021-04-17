@@ -241,6 +241,8 @@ class RHBotV3():
         if self.can_find_other_player():
             if self.can_find_current_player():
                 return True
+            # Need to use last known position otherwise
+            return True
         return False
 
     def can_find_other_player(self):

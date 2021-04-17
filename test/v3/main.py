@@ -15,9 +15,11 @@ from vision import Vision
 from hsvfilter import grab_object_preset
 from actionsv2 import Movement_Handler, Actions
 from combat import Combat
+import pydirectinput
 
 # Change the working directory to the folder this script is in.
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+pydirectinput.FAILSAFE = True
 
 
 class RHBotV3():
@@ -165,27 +167,52 @@ class RHBotV3():
         cv.destroyAllWindows()
         self.movement.movement_stop()
 
-    def start_keypress_listener(self):
-        if self.listener == None:
-            self.listener = Listener(on_press=self.on_press,
-                                     on_release=self.on_release, suppress=True)
-            self.listener.start()
+    # def convertKey(self, button):
+    #     PYNPUT_SPECIAL_CASE_MAP = {
+    #         'alt_l': 'altleft',
+    #         'alt_r': 'altright',
+    #         'alt_gr': 'altright',
+    #         'caps_lock': 'capslock',
+    #         'ctrl_l': 'ctrlleft',
+    #         'ctrl_r': 'ctrlright',
+    #         'page_down': 'pagedown',
+    #         'page_up': 'pageup',
+    #         'shift_l': 'shiftleft',
+    #         'shift_r': 'shiftright',
+    #         'num_lock': 'numlock',
+    #         'print_screen': 'printscreen',
+    #         'scroll_lock': 'scrolllock',
+    #     }
+    #     # example: 'Key.F9' should return 'F9', 'w' should return as 'w'
+    #     cleaned_key = str(button).replace('Key.', '')
+    #     if cleaned_key in PYNPUT_SPECIAL_CASE_MAP:
+    #         return PYNPUT_SPECIAL_CASE_MAP[cleaned_key]
+    #     return cleaned_key
 
-    def on_press(self, key):
-        if key == KeyCode(char='q'):
-            cv.destroyAllWindows()
-            self.bot_running = False
-            return False
-        if key == KeyCode(char='w'):
-            self.looting_enabled = not self.looting_enabled
-            print("Looting has been set to {}".format(self.looting_enabled))
-        if key == KeyCode(char='e'):
-            self.combat_enabled = not self.combat_enabled
-            print("Combat has been set to {}".format(self.combat_enabled))
+    # def start_keypress_listener(self):
+    #     if self.listener == None:
+    #         self.listener = Listener(on_press=self.on_press,
+    #                                  on_release=self.on_release, suppress=True)
+    #         self.listener.start()
 
-    def on_release(self, key):
-        # Do nothing
-        pass
+    # def on_press(self, key):
+    #     if key == KeyCode(char='q'):
+    #         cv.destroyAllWindows()
+    #         self.bot_running = False
+    #         return False
+    #     elif key == KeyCode(char='w'):
+    #         self.looting_enabled = not self.looting_enabled
+    #         print("Looting has been set to {}".format(self.looting_enabled))
+    #     elif key == KeyCode(char='e'):
+    #         self.combat_enabled = not self.combat_enabled
+    #         print("Combat has been set to {}".format(self.combat_enabled))
+    #     else:
+    #         key = self.convertKey(key)
+    #         pydirectinput.keyDown(key)
+
+    # def on_release(self, key):
+    #     key = self.convertKey(key)
+    #     pydirectinput.keyUp(key)
 
     def perform_enemy_check(self):
         if self.check_for_enemies():

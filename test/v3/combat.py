@@ -109,6 +109,7 @@ class Combat():
     def run(self):
         currplayer_counter = 0
         while self.running:
+            # print("Another combat loop")
             currplayer_counter += 1
             if self.mainloop.check_if_in_dungeon():
                 self.combo_running = True
@@ -154,9 +155,6 @@ class Combat():
                     else:
                         self.stop()
                         break
-                # Todo exit combat mode as a failsafe if don't detect enemies for a while
-                # Or at least revert to loot mode with a frequent enemy check
-                # Need a handler if don't detect enemies for a while
             elif self.dunchk_momentum >= 1:
                 self.dunchk_momentum -= 1
             else:

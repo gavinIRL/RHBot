@@ -340,7 +340,7 @@ class Combat():
         xdist_to_move = abs(xdist_to_move)
         ydist_to_move = abs(ydist_to_move)
         counter = 0
-        while True:
+        while self.running:
             time.sleep(0.1)
             counter += 1
             x_remain = xdist_to_move - 2*counter
@@ -352,4 +352,15 @@ class Combat():
                 pydirectinput.keyUp("up")
                 pydirectinput.keyUp("down")
             if x_remain <= 0 and y_remain <= 0:
+                # Releasin keys to catch any bugs or errors here
+                pydirectinput.keyUp("right")
+                pydirectinput.keyUp("left")
+                pydirectinput.keyUp("up")
+                pydirectinput.keyUp("down")
+                break
+            if counter >= 80:
+                pydirectinput.keyUp("right")
+                pydirectinput.keyUp("left")
+                pydirectinput.keyUp("up")
+                pydirectinput.keyUp("down")
                 break

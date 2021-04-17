@@ -307,7 +307,7 @@ class RHBotV3():
         else:
             # Should this be set to 0,0 or left as is? Come back to this later
             # Maybe set it to the current player coords instead
-            self.other_player_rel_coords = [0, 0]
+            # self.other_player_rel_coords = [0, 0]
             return False
 
     def can_find_current_player(self):

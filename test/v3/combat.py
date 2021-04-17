@@ -31,7 +31,7 @@ class Combat():
         # This variable will change combat behaviour
         # If nearest enemy distance is too big, will move towards them
         self.nearest_enemy_dist = 1
-        self.dist_threshold = 80  # To-do: update this value based on testing
+        self.dist_threshold = 125  # To-do: update this value based on testing
         # Calculate the centre mass angle if multiple enemies
         self.centre_mass_angle = 90
         # If up against boss, will move less
@@ -74,13 +74,6 @@ class Combat():
         pass
 
     def start(self):
-
-        # The next block of code is setup for detecting enemies on minimap
-        # This uses same image as player minimap in mainloop
-        self.enemy_minimap_filter, _ = grab_object_preset(
-            enemy_minimap_name="enemy_map_locv3")
-        # initialize the Vision class
-        self.enemy_minimap_vision = Vision('enemy67.jpg')
 
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
@@ -208,15 +201,15 @@ class Combat():
         # Grab enemy positions
         self.mainloop.minimap_screenshot = self.mainloop.minimap_wincap.get_screenshot()
         # pre-process the image to help with detection
-        enemy_output_image = self.enemy_minimap_vision.apply_hsv_filter(
-            self.mainloop.minimap_screenshot, self.enemy_minimap_filter)
+        enemy_output_image = self.mainloop.enemy_minimap_vision.apply_hsv_filter(
+            self.mainloop.minimap_screenshot, self.mainloop.enemy_minimap_filter)
         # do object detection, this time grab points
-        enemy_rectangles = self.enemy_minimap_vision.find(
+        enemy_rectangles = self.mainloop.enemy_minimap_vision.find(
             enemy_output_image, threshold=0.45, epsilon=0.5)
         # then return answer to whether enemies are detected
         if len(enemy_rectangles) >= 1:
             # grab points
-            points = self.enemy_minimap_vision.get_click_points(
+            points = self.mainloop.enemy_minimap_vision.get_click_points(
                 enemy_rectangles)
             points = self.get_relative_to_player(points)
             # To-do: translate to relative position vs player

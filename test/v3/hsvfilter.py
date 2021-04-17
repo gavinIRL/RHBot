@@ -41,7 +41,7 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
     if object_name == "loot_far":
         return HsvFilter(14, 116, 33, 32, 210, 59, 16, 0, 3, 0), [10, 145, 1084, 684]
     if object_name == "loot_near":
-        return HsvFilter(0, 155, 135, 31, 240, 217, 0, 0, 0, 0), [460, 420, 855, 710]
+        return HsvFilter(0, 155, 135, 31, 240, 217, 0, 0, 0, 0), [10, 145, 1084, 684]
     if object_name == "prompt_press_x_pickup":
         return HsvFilter(78, 110, 110, 97, 189, 255, 0, 0, 0, 0), [1080, 660, 1255, 725]
     if object_name == "message_section_cleared":
@@ -98,6 +98,22 @@ def grab_object_preset(object_name=None, **kwargs) -> typing.Tuple[HsvFilter, li
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [735, 32, 1085, 100]
     if object_name == "enemy_arrow":
         return HsvFilter(0, 0, 0, 255, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+    if object_name == "healthbars":
+        return HsvFilter(10, 86, 190, 28, 184, 255, 0, 0, 0, 50), [10, 145, 1084, 684]
+    if object_name == "healthbarsv2":
+        return HsvFilter(15, 116, 149, 64, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+    if object_name == "tough_enemy_tag":
+        return HsvFilter(0, 110, 0, 22, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+    if object_name == "tough_enemy_tagv2":
+        return HsvFilter(0, 131, 104, 13, 255, 226, 0, 0, 0, 0), [10, 145, 1084, 684]
+    if object_name == "otherplayertag":
+        return HsvFilter(0, 110, 83, 121, 255, 255, 0, 0, 0, 0), [10, 145, 1084, 684]
+    if object_name == "enemy_map_locv2":
+        return HsvFilter(0, 132, 102, 14, 255, 255, 0, 0, 0, 0), [1100, 50, 1260, 210]
+    if object_name == "enemy_map_locv3":
+        return HsvFilter(0, 198, 163, 14, 255, 255, 0, 0, 0, 0), [1100, 50, 1260, 210]
+    if object_name == "combo_count":
+        return HsvFilter(99, 0, 63, 175, 190, 255, 0, 0, 0, 0), [1045, 235, 1190, 315]
 
     # Buttons for clicking, known positions
     if object_name == "button_explore_again":

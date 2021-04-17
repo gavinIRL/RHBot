@@ -131,9 +131,9 @@ class RHBotV3():
 
         if self.combat_enabled:
             # Start the combat bot
-            self.combat_running = False
+            self.combat_running = [0]
             self.combat_bot = Combat(self, self.combat_running)
-            self.combat_bot.start()
+            # self.combat_bot.start()
 
         # Begin the main loop
         self.bot_running = True
@@ -218,7 +218,7 @@ class RHBotV3():
         if self.check_for_enemies():
             self.enemy_detect_frames += 1
             if self.enemy_detect_frames >= 2:
-                self.combat_running = True
+                self.combat_running[0] = 1
                 self.combat_bot.start()
                 # Reset the detect frames once combat ended
                 self.enemy_detect_frames = 0

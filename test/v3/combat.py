@@ -74,7 +74,7 @@ class Combat():
         pass
 
     def start(self):
-
+        print("Got to combat start")
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
             sect_clear_name="message_section_cleared")
@@ -108,8 +108,8 @@ class Combat():
 
     def run(self):
         currplayer_counter = 0
-        while self.running:
-            # print("Another combat loop")
+        while self.running[0] == 1:
+            print("Another combat loop")
             currplayer_counter += 1
             if self.mainloop.check_if_in_dungeon():
                 self.combo_running = True
@@ -166,7 +166,7 @@ class Combat():
                 currplayer_counter = 0
 
     def stop(self):
-        self.running = False
+        self.running[0] = 0
         self.combo_running = False
 
     def point_at_target(self):
@@ -301,7 +301,7 @@ class Combat():
         return False
 
     def start_combo(self):
-        while self.running:
+        while self.running[0] == 1:
             # Need to catch waiting for detections to happen
             # Caused by asyncronous threading
             if not self.combo_running:
@@ -371,7 +371,7 @@ class Combat():
         xdist_to_move = abs(xdist_to_move)
         ydist_to_move = abs(ydist_to_move)
         counter = 0
-        while self.running:
+        while self.running[0] == 1:
             time.sleep(0.1)
             counter += 1
             x_remain = xdist_to_move - 2*counter

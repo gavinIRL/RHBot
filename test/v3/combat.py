@@ -117,7 +117,9 @@ class Combat():
         self.run()
 
     def run(self):
+        currplayer_counter = 0
         while self.running:
+            currplayer_counter += 1
             if self.mainloop.check_if_in_dungeon():
                 self.combo_running = True
                 if self.dunchk_momentum < 4:
@@ -179,6 +181,8 @@ class Combat():
             else:
                 # Need a handler for exiting combat mode here
                 self.stop()
+            if currplayer_counter >= 4:
+                self.mainloop.can_find_current_player()
 
     def stop(self):
         self.enabled = False

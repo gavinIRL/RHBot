@@ -133,9 +133,7 @@ class Combat():
                         self.frames_since_combo_detect = 0
                 # Otherwise special handling for boss fight
                 elif self.boss_fight:
-                    # If can detect other player move towards
-
-                    # Otherwise do an enemy map check
+                    do_enemy_check = True
                     pass
                 # If not in boss fight and performing moves then check for combo
                 # this only occurs when no combo detected in a while
@@ -147,13 +145,7 @@ class Combat():
                 # Otherwise need to see where enemies are on map
                 # And move towards them
                 elif do_enemy_check:
-                    if self.check_for_enemies():
-                        pass
-                        # Need to calculate how far the nearest enemy is
-                        # From that calculate a travel time to get into range if required
-                        # And then add a move command to the combo queue
-                        # And reassess all moves after the move command
-                    else:
+                    if not self.check_for_enemies():
                         if self.dunchk_momentum >= 2:
                             self.dunchk_momentum -= 2
                         else:
@@ -164,6 +156,7 @@ class Combat():
                         self.dunchk_momentum -= 1
                     else:
                         self.stop()
+                        break
                 # Todo exit combat mode as a failsafe if don't detect enemies for a while
                 # Or at least revert to loot mode with a frequent enemy check
                 # Need a handler if don't detect enemies for a while
@@ -174,6 +167,8 @@ class Combat():
                 self.stop()
             if currplayer_counter >= 4:
                 self.mainloop.can_find_current_player()
+                self.mainloop.can_find_other_player()
+                currplayer_counter = 0
 
     def stop(self):
         self.running = False

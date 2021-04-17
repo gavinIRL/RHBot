@@ -233,8 +233,8 @@ class RHBotV3():
                 if self.combat_running[0] == 0:
                     print("Started the combat bot at {}".format(time()))
                     self.combat_running[0] = 1
-                    self.combat_bot.start()
-                    sleep(0.05)
+                    self.combat_bot.start_combat_bot()
+                    sleep(0.1)
                 # Reset the detect frames once combat ended
                 self.enemy_detect_frames = 0
         else:

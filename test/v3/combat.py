@@ -95,7 +95,7 @@ class Combat():
         # And finally run the actual bot
         # self.start()
 
-    def start(self):
+    def start_combat_bot(self):
         print("Got to combat start")
         # Need to start off by pointing in the right direction
         self.point_at_target()
@@ -329,9 +329,13 @@ class Combat():
                 elif key == "move":
                     # Need to calculate time to press buttons in function
                     # And then press the required buttons
+                    print("At move call data is: angle={}".format(
+                        self.centre_mass_angle))
                     self.move_towards_target()
                 elif key == "point":
                     # Need to point at centre mass of enemies or nearest in range enemy
+                    print("At point call data is: angle={}".format(
+                        self.centre_mass_angle))
                     self.point_at_target()
                 else:
                     pydirectinput.keyDown(key)
@@ -362,6 +366,7 @@ class Combat():
             angle = angle * -1 + 90
         else:
             angle = 360 + (angle-90) * -1
+        print("Angle calc: x={}, y={}, angle={}".format(relx, rely, angle))
         return angle
 
     def add_move_next_action(self):

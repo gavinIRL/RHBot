@@ -252,10 +252,6 @@ class Combat():
         return False
 
     def check_for_sect_clear(self):
-        # Placeholder for now
-        return False
-
-    def check_for_ongoing_combo(self):
         # then try to detect the sect_clear
         ss = self.sect_clear_wincap.get_screenshot()
         # pre-process the image to help with detection
@@ -266,6 +262,20 @@ class Combat():
             sect_clear_image, threshold=0.34, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(sect_clear_rectangles) == 1:
+            return True
+        return False
+
+    def check_for_ongoing_combo(self):
+        # then try to detect the combo_count
+        ss = self.combo_count_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        combo_count_image = self.combo_count_vision.apply_hsv_filter(
+            ss, self.combo_count_filter)
+        # do object detection, this time grab rectangles
+        combo_count_rectangles = self.combo_count_vision.find(
+            combo_count_image, threshold=0.21, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(combo_count_rectangles) == 1:
             return True
         return False
 

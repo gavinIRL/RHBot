@@ -17,7 +17,7 @@ class WeaponBagFocused():
     # f1 = stun grenade
     # f2 = concentration
 
-    def __init__(self, level, focused) -> None:
+    def __init__(self, level=1, focused=True) -> None:
         self.level = level
         self.focused = focused
 

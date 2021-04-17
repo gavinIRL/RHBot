@@ -132,7 +132,8 @@ class RHBotV3():
         if self.combat_enabled:
             # Start the combat bot
             self.combat_running = [0]
-            self.combat_bot = Combat(self, self.combat_running)
+            self.combat_bot = Combat(self)
+            self.combat_bot.begin()
             # self.combat_bot.start()
 
         # Begin the main loop
@@ -142,28 +143,38 @@ class RHBotV3():
     def main_loop(self):
         # self.start_keypress_listener()
         while self.bot_running:
-            if self.check_if_in_dungeon():
-                self.general_frames += 1
-                # Will now update the minimap here
-                self.minimap_screenshot = self.minimap_wincap.get_screenshot()
-                # First check for enemies
-                if self.combat_enabled and self.general_frames % 3 == 0:
-                    self.perform_enemy_check()
-                # Then check for loot
-                if self.looting_enabled:
-                    self.check_for_loot()
+            # print("Outer loop")
+            # Don't run this loop if combat bot is running
+            if self.combat_running[0] == 0:
+                # print("mainloop loop")
+                if self.check_if_in_dungeon():
+                    # print("here #1")
+                    self.general_frames += 1
+                    # Will now update the minimap here
+                    self.minimap_screenshot = self.minimap_wincap.get_screenshot()
+                    # First check for enemies
+                    if self.combat_enabled and self.general_frames % 5 == 0:
+                        # print("here #2")
+                        self.perform_enemy_check()
+                        # print("here #3")
+                    # Then check for loot
+                    if self.looting_enabled:
+                        self.check_for_loot()
+                    else:
+                        self.bot_state = "movement"
+                    # print("here #4")
+                    # Perform movement towards other player
+                    if self.bot_state == "movement":
+                        self.move_to_other_player()
                 else:
-                    self.bot_state = "movement"
-                # Perform movement towards other player
-                if self.bot_state == "movement":
-                    self.move_to_other_player()
+                    sleep(0.5)
+                # Reset the mouse and keypresses every so often
+                if self.general_frames >= 75:
+                    Actions.move_mouse_centre()
+                    Actions.stop_keypresses(self.movement)
+                    self.general_frames = 0
             else:
-                sleep(0.5)
-            # Reset the mouse and keypresses every so often
-            if self.general_frames >= 75:
-                Actions.move_mouse_centre()
-                Actions.stop_keypresses(self.movement)
-                self.general_frames = 0
+                sleep(0.2)
         cv.destroyAllWindows()
         self.movement.movement_stop()
 
@@ -218,8 +229,12 @@ class RHBotV3():
         if self.check_for_enemies():
             self.enemy_detect_frames += 1
             if self.enemy_detect_frames >= 2:
-                self.combat_running[0] = 1
-                self.combat_bot.start()
+                # self.combat_running[0] = 1
+                if self.combat_running[0] == 0:
+                    print("Started the combat bot at {}".format(time()))
+                    self.combat_running[0] = 1
+                    self.combat_bot.start()
+                    sleep(0.05)
                 # Reset the detect frames once combat ended
                 self.enemy_detect_frames = 0
         else:

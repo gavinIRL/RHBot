@@ -47,12 +47,14 @@ class WeaponBagFocused():
         # For a given set of conditions this will choose
         # the preferred attack combination
         returnlist = [["d", 0.2]]
+        returnlist.append(["point", 0.2])
         returnlist.append(["s", 0.2])
         returnlist.append(["a", 0.2])
         returnlist.append(["x", 0.2])
         returnlist.append(["x", 0.2])
         returnlist.append(["x", 0.2])
         returnlist.append(["x", 0.2])
+        returnlist.append(["point", 0.2])
         returnlist.append(["x", 0.2])
         returnlist.append(["x", 0.2])
         returnlist.append(["x", 0.2])

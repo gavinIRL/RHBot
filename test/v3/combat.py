@@ -13,11 +13,11 @@ import math
 
 
 class Combat():
-    def __init__(self, main, combat_running, weapon="WB") -> None:
+    def __init__(self, main, weapon="WB") -> None:
         # Change the working directory to the folder this script is in.
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         # Variable to turn combat on/off from main loop
-        self.running = combat_running
+
         # Variable to determine which combos to use
         self.weapon = weapon
         # Variable for storing mainloop object
@@ -26,8 +26,6 @@ class Combat():
         # Format of each entry will be as follows:
         # button or none, length of action
         self.combo_queue = []
-        # Cooldown on combat to reduce false positive rate
-        self.combat_cooldown = 0
         # This variable will change combat behaviour
         # If nearest enemy distance is too big, will move towards them
         self.nearest_enemy_dist = 1
@@ -75,8 +73,8 @@ class Combat():
     def update_cooldowns(self):
         pass
 
-    def start(self):
-        print("Got to combat start")
+    def begin(self):
+
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
             sect_clear_name="message_section_cleared")
@@ -94,9 +92,14 @@ class Combat():
             "Rusty Hearts: Revolution - Reborn ", combo_count_custom_rect)
         # initialize the Vision class
         self.combo_count_vision = Vision('combocount67.jpg')
+        # And finally run the actual bot
+        # self.start()
 
+    def start(self):
+        print("Got to combat start")
         # Need to start off by pointing in the right direction
         self.point_at_target()
+        self.dunchk_momentum = 20
 
         # Initialise the combo object
         # Will have this choose the right object depending on weapon in future
@@ -106,24 +109,24 @@ class Combat():
         if not self.move_thread_running:
             t = threading.Thread(target=self.start_combo, daemon=True)
             t.start()
-        # And finally run the actual bot
-        self.run()
+            self.move_thread_running = True
+        self.maincombatloop()
 
-    def run(self):
+    def maincombatloop(self):
+        # self.mainloop.combat_running[0] = 1
         currplayer_counter = 0
-        while self.running[0] == 1:
-            print("Another combat loop")
+        while self.mainloop.combat_running[0] == 1:
+            # print("Another combat loop")
             currplayer_counter += 1
             if self.mainloop.check_if_in_dungeon():
+                print("Did a successful dungeon check")
                 self.combo_running = True
-                if self.dunchk_momentum < 4:
-                    self.dunchk_momentum += 1
+                if self.dunchk_momentum < 60:
+                    self.dunchk_momentum += 120
                 self.frames_since_combo_detect += 1
                 do_enemy_check = False
                 # Need to check for section cleared message
                 if self.check_for_sect_clear():
-                    # Put the combat bot on cooldown
-                    self.combat_cooldown = time.time() + 2
                     # Tell the main loop the section is clear
                     self.stop()
                     break
@@ -131,18 +134,21 @@ class Combat():
                 # 2 frames then check again rather than enemy checking
                 elif self.frames_since_combo_detect <= 2:
                     if self.check_for_ongoing_combo():
+                        print("Detected a combo")
                         self.frames_since_combo_detect = 0
                 # Otherwise special handling for boss fight
-                elif self.boss_fight:
-                    do_enemy_check = True
-                    pass
+                # elif self.boss_fight:
+                #     do_enemy_check = True
+                #     pass
                 # If not in boss fight and performing moves then check for combo
                 # this only occurs when no combo detected in a while
                 elif len(self.combo_queue) > 0:
                     if self.check_for_ongoing_combo():
                         self.frames_since_combo_detect = 0
+                        print("Detected a combo #2")
                     else:
                         do_enemy_check = True
+                        print("Detected a combo #3")
                 # Otherwise need to see where enemies are on map
                 # And move towards them
                 elif do_enemy_check:
@@ -150,26 +156,33 @@ class Combat():
                         if self.dunchk_momentum >= 2:
                             self.dunchk_momentum -= 2
                         else:
+                            print("Exited due to #3")
                             self.stop()
+                            break
                 # Need to figure out if this is redundant
                 else:
                     if self.dunchk_momentum >= 1:
                         self.dunchk_momentum -= 1
                     else:
+                        print("Exited due to momentum #1")
                         self.stop()
                         break
             elif self.dunchk_momentum >= 1:
                 self.dunchk_momentum -= 1
             else:
                 # Need a handler for exiting combat mode here
+                print("Exited due to #2")
                 self.stop()
             if currplayer_counter >= 4:
                 self.mainloop.can_find_current_player()
                 self.mainloop.can_find_other_player()
                 currplayer_counter = 0
+        else:
+            print("Exited due to #4 - after while")
+            self.stop()
 
     def stop(self):
-        self.running[0] = 0
+        self.mainloop.combat_running[0] = 0
         self.combo_running = False
 
     def point_at_target(self):
@@ -181,7 +194,6 @@ class Combat():
             pydirectinput.keyDown("down")
         if self.centre_mass_angle >= 30 and self.centre_mass_angle <= 150:
             pydirectinput.keyDown("right")
-        time.sleep(0.05)
         for key in ["up", "down", "left", "right"]:
             pydirectinput.keyUp(key)
         # This is for pointing character in correct direction
@@ -304,13 +316,13 @@ class Combat():
         return False
 
     def start_combo(self):
-        while self.running[0] == 1:
+        while self.mainloop.combat_running[0] == 1:
             # Need to catch waiting for detections to happen
             # Caused by asyncronous threading
             if not self.combo_running:
                 time.sleep(0.2)
             elif len(self.combo_queue) > 0:
-                print(self.combo_queue[0])
+                # print(self.combo_queue[0])
                 key, duration = self.combo_queue[0]
                 if key is None:
                     time.sleep(duration)
@@ -376,7 +388,7 @@ class Combat():
         xdist_to_move = abs(xdist_to_move)
         ydist_to_move = abs(ydist_to_move)
         counter = 0
-        while self.running[0] == 1:
+        while self.mainloop.combat_running[0] == 1:
             time.sleep(0.1)
             counter += 1
             x_remain = xdist_to_move - 2*counter

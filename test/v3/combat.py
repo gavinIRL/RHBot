@@ -94,9 +94,6 @@ class Combat():
         self.combo_count_vision = Vision('combocount67.jpg')
 
         # Need to start off by pointing in the right direction
-        # Todo: replace/remove the first call as initial reason to enter
-        # combat mode will provide required information to point
-        self.check_for_enemies()
         self.point_at_target()
 
         # Initialise the combo object

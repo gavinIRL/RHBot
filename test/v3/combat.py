@@ -45,6 +45,8 @@ class Combat():
         self.dunchk_momentum = 0
         # Variable to prevent combo starting prior to mainloop
         self.combo_running = False
+        # Veriable to store target relative position (nearest enemy, player)
+        self.target_relative_coords = [0, 0]
 
         # Variables for keeping track of which skills are on cooldown
         # The numbers will correspond to time at which off cooldown next
@@ -322,4 +324,32 @@ class Combat():
         self.combo_queue.append(["move", 2])
 
     def move_towards_target(self):
-        pass
+        # Default pixels/sec test move rate was 50pixels in 2.5sec minimap
+        # Which is 20pixels/sec
+        xdist_to_move = self.target_relative_coords[0]
+        ydist_to_move = self.target_relative_coords[0]
+        if xdist_to_move > 0:
+            pydirectinput.keyDown("right")
+        elif xdist_to_move < 0:
+            pydirectinput.keyDown("left")
+        if ydist_to_move > 0:
+            pydirectinput.keyDown("up")
+        elif ydist_to_move < 0:
+            pydirectinput.keyDown("down")
+        # Now hold the buttons until moved to target location
+        xdist_to_move = abs(xdist_to_move)
+        ydist_to_move = abs(ydist_to_move)
+        counter = 0
+        while True:
+            time.sleep(0.1)
+            counter += 1
+            x_remain = xdist_to_move - 2*counter
+            y_remain = ydist_to_move - 2*counter
+            if x_remain <= 0:
+                pydirectinput.keyUp("right")
+                pydirectinput.keyUp("left")
+            if y_remain <= 0:
+                pydirectinput.keyUp("up")
+                pydirectinput.keyUp("down")
+            if x_remain <= 0 and y_remain <= 0:
+                break

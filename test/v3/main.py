@@ -145,7 +145,7 @@ class RHBotV3():
                 # Will now update the minimap here
                 self.minimap_screenshot = self.minimap_wincap.get_screenshot()
                 # First check for enemies
-                if self.combat_enabled:
+                if self.combat_enabled and self.general_frames % 3 == 0:
                     self.perform_enemy_check()
                 # Then check for loot
                 if self.looting_enabled:

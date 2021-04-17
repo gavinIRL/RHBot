@@ -223,9 +223,21 @@ class Combat():
                     nearestx, nearesty)
                 # check if they are close enough
                 if closest > self.dist_threshold:
-                    # Move closer based on distance
-                    self.target_relative_coords[0] = int(nearestx*0.6)
-                    self.target_relative_coords[1] = int(nearesty*0.6)
+                    # Move closer based on distance, aim to get within 50px
+                    if abs(int(nearestx*0.6)) <= 50:
+                        self.target_relative_coords[0] = int(nearestx*0.6)
+                    else:
+                        if nearestx > 0:
+                            self.target_relative_coords[0] = nearestx - 50
+                        else:
+                            self.target_relative_coords[0] = nearestx + 50
+                    if abs(int(nearesty*0.6)) <= 50:
+                        self.target_relative_coords[1] = int(nearesty*0.6)
+                    else:
+                        if nearesty > 0:
+                            self.target_relative_coords[1] = nearesty - 50
+                        else:
+                            self.target_relative_coords[1] = nearesty + 50
                     self.add_move_next_action()
             else:
                 # figure out closest enemy
@@ -238,9 +250,21 @@ class Combat():
                     nearestx, nearesty)
                 # Then figure out if need to move closer
                 if closest > self.dist_threshold:
-                    self.target_relative_coords[0] = int(nearestx*0.6)
-                    self.target_relative_coords[1] = int(nearesty*0.6)
-                    # Move closer based on distance
+                    # Move closer based on distance, aim to get within 50px
+                    if abs(int(nearestx*0.6)) <= 50:
+                        self.target_relative_coords[0] = int(nearestx*0.6)
+                    else:
+                        if nearestx > 0:
+                            self.target_relative_coords[0] = nearestx - 50
+                        else:
+                            self.target_relative_coords[0] = nearestx + 50
+                    if abs(int(nearesty*0.6)) <= 50:
+                        self.target_relative_coords[1] = int(nearesty*0.6)
+                    else:
+                        if nearesty > 0:
+                            self.target_relative_coords[1] = nearesty - 50
+                        else:
+                            self.target_relative_coords[1] = nearesty + 50
                     self.add_move_next_action()
             return True
         else:
@@ -249,7 +273,7 @@ class Combat():
                 self.target_relative_coords[0] = self.mainloop.other_player_rel_coords[0]
                 self.target_relative_coords[1] = self.mainloop.other_player_rel_coords[1]
             else:
-                # Just go with the most recent target I guess
+                # Just go with the most recent target I guess? Test this
                 pass
         return False
 

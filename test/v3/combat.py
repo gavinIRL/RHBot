@@ -185,7 +185,7 @@ class Combat():
                 self.mainloop.can_find_current_player()
 
     def stop(self):
-        self.enabled = False
+        self.running = False
         self.combo_running = False
 
     def point_at_target(self):

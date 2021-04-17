@@ -99,6 +99,8 @@ class Combat():
         self.combo_count_vision = Vision('combocount67.jpg')
 
         # Need to start off by pointing in the right direction
+        # Todo: replace/remove the first call as initial reason to enter
+        # combat mode will provide required information to point
         self.check_for_enemies()
         self.point_at_target()
 
@@ -252,7 +254,18 @@ class Combat():
         return False
 
     def check_for_ongoing_combo(self):
-        pass
+        # then try to detect the combo_count
+        ss = self.combo_count_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        combo_count_image = self.combo_count_vision.apply_hsv_filter(
+            ss, self.combo_count_filter)
+        # do object detection, this time grab rectangles
+        combo_count_rectangles = self.combo_count_vision.find(
+            combo_count_image, threshold=0.21, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(combo_count_rectangles) == 1:
+            return True
+        return False
 
     def start_combo(self):
         while self.running:

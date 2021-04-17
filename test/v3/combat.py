@@ -307,6 +307,7 @@ class Combat():
             if not self.combo_running:
                 time.sleep(0.2)
             elif len(self.combo_queue) > 0:
+                print(self.combo_queue[0])
                 key, duration = self.combo_queue[0]
                 if key is None:
                     time.sleep(duration)
@@ -324,7 +325,7 @@ class Combat():
                     time.sleep(0.05)
                 self.combo_queue.pop(0)
             else:
-                self.combo_queue.append(self.combos.grab_preferred_combo())
+                self.combo_queue = self.combos.grab_preferred_combo().copy()
         else:
             self.combo_queue = []
 

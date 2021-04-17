@@ -46,8 +46,7 @@ class WeaponBagFocused():
     def grab_preferred_combo(self):
         # For a given set of conditions this will choose
         # the preferred attack combination
-        returnlist = []
-        returnlist.append(["d", 0.2])
+        returnlist = [["d", 0.2]]
         returnlist.append(["s", 0.2])
         returnlist.append(["a", 0.2])
         returnlist.append(["x", 0.2])

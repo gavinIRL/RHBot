@@ -92,7 +92,7 @@ class RHBotV3():
         # The next block of code is setup for detecting enemies on minimap
         # This uses same image as player minimap
         self.enemy_minimap_filter, _ = grab_object_preset(
-            enemy_minimap_name="enemy_map_locv3")
+            object_name="enemy_map_locv3")
         # initialize the Vision class
         self.enemy_minimap_vision = Vision('enemy67.jpg')
 

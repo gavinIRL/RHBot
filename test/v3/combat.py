@@ -316,7 +316,10 @@ class Combat():
         return angle
 
     def add_move_next_action(self):
-        pass
+        # Only grab the first i.e. current action and remove the rest
+        self.combo_queue = self.combo_queue[:1]
+        # And then append the instruction to move afterwards
+        self.combo_queue.append(["move", 2])
 
     def move_towards_target(self):
         pass

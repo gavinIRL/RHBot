@@ -14,6 +14,7 @@ from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import grab_object_preset
 from actionsv2 import Movement_Handler, Actions
+from combat import Combat
 
 # Change the working directory to the folder this script is in.
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -118,6 +119,12 @@ class RHBotV3():
 
         # Start the movement bot
         self.movement.movement_start()
+
+        if self.combat_enabled:
+            # Start the combat bot
+            self.combat_running = False
+            self.combat_bot = Combat(self, self.combat_running)
+            self.combat_bot.start()
 
         # Begin the main loop
         self.bot_running = True
@@ -379,6 +386,9 @@ class RHBotV3():
             self.nearest_loot_coords = [int(minx/15), int(miny/15)]
             return True
         return False
+
+    def check_for_enemies(self):
+        pass
 
 
 if __name__ == "__main__":

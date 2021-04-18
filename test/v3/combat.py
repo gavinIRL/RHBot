@@ -216,67 +216,39 @@ class Combat():
                 enemy_rectangles)
             points = self.get_relative_to_player(points)
             # To-do: translate to relative position vs player
-            if len(points) > 3:
-                closest = 1000
-                avgx = 0
-                avgy = 0
-                for x, y in points:
-                    if x + y < closest:
-                        closest = x + y
-                        nearestx = x
-                        nearesty = y
-                    avgx += x
-                    avgy += y
-                avgx = avgx / len(points)
-                avgy = avgy / len(points)
-                self.centre_mass_angle = self.grab_angle(
-                    nearestx, nearesty)
-                # check if they are close enough
-                if closest > self.dist_threshold:
-                    # Move closer based on distance, aim to get within 50px
-                    if abs(int(nearestx*0.6)) <= 50:
-                        self.target_relative_coords[0] = int(nearestx*0.6)
+            closest = 1000
+            avgx = 0
+            avgy = 0
+            for x, y in points:
+                if x + y < closest:
+                    closest = x + y
+                    nearestx = x
+                    nearesty = y
+                avgx += x
+                avgy += y
+            avgx = avgx / len(points)
+            avgy = avgy / len(points)
+            self.centre_mass_angle = self.grab_angle(
+                nearestx, nearesty)
+            # check if they are close enough
+            if closest > self.dist_threshold:
+                # Move closer based on distance, aim to get within 50px
+                if abs(int(nearestx*0.6)) <= 50:
+                    self.target_relative_coords[0] = int(nearestx*0.6)
+                else:
+                    if nearestx > 0:
+                        self.target_relative_coords[0] = nearestx - 50
                     else:
-                        if nearestx > 0:
-                            self.target_relative_coords[0] = nearestx - 50
-                        else:
-                            self.target_relative_coords[0] = nearestx + 50
-                    if abs(int(nearesty*0.6)) <= 50:
-                        self.target_relative_coords[1] = int(nearesty*0.6)
+                        self.target_relative_coords[0] = nearestx + 50
+                if abs(int(nearesty*0.6)) <= 50:
+                    self.target_relative_coords[1] = int(nearesty*0.6)
+                else:
+                    if nearesty > 0:
+                        self.target_relative_coords[1] = nearesty - 50
                     else:
-                        if nearesty > 0:
-                            self.target_relative_coords[1] = nearesty - 50
-                        else:
-                            self.target_relative_coords[1] = nearesty + 50
-                    self.add_move_next_action()
-            else:
-                closest = 1000
-                # figure out closest enemy
-                for x, y in points:
-                    if x + y < closest:
-                        closest = x + y
-                        nearestx = x
-                        nearesty = y
-                self.centre_mass_angle = self.grab_angle(
-                    nearestx, nearesty)
-                # Then figure out if need to move closer
-                if closest > self.dist_threshold:
-                    # Move closer based on distance, aim to get within 50px
-                    if abs(int(nearestx*0.6)) <= 50:
-                        self.target_relative_coords[0] = int(nearestx*0.6)
-                    else:
-                        if nearestx > 0:
-                            self.target_relative_coords[0] = nearestx - 50
-                        else:
-                            self.target_relative_coords[0] = nearestx + 50
-                    if abs(int(nearesty*0.6)) <= 50:
-                        self.target_relative_coords[1] = int(nearesty*0.6)
-                    else:
-                        if nearesty > 0:
-                            self.target_relative_coords[1] = nearesty - 50
-                        else:
-                            self.target_relative_coords[1] = nearesty + 50
-                    self.add_move_next_action()
+                        self.target_relative_coords[1] = nearesty + 50
+                self.add_move_next_action()
+
             return True
         else:
             # Change the target to be the other player

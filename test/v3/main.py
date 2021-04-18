@@ -461,9 +461,11 @@ class RHBotV3():
             enemy_output_image, threshold=0.45, epsilon=0.5)
         # then return answer to whether enemies are detected
         if len(enemy_rectangles) >= 1:
+            points = self.enemy_minimap_vision.get_click_points(
+                enemy_rectangles)
             # Give a starting target
-            self.combat_bot.target_relative_coords[0] = self.other_player_rel_coords[0]
-            self.combat_bot.target_relative_coords[1] = self.other_player_rel_coords[1]
+            self.combat_bot.target_relative_coords[0] = points[0][0]
+            self.combat_bot.target_relative_coords[1] = points[0][1]
             return True
         return False
 

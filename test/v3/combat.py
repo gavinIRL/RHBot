@@ -250,6 +250,7 @@ class Combat():
                             self.target_relative_coords[1] = nearesty + 50
                     self.add_move_next_action()
             else:
+                closest = 1000
                 # figure out closest enemy
                 for x, y in points:
                     if x + y < closest:
@@ -366,7 +367,7 @@ class Combat():
             angle = angle * -1 + 90
         else:
             angle = 360 + (angle-90) * -1
-        print("Angle calc: x={}, y={}, angle={}".format(relx, rely, angle))
+        # print("Angle calc: x={}, y={}, angle={}".format(relx, rely, angle))
         return angle
 
     def add_move_next_action(self):

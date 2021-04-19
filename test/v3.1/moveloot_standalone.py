@@ -100,7 +100,7 @@ class StandaloneMoveLoot():
                     if self.perform_enemy_check():
                         self.controller.mode = "combat"
                         break
-                elif self.controller.loot_enabled:
+                if self.controller.loot_enabled:
                     self.check_for_loot()
                 self.move_to_other_player()
             else:
@@ -137,5 +137,70 @@ class StandaloneMoveLoot():
             enemy_output_image, threshold=0.61, epsilon=0.5)
         # then return answer to whether enemies are detected
         if len(enemy_rectangles) >= 1:
+            return True
+        return False
+
+    def check_for_loot(self):
+        if not self.check_if_loot_cooldown():
+            if self.check_if_nearby_loot():
+                # Now need to check if there is a prompt
+                if self.check_for_x_prompt():
+                    # Need to stop all movement
+                    self.movement.movement_update_xy(0, 0)
+                    # Clear all button presses
+                    Actions.move_mouse_centre()
+                    Actions.stop_keypresses(self.movement)
+                    # Press x a couple times off the bat
+                    Actions.press_key_once("x")
+                    sleep(0.15)
+                    Actions.press_key_once("x")
+                    sleep(0.15)
+                    while self.check_for_x_prompt():
+                        self.pressx_counter += 2
+                        # Press the x button thrice
+                        Actions.press_key_once("x")
+                        sleep(0.15)
+                        Actions.press_key_once("x")
+                        sleep(0.15)
+                        Actions.press_key_once("x")
+                        sleep(0.15)
+                        if self.pressx_counter >= 5:
+                            self.near_loot_cd = time() + self.near_loot_cd_max
+                            break
+                        Actions.stop_keypresses(self.movement)
+            self.pressx_counter = 0
+
+    def check_if_loot_cooldown(self):
+        if not self.near_loot_cd == 0:
+            if (self.near_loot_cd-time()) < 0:
+                self.near_loot_cd = 0
+                return False
+            return True
+
+    def check_if_nearby_loot(self):
+        # get an updated image of the game at specified area
+        lootnr_screenshot = self.lootnr_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        lootnr_output_image = self.lootnr_vision.apply_hsv_filter(
+            lootnr_screenshot, self.lootnr_filter)
+        # do object detection, this time grab rectangles
+        lootnr_rectangles = self.lootnr_vision.find(
+            lootnr_output_image, threshold=0.27, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(lootnr_rectangles) >= 1:
+            return True
+        return False
+
+    def check_for_x_prompt(self):
+        # get an updated image of the game at specified area
+        xprompt_screenshot = self.xprompt_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        xprompt_output_image = self.xprompt_vision.apply_hsv_filter(
+            xprompt_screenshot, self.xprompt_filter)
+        # do object detection, this time grab rectangles
+        xprompt_rectangles = self.xprompt_vision.find(
+            xprompt_output_image, threshold=0.61, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(xprompt_rectangles) == 1:
             return True
         return False

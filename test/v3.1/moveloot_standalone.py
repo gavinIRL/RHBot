@@ -97,7 +97,7 @@ class StandaloneMoveLoot():
             if self.check_if_in_dungeon():
                 self.general_frames += 1
                 if self.controller.combat_enabled:
-                    if self.check_for_enemies():
+                    if self.perform_enemy_check():
                         self.controller.mode = "combat"
                         break
                 elif self.controller.loot_enabled:
@@ -115,3 +115,27 @@ class StandaloneMoveLoot():
                 # Minimum sleep time is roughly 15ms regardless
                 time.sleep(0.001)
             loop_time = time.time()
+        # After end stop all movement
+        self.movement.movement_stop()
+
+    def perform_enemy_check(self):
+        if self.check_for_enemies():
+            self.enemy_detect_frames += 1
+            if self.enemy_detect_frames >= 2:
+                return True
+        else:
+            self.enemy_detect_frames = 0
+        return False
+
+    def check_for_enemies(self):
+        enemy_screenshot = self.enemy_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        enemy_output_image = self.enemy_vision.apply_hsv_filter(
+            enemy_screenshot, self.enemy_filter)
+        # do object detection, this time grab points
+        enemy_rectangles = self.enemy_vision.find(
+            enemy_output_image, threshold=0.61, epsilon=0.5)
+        # then return answer to whether enemies are detected
+        if len(enemy_rectangles) >= 1:
+            return True
+        return False

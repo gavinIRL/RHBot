@@ -66,3 +66,31 @@ class StandaloneMoveLoot():
         self.enemy_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", enemy_custom_rect)
         self.enemy_vision = Vision('enemy67.jpg')
+
+        # The next block of code is setup for detecting nearby loot
+        self.lootnr_filter, lootnr_custom_rect = grab_object_preset(
+            object_name="loot_near")
+        self.lootnr_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", lootnr_custom_rect)
+        self.lootnr_vision = Vision('lootnear67filt.jpg')
+
+        # The next block of code is setup for detecting if in a dungeon
+        self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
+            object_name="dungeon_check")
+        self.dunchk_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
+        self.dunchk_vision = Vision('dunchk_67.jpg')
+
+        # The next block of code is setup for detecting if there is an x prompt
+        self.xprompt_filter, xprompt_custom_rect = grab_object_preset(
+            object_name="prompt_press_x_pickup")
+        self.xprompt_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", xprompt_custom_rect)
+        self.xprompt_vision = Vision("xprompt67filtv2.jpg")
+
+        # Start the movement bot
+        self.movement.movement_start()
+
+    def move_mainloop(self):
+        while True:
+            pass

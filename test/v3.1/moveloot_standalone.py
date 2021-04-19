@@ -92,5 +92,26 @@ class StandaloneMoveLoot():
         self.movement.movement_start()
 
     def move_mainloop(self):
+        loop_time = time.time()
         while True:
-            pass
+            if self.check_if_in_dungeon():
+                self.general_frames += 1
+                if self.controller.combat_enabled:
+                    if self.check_for_enemies():
+                        self.controller.mode = "combat"
+                        break
+                elif self.controller.loot_enabled:
+                    self.check_for_loot()
+                self.move_to_other_player()
+            else:
+                sleep(0.4)
+
+            if self.general_frames >= 75:
+                Actions.move_mouse_centre()
+                Actions.stop_keypresses(self.movement)
+                self.general_frames = 0
+
+            if 100*(loop_time - time.time()) < 1:
+                # Minimum sleep time is roughly 15ms regardless
+                time.sleep(0.001)
+            loop_time = time.time()

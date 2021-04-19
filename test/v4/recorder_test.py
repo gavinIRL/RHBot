@@ -1,5 +1,5 @@
 from pynput import mouse, keyboard
-from time import time
+from time import time, sleep
 import json
 import os
 
@@ -22,10 +22,12 @@ class EventType():
 
 
 def main():
+    sleep(5)
+    print("Begin recording")
     runListeners()
     print("Recording duration: {} seconds".format(elapsed_time()))
     global input_events
-    print(json.dumps(input_events))
+    # print(json.dumps(input_events))
 
     # write the output to a file
     script_dir = os.path.dirname(__file__)
@@ -53,10 +55,12 @@ def record_event(event_type, event_time, button, pos=None):
     })
 
     if event_type == EventType.CLICK:
-        print('{} on {} pos {} at {}'.format(
-            event_type, button, pos, event_time))
+        pass
+        # print('{} on {} pos {} at {}'.format(
+        #     event_type, button, pos, event_time))
     else:
-        print('{} on {} at {}'.format(event_type, button, event_time))
+        pass
+        # print('{} on {} at {}'.format(event_type, button, event_time))
 
 
 def on_press(key):

@@ -2,6 +2,11 @@
 # movement and combat modes as needs be
 # It will check every 100ms if a module requires starting
 import time
+import os
+from combat_standalone import StandaloneCombat
+from moveloot_standalone import StandaloneMoveLoot
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 class Controller():
@@ -9,8 +14,8 @@ class Controller():
         self.mode = "movement"
         self.loot_enabled = loot
         self.combat_enabled = combat
-        self.movebot = None
-        self.combatbat = None
+        self.movebot = StandaloneMoveLoot(self)
+        self.combatbat = StandaloneCombat(self)
 
     def start_controller(self):
         previous = self.mode
@@ -18,6 +23,6 @@ class Controller():
             time.sleep(0.1)
             if not previous == self.mode:
                 if self.mode == "movement":
-                    pass
+                    self.movebot.move_mainloop()
                 elif self.mode == "combat":
-                    pass
+                    self.combatbat.combat_mainloop()

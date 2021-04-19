@@ -1,4 +1,4 @@
-import pyautogui
+import pydirectinput as pyautogui
 from time import sleep, time
 import os
 import json
@@ -9,7 +9,8 @@ def main():
     initializePyAutoGUI()
     countdownTimer()
 
-    playActions("test_01.json")
+    # playActions("test_01.json")
+    playActions("fire30.json")
 
     print("Done")
 

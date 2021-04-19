@@ -152,19 +152,13 @@ class StandaloneMoveLoot():
                     Actions.stop_keypresses(self.movement)
                     # Press x a couple times off the bat
                     Actions.press_key_once("x")
-                    sleep(0.15)
-                    Actions.press_key_once("x")
-                    sleep(0.15)
+                    sleep(0.6)
                     while self.check_for_x_prompt():
-                        self.pressx_counter += 2
-                        # Press the x button thrice
+                        self.pressx_counter += 1
+                        # Press the x button once
                         Actions.press_key_once("x")
-                        sleep(0.15)
-                        Actions.press_key_once("x")
-                        sleep(0.15)
-                        Actions.press_key_once("x")
-                        sleep(0.15)
-                        if self.pressx_counter >= 5:
+                        sleep(0.6)
+                        if self.pressx_counter >= 8:
                             self.near_loot_cd = time() + self.near_loot_cd_max
                             break
                         Actions.stop_keypresses(self.movement)

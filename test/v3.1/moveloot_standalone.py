@@ -45,3 +45,24 @@ class StandaloneMoveLoot():
 
         # Initialise the movement object and pass the state object
         self.movement = Movement_Handler(test_mode=False)
+
+        # The next block of code is setup for detecting the other player
+        self.othr_plyr_filter, othr_plyr_custom_rect = grab_object_preset(
+            object_name="other_player_map_loc")
+        self.othr_plyr_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", othr_plyr_custom_rect)
+        self.othr_plyr_vision = Vision('otherplayer67.jpg')
+
+        # The next block of code is setup for detecting the current player
+        self.player_filter, player_custom_rect = grab_object_preset(
+            object_name="player_map_loc")
+        self.player_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", player_custom_rect)
+        self.player_vision = Vision('playerv2_67.jpg')
+
+        # The next block of code is setup for detecting enemies on minimap
+        self.enemy_filter, enemy_custom_rect = grab_object_preset(
+            object_name="enemy_map_locv3")
+        self.enemy_wincap = WindowCapture(
+            "Rusty Hearts: Revolution - Reborn ", enemy_custom_rect)
+        self.enemy_vision = Vision('enemy67.jpg')

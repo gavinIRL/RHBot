@@ -12,3 +12,5 @@ sameplayertag.jpg
 sameplayertag100.jpg
 otherplayertag.jpg
 otherplayertag100.jpg
+# hide json files
+*.json

@@ -21,8 +21,8 @@ class Controller():
         self.combatbat = StandaloneCombat(self)
 
     def start_controller(self):
-        self.bot_running = True
-        while True:
+        self.start_countdown()
+        while self.bot_running:
             time.sleep(0.01)
             if self.mode == "movement":
                 self.movebot.move_mainloop()
@@ -56,5 +56,23 @@ class Controller():
                 print("COMBAT OFF")
 
     def on_release(self, key):
-        # Do nothing
+        # Do nothing?
         pass
+
+    def start_countdown(self):
+        print("Bot starting in 5 seconds")
+        time.sleep(1)
+        print("Bot starting in 4 seconds")
+        time.sleep(1)
+        print("Bot starting in 3 seconds")
+        time.sleep(1)
+        print("Bot starting in 2 seconds")
+        time.sleep(1)
+        print("Bot starting in 1 seconds")
+        time.sleep(1)
+        self.bot_running = True
+
+
+if __name__ == "__main__":
+    cont = Controller()
+    cont.start_controller()

@@ -14,7 +14,8 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 class StandaloneCombat():
-    def __init__(self) -> None:
+    def __init__(self, controller) -> None:
+        self.controller = controller
         self.combo_queue = []
         self.nearest_enemy_dist = 1
         self.dist_threshold = 125
@@ -72,12 +73,10 @@ class StandaloneCombat():
             "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
         self.dunchk_vision = Vision('dunchk_67.jpg')
 
-    def start_mainloop(self):
-        # loop_time = time.time()
+    def combat_mainloop(self):
+        loop_time = time.time()
         time.sleep(0.1)
         while True:
-            # print('FPS {}'.format(1 / (time.time() - loop_time)))
-            # loop_time = time.time()
             if self.check_if_in_dungeon():
                 if self.dunchk_momentum < 20:
                     self.dunchk_momentum += 1
@@ -88,6 +87,11 @@ class StandaloneCombat():
             else:
                 print("Exiting as ran out of momentum")
                 break
+            # If loops are over 100fps, slow to 67fps
+            if 100*(loop_time - time.time()) < 1:
+                # Minimum sleep time is roughly 15ms regardless
+                time.sleep(0.001)
+            loop_time = time.time()
 
     def check_if_in_dungeon(self):
         # print("Got to here")
@@ -131,13 +135,13 @@ class StandaloneCombat():
                 closest = x + y
                 nearestx = x
                 nearesty = y
-        previous_angle = self.centre_mass_angle
+        # previous_angle = self.centre_mass_angle
         self.centre_mass_angle = self.grab_angle(
             nearestx, nearesty)
-        if previous_angle != self.centre_mass_angle:
-            print("Angle calc: x={}, y={}, angle={}".format(
-                nearestx, nearesty, self.centre_mass_angle))
-            # print(self.centre_mass_angle)
+        # if previous_angle != self.centre_mass_angle:
+        #     print("Angle calc: x={}, y={}, angle={}".format(
+        #         nearestx, nearesty, self.centre_mass_angle))
+        #     print(self.centre_mass_angle)
 
     def grab_angle(self, relx, rely):
         angle = math.degrees(math.atan2(rely, relx))
@@ -181,4 +185,4 @@ class StandaloneCombat():
 
 if __name__ == "__main__":
     cs = StandaloneCombat()
-    cs.start_mainloop()
+    cs.combat_mainloop()

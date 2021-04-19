@@ -12,15 +12,22 @@ class HotkeyTest():
         self.random_counter = 0
         self.looting_enabled = True
         self.bot_running = False
+        self.listener = None
 
     def start(self):
         self.start_keypress_listener()
+        self.mainloop()
 
     def mainloop(self):
-        while True:
+        self.bot_running = True
+        prev = time()
+        while self.bot_running:
             self.random_counter += 1
-            print("Counter = {}".format(self.random_counter))
-            sleep(0.5)
+            if self.random_counter % 10 == 0:
+                print("Counter = {}, elapsed = {}".format(
+                    self.random_counter, time()-prev))
+                prev = time()
+            sleep(0.001)
 
     def start_keypress_listener(self):
         if self.listener == None:
@@ -36,8 +43,12 @@ class HotkeyTest():
             self.looting_enabled = not self.looting_enabled
             print("Looting has been set to {}".format(self.looting_enabled))
         if key == KeyCode(char='e'):
-            self.random_counter -= 10
+            self.random_counter -= 1000
 
     def on_release(self, key):
         # Do nothing
         pass
+
+
+hkt = HotkeyTest()
+hkt.start()

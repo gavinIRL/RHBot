@@ -21,14 +21,17 @@ class Controller():
         self.freemove_enabled = freemove
         self.movebot = StandaloneMoveLoot(self)
         self.combatbat = StandaloneCombat(self)
-        self.freemovebat = StandaloneFreeMove(self)
+        self.freemovebot = StandaloneFreeMove(self)
 
     def start_controller(self):
         self.start_countdown()
         while self.bot_running:
             time.sleep(0.01)
             if self.mode == "movement":
-                self.movebot.move_mainloop()
+                if not self.freemove_enabled:
+                    self.movebot.move_mainloop()
+                else:
+                    self.freemovebot.freemove_mainloop()
             elif self.mode == "combat":
                 self.combatbat.combat_mainloop()
             else:
@@ -57,6 +60,12 @@ class Controller():
                 print("COMBAT ON")
             else:
                 print("COMBAT OFF")
+        if key == KeyCode(char='r'):
+            self.freemove_enabled = not self.freemove_enabled
+            if self.freemove_enabled:
+                print("FREEMOVE ON")
+            else:
+                print("FREEMOVE OFF")
 
     def on_release(self, key):
         # Do nothing?

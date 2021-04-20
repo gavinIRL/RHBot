@@ -6,5 +6,9 @@ class StandaloneFreeMove():
         self.controller = controller
 
     def freemove_mainloop(self):
-        while True:
-            pass
+        print("Returning control to player")
+        exit_reason = None
+        while self.controller.freemove_enabled:
+            break
+        if exit_reason != "combat":
+            print("Returning to automatic navigation")

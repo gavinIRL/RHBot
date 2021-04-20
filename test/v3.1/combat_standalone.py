@@ -220,17 +220,14 @@ class StandaloneCombat():
         return returnlist
 
     def point_at_target(self):
-        if self.centre_mass_angle >= 300 or self.centre_mass_angle <= 60:
+        if self.centre_mass_angle >= 315 or self.centre_mass_angle < 45:
             pydirectinput.keyDown("up")
-        if self.centre_mass_angle >= 210 and self.centre_mass_angle <= 330:
+        if self.centre_mass_angle >= 225 and self.centre_mass_angle < 315:
             pydirectinput.keyDown("left")
-        if self.centre_mass_angle >= 120 and self.centre_mass_angle <= 240:
+        if self.centre_mass_angle >= 135 and self.centre_mass_angle < 225:
             pydirectinput.keyDown("down")
-        if self.centre_mass_angle >= 30 and self.centre_mass_angle <= 150:
+        if self.centre_mass_angle >= 45 and self.centre_mass_angle < 135:
             pydirectinput.keyDown("right")
-        time.sleep(0.04)
-        for key in ["up", "down", "left", "right"]:
-            pydirectinput.keyUp(key)
 
     def start_combo_handler(self):
         self.running = True
@@ -242,20 +239,26 @@ class StandaloneCombat():
             if len(self.combo_queue) > 0:
                 # print(self.combo_queue[0])
                 key, duration = self.combo_queue[0]
+                nextkey = None
+                if len(self.combo_queue) > 1:
+                    nextkey, _ = self.combo_queue[1]
+                    if nextkey == "point":
+                        # Need to point at centre mass of enemies or nearest in range enemy
+                        self.point_at_target()
                 if key is None:
                     time.sleep(duration)
                 elif key == "move":
                     # Need to calculate time to press buttons in function
                     # And then press the required buttons
                     self.move_towards_target()
-                elif key == "point":
-                    # Need to point at centre mass of enemies or nearest in range enemy
-                    self.point_at_target()
                 else:
                     pydirectinput.keyDown(key)
                     time.sleep(duration)
                     pydirectinput.keyUp(key)
                     time.sleep(0.07)
+                if nextkey == "point":
+                    for key in ["up", "down", "left", "right"]:
+                        pydirectinput.keyUp(key)
                 self.combo_queue.pop(0)
             else:
                 self.combo_queue = self.combos.grab_preferred_combo().copy()

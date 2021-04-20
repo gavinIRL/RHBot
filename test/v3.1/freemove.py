@@ -2,8 +2,8 @@
 # But once an enemy is detected it will swap to combat mode
 
 class StandaloneFreeMove():
-    def __init__(self) -> None:
-        pass
+    def __init__(self, controller) -> None:
+        self.controller = controller
 
     def freemove_mainloop(self):
         while True:

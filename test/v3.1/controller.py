@@ -5,20 +5,23 @@ import time
 import os
 from combat_standalone import StandaloneCombat
 from moveloot_standalone import StandaloneMoveLoot
+from freemove_standalone import StandaloneFreeMove
 from pynput.keyboard import Key, Listener, KeyCode
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 class Controller():
-    def __init__(self, loot=True, combat=True) -> None:
+    def __init__(self, loot=True, combat=True, freemove=False) -> None:
         self.mode = "movement"
         self.listener = None
         self.bot_running = False
         self.loot_enabled = loot
         self.combat_enabled = combat
+        self.freemove_enabled = freemove
         self.movebot = StandaloneMoveLoot(self)
         self.combatbat = StandaloneCombat(self)
+        self.freemovebat = StandaloneFreeMove(self)
 
     def start_controller(self):
         self.start_countdown()

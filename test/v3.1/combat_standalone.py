@@ -228,6 +228,7 @@ class StandaloneCombat():
             pydirectinput.keyDown("down")
         if self.centre_mass_angle >= 30 and self.centre_mass_angle <= 150:
             pydirectinput.keyDown("right")
+        time.sleep(0.04)
         for key in ["up", "down", "left", "right"]:
             pydirectinput.keyUp(key)
 
@@ -246,19 +247,15 @@ class StandaloneCombat():
                 elif key == "move":
                     # Need to calculate time to press buttons in function
                     # And then press the required buttons
-                    print("At move call data is: angle={}".format(
-                        self.centre_mass_angle))
                     self.move_towards_target()
                 elif key == "point":
                     # Need to point at centre mass of enemies or nearest in range enemy
-                    print("At point call data is: angle={}".format(
-                        self.centre_mass_angle))
                     self.point_at_target()
                 else:
                     pydirectinput.keyDown(key)
                     time.sleep(duration)
                     pydirectinput.keyUp(key)
-                    time.sleep(0.05)
+                    time.sleep(0.07)
                 self.combo_queue.pop(0)
             else:
                 self.combo_queue = self.combos.grab_preferred_combo().copy()

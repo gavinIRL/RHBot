@@ -26,6 +26,7 @@ class StandaloneCombat():
         self.target_relative_coords = [0, 0]
         self.current_player_coords = [0, 0]
         self.enemy_locs = []
+        self.running = False
 
         self.setup()
 
@@ -76,22 +77,30 @@ class StandaloneCombat():
     def combat_mainloop(self):
         loop_time = time.time()
         time.sleep(0.1)
+        self.running = True
+        # Need to start the combo
         while True:
             if self.check_if_in_dungeon():
+                if self.check_for_sect_clear():
+                    self.controller.mode = "movement"
+                    break
                 if self.dunchk_momentum < 20:
                     self.dunchk_momentum += 1
-                if self.check_for_enemies():
+                if self.check_for_ongoing_combo():
+                    pass
+                elif self.check_for_enemies():
                     self.calc_nearest_enemy()
             elif self.dunchk_momentum >= 1:
                 self.dunchk_momentum -= 1
             else:
-                print("Exiting as ran out of momentum")
+                self.controller.mode = "movement"
                 break
             # If loops are over 100fps, slow to 67fps
             if 100*(loop_time - time.time()) < 1:
                 # Minimum sleep time is roughly 15ms regardless
                 time.sleep(0.001)
             loop_time = time.time()
+        self.running = False
 
     def check_if_in_dungeon(self):
         # print("Got to here")
@@ -139,6 +148,20 @@ class StandaloneCombat():
             sect_clear_image, threshold=0.34, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(sect_clear_rectangles) == 1:
+            return True
+        return False
+
+    def check_for_ongoing_combo(self):
+        # then try to detect the combo_count
+        ss = self.combo_count_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        combo_count_image = self.combo_count_vision.apply_hsv_filter(
+            ss, self.combo_count_filter)
+        # do object detection, this time grab rectangles
+        combo_count_rectangles = self.combo_count_vision.find(
+            combo_count_image, threshold=0.21, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(combo_count_rectangles) >= 1:
             return True
         return False
 
@@ -207,6 +230,35 @@ class StandaloneCombat():
             pydirectinput.keyDown("right")
         for key in ["up", "down", "left", "right"]:
             pydirectinput.keyUp(key)
+
+    def combo_handler(self):
+        while self.running:
+            if len(self.combo_queue) > 0:
+                # print(self.combo_queue[0])
+                key, duration = self.combo_queue[0]
+                if key is None:
+                    time.sleep(duration)
+                elif key == "move":
+                    # Need to calculate time to press buttons in function
+                    # And then press the required buttons
+                    print("At move call data is: angle={}".format(
+                        self.centre_mass_angle))
+                    self.move_towards_target()
+                elif key == "point":
+                    # Need to point at centre mass of enemies or nearest in range enemy
+                    print("At point call data is: angle={}".format(
+                        self.centre_mass_angle))
+                    self.point_at_target()
+                else:
+                    pydirectinput.keyDown(key)
+                    time.sleep(duration)
+                    pydirectinput.keyUp(key)
+                    time.sleep(0.05)
+                self.combo_queue.pop(0)
+            else:
+                self.combo_queue = self.combos.grab_preferred_combo().copy()
+        else:
+            self.combo_queue = []
 
 
 if __name__ == "__main__":

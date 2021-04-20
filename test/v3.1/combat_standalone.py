@@ -264,6 +264,56 @@ class StandaloneCombat():
                 self.combo_queue = self.combos.grab_preferred_combo().copy()
         else:
             self.combo_queue = []
+            for key in ["up", "down", "left", "right"]:
+                pydirectinput.keyUp(key)
+
+    def add_move_next_action(self):
+        # Only grab the first i.e. current action and remove the rest
+        self.combo_queue = self.combo_queue[:1]
+        # And then append the instruction to move afterwards
+        self.combo_queue.append(["move", 2])
+
+    def move_towards_target(self):
+        # Default pixels/sec test move rate was 50pixels in 2.5sec minimap
+        # Which is 20pixels/sec
+        xdist_to_move = self.target_relative_coords[0]
+        ydist_to_move = self.target_relative_coords[1]
+        if xdist_to_move > 0:
+            pydirectinput.keyDown("right")
+        elif xdist_to_move < 0:
+            pydirectinput.keyDown("left")
+        if ydist_to_move > 0:
+            pydirectinput.keyDown("up")
+        elif ydist_to_move < 0:
+            pydirectinput.keyDown("down")
+        # Now hold the buttons until moved to target location
+        xdist_to_move = abs(xdist_to_move)
+        ydist_to_move = abs(ydist_to_move)
+        counter = 0
+        while self.running:
+            time.sleep(0.1)
+            counter += 1
+            x_remain = xdist_to_move - 2*counter
+            y_remain = ydist_to_move - 2*counter
+            if x_remain <= 0:
+                pydirectinput.keyUp("right")
+                pydirectinput.keyUp("left")
+            if y_remain <= 0:
+                pydirectinput.keyUp("up")
+                pydirectinput.keyUp("down")
+            if x_remain <= 0 and y_remain <= 0:
+                # Releasing keys to catch any bugs or errors here
+                pydirectinput.keyUp("right")
+                pydirectinput.keyUp("left")
+                pydirectinput.keyUp("up")
+                pydirectinput.keyUp("down")
+                break
+            if counter >= 80:
+                pydirectinput.keyUp("right")
+                pydirectinput.keyUp("left")
+                pydirectinput.keyUp("up")
+                pydirectinput.keyUp("down")
+                break
 
 
 if __name__ == "__main__":

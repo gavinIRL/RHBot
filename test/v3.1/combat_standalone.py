@@ -128,6 +128,20 @@ class StandaloneCombat():
             return True
         return False
 
+    def check_for_sect_clear(self):
+        # then try to detect the sect_clear
+        ss = self.sect_clear_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        sect_clear_image = self.sect_clear_vision.apply_hsv_filter(
+            ss, self.sect_clear_filter)
+        # do object detection, this time grab rectangles
+        sect_clear_rectangles = self.sect_clear_vision.find(
+            sect_clear_image, threshold=0.34, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(sect_clear_rectangles) == 1:
+            return True
+        return False
+
     def calc_nearest_enemy(self):
         for x, y in self.enemy_locs:
             closest = 1000
@@ -181,6 +195,18 @@ class StandaloneCombat():
             rely = playery - y
             returnlist.append([relx, rely])
         return returnlist
+
+    def point_at_target(self):
+        if self.centre_mass_angle >= 300 or self.centre_mass_angle <= 60:
+            pydirectinput.keyDown("up")
+        if self.centre_mass_angle >= 210 and self.centre_mass_angle <= 330:
+            pydirectinput.keyDown("left")
+        if self.centre_mass_angle >= 120 and self.centre_mass_angle <= 240:
+            pydirectinput.keyDown("down")
+        if self.centre_mass_angle >= 30 and self.centre_mass_angle <= 150:
+            pydirectinput.keyDown("right")
+        for key in ["up", "down", "left", "right"]:
+            pydirectinput.keyUp(key)
 
 
 if __name__ == "__main__":

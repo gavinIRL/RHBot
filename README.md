@@ -6,7 +6,9 @@ Simple bot to automate combat, selling gear at end of level, and other basic fun
 Alongside the DCW application (specifically the bot playground and creation aspect of DCW), I have an interest in assessing the automation of certain tasks. More specifically I have an interest in the efficiency of automating tasks in comparison to manually doing them. This bot application is intended as a learning experience for useful automation with a reasonably complex set of situations. The approaches to be taken include bot image recognition (probably using OpenCV or similar) and also the standard fixed-sequence movement patterns (using PyAutoGUI and/or PyDirectInput).
 
 ## Current Thoughts
-The implementation of the V3 combat mode has been difficult due to the size of the changes I am trying to carry out all at once, so there is a lesson learned to implement features piecemeal. Additionally, having the correct decision tree flow has become a difficulty when there are so many possibilities. In future a better plan or graphical method of identifying all possible scenarios is required.
+Restarting the V3 bot to a modular design, while only allowing one module to run at any one time has proven to be a much cleaner and more manageable way of implementing combat. While not fully finished yet, the change to a modular design has allowed for faster change implementation and bug fixing. 
+
+Looking forward, there is opportunity for a hotkey communication program which would for example allow enabling/disabling of loot mode on 3+ bots. Using a network share would be too basic and too slow, so instead the plan is to use TCP/IP. Current predicted timeline is post-v4 but pre-v5 bot.
 
 ## Current Status
 * Version 1: Completed

@@ -17,11 +17,11 @@ class StandaloneCombat():
     def __init__(self, controller) -> None:
         self.controller = controller
         self.combo_queue = []
-        self.nearest_enemy_dist = 1
+        # self.nearest_enemy_dist = 1
         self.dist_threshold = 125
         self.centre_mass_angle = 90
-        self.ongoing_combo_count = False
-        self.frames_since_combo_detect = 1000
+        # self.ongoing_combo_count = False
+        # self.frames_since_combo_detect = 1000
         self.dunchk_momentum = 10
         self.target_relative_coords = [0, 0]
         self.current_player_coords = [0, 0]
@@ -77,8 +77,8 @@ class StandaloneCombat():
     def combat_mainloop(self):
         loop_time = time.time()
         time.sleep(0.1)
-        self.running = True
         # Need to start the combo
+        self.start_combo_handler()
         while True:
             if self.check_if_in_dungeon():
                 if self.check_for_sect_clear():
@@ -230,6 +230,11 @@ class StandaloneCombat():
             pydirectinput.keyDown("right")
         for key in ["up", "down", "left", "right"]:
             pydirectinput.keyUp(key)
+
+    def start_combo_handler(self):
+        self.running = True
+        t = threading.Thread(target=self.start_combo, daemon=True)
+        t.start()
 
     def combo_handler(self):
         while self.running:

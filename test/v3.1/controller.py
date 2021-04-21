@@ -86,5 +86,5 @@ class Controller():
 
 
 if __name__ == "__main__":
-    cont = Controller()
+    cont = Controller(freemove=True)
     cont.start_controller()

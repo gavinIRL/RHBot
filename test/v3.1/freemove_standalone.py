@@ -3,11 +3,15 @@
 from windowcapture import WindowCapture
 from vision import Vision
 from hsvfilter import grab_object_preset
+import os
+import time
 
 
 class StandaloneFreeMove():
     def __init__(self, controller) -> None:
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
         self.controller = controller
+        self.enemy_detect_frames = 0
 
         # The next block of code is setup for detecting enemies on minimap
         self.enemy_filter, enemy_custom_rect = grab_object_preset(
@@ -19,12 +23,24 @@ class StandaloneFreeMove():
     def freemove_mainloop(self):
         print("Returning control to player")
         exit_reason = None
+        loop_time = time.time()
         while self.controller.freemove_enabled:
             # Will attempt to detect enemies, if so will enter combat mode
             # Only exception would be if combat is disabled
             # In which case the bot will just sleep
-            break
-        if exit_reason != "combat":
+            if self.controller.combat_enabled:
+                if self.perform_enemy_check():
+                    self.controller.mode == "combat"
+                    print("Entering automated combat")
+                    break
+            else:
+                time.sleep(0.25)
+            # If loops are over 100fps, slow to 67fps
+            if 100*(time.time() - loop_time) < 1:
+                # Minimum sleep time is roughly 15ms regardless
+                time.sleep(0.001)
+            loop_time = time.time()
+        if not self.controller.freemove_enabled:
             print("Returning to automatic navigation")
 
     def perform_enemy_check(self):

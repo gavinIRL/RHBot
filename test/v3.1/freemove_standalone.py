@@ -24,7 +24,7 @@ class StandaloneFreeMove():
         print("Returning control to player")
         exit_reason = None
         loop_time = time.time()
-        while self.controller.freemove_enabled:
+        while self.controller.bot_running:
             # Will attempt to detect enemies, if so will enter combat mode
             # Only exception would be if combat is disabled
             # In which case the bot will just sleep
@@ -40,8 +40,10 @@ class StandaloneFreeMove():
                 # Minimum sleep time is roughly 15ms regardless
                 time.sleep(0.001)
             loop_time = time.time()
-        if not self.controller.freemove_enabled:
-            print("Returning to automatic navigation")
+            if not self.controller.freemove_enabled:
+                print("Returning to automatic navigation")
+                break
+        print("Exited freemove")
 
     def perform_enemy_check(self):
         if self.check_for_enemies():

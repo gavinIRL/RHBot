@@ -25,6 +25,7 @@ class Controller():
 
     def start_controller(self):
         self.start_countdown()
+        self.start_keypress_listener()
         while self.bot_running:
             time.sleep(0.01)
             if self.mode == "movement":
@@ -37,14 +38,17 @@ class Controller():
             else:
                 print("Error, no mode selected")
                 time.sleep(2)
+        print("Finished controller mainloop")
+        # self.listener.
 
     def start_keypress_listener(self):
         if self.listener == None:
             self.listener = Listener(on_press=self.on_press,
-                                     on_release=self.on_release, suppress=True)
+                                     on_release=self.on_release)
             self.listener.start()
 
     def on_press(self, key):
+        # print(str(key))
         if key == KeyCode(char='q'):
             self.bot_running = False
             return False
@@ -68,8 +72,9 @@ class Controller():
                 print("FREEMOVE OFF")
 
     def on_release(self, key):
-        # Do nothing?
-        pass
+        if key == Key.esc:
+            # Stop listener
+            return False
 
     def start_countdown(self):
         print("Bot starting in 5 seconds")

@@ -30,9 +30,10 @@ class StandaloneFreeMove():
             # In which case the bot will just sleep
             if self.controller.combat_enabled:
                 if self.perform_enemy_check():
-                    self.controller.mode = "combat"
-                    # print("Entering automated combat")
-                    break
+                    if (time.time() - self.controller.combat_cooldown) > 0:
+                        self.controller.mode = "combat"
+                        # print("Entering automated combat")
+                        break
             else:
                 time.sleep(0.25)
             # If loops are over 100fps, slow to 67fps

@@ -84,7 +84,10 @@ class StandaloneCombat():
             if self.check_if_in_dungeon():
                 if self.check_for_sect_clear():
                     self.controller.mode = "movement"
+                    print("Break because sect clear")
+                    self.controller.combat_cooldown = time.time() + 5
                     break
+
                 if self.dunchk_momentum < 20:
                     self.dunchk_momentum += 1
                 if self.check_for_ongoing_combo():
@@ -95,6 +98,7 @@ class StandaloneCombat():
                 self.dunchk_momentum -= 1
             else:
                 self.controller.mode = "movement"
+                print("Break because dunchk momentum")
                 break
             # If loops are over 100fps, slow to 67fps
             if 100*(time.time() - loop_time) < 1:

@@ -22,6 +22,7 @@ class Controller():
         self.movebot = StandaloneMoveLoot(self)
         self.combatbat = StandaloneCombat(self)
         self.freemovebot = StandaloneFreeMove(self)
+        self.combat_cooldown = 0
 
     def start_controller(self):
         self.start_countdown()
@@ -34,11 +35,12 @@ class Controller():
                 else:
                     self.freemovebot.freemove_mainloop()
             elif self.mode == "combat":
-                self.combatbat.combat_mainloop()
+                if (time.time() - self.combat_cooldown) > 0:
+                    self.combatbat.combat_mainloop()
             else:
                 print("Error, no mode selected")
                 time.sleep(2)
-        print("Finished controller mainloop")
+        # print("Finished controller mainloop")
         # self.listener.
 
     def start_keypress_listener(self):

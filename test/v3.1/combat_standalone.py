@@ -27,6 +27,7 @@ class StandaloneCombat():
         self.current_player_coords = [0, 0]
         self.enemy_locs = []
         self.running = False
+        self.combos = combo.WeaponBagFocused()
 
         self.setup()
 
@@ -96,7 +97,7 @@ class StandaloneCombat():
                 self.controller.mode = "movement"
                 break
             # If loops are over 100fps, slow to 67fps
-            if 100*(loop_time - time.time()) < 1:
+            if 100*(time.time() - loop_time) < 1:
                 # Minimum sleep time is roughly 15ms regardless
                 time.sleep(0.001)
             loop_time = time.time()
@@ -231,7 +232,7 @@ class StandaloneCombat():
 
     def start_combo_handler(self):
         self.running = True
-        t = threading.Thread(target=self.start_combo, daemon=True)
+        t = threading.Thread(target=self.combo_handler, daemon=True)
         t.start()
 
     def combo_handler(self):

@@ -92,7 +92,7 @@ class StandaloneMoveLoot():
         self.movement.movement_start()
 
     def move_mainloop(self):
-        loop_time = time.time()
+        loop_time = time()
         while True:
             if self.check_if_in_dungeon():
                 self.general_frames += 1
@@ -112,10 +112,10 @@ class StandaloneMoveLoot():
                 self.general_frames = 0
 
             # If loops are over 100fps, slow to 67fps
-            if 100*(time.time() - loop_time) < 1:
+            if 100*(time() - loop_time) < 1:
                 # Minimum sleep time is roughly 15ms regardless
-                time.sleep(0.001)
-            loop_time = time.time()
+                sleep(0.001)
+            loop_time = time()
         # After end stop all movement
         self.movement.movement_stop()
 

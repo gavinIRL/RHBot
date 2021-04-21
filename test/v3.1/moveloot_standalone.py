@@ -111,7 +111,8 @@ class StandaloneMoveLoot():
                 Actions.stop_keypresses(self.movement)
                 self.general_frames = 0
 
-            if 100*(loop_time - time.time()) < 1:
+            # If loops are over 100fps, slow to 67fps
+            if 100*(time.time() - loop_time) < 1:
                 # Minimum sleep time is roughly 15ms regardless
                 time.sleep(0.001)
             loop_time = time.time()

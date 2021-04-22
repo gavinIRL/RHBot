@@ -86,23 +86,23 @@ class StandaloneCombat():
             if self.check_if_in_dungeon():
                 if self.check_for_sect_clear():
                     self.controller.mode = "movement"
-                    print("Break because sect clear")
+                    # print("Break because sect clear")
                     self.controller.combat_cooldown = time.time() + 5
                     break
 
                 if self.dunchk_momentum < 20:
                     self.dunchk_momentum += 1
                 if self.check_for_ongoing_combo():
-                    print("Got to here #1")
+                    # print("Got to here #1")
                     pass
                 elif self.check_for_enemies():
-                    print("Got to here #2")
+                    # print("Got to here #2")
                     self.calc_nearest_enemy()
             elif self.dunchk_momentum >= 1:
                 self.dunchk_momentum -= 1
             else:
                 self.controller.mode = "movement"
-                print("Break because dunchk momentum")
+                # print("Break because dunchk momentum")
                 break
             # If loops are over 100fps, slow to 67fps
             if 100*(time.time() - loop_time) < 1:
@@ -140,11 +140,11 @@ class StandaloneCombat():
             self.can_find_current_player()
             points = self.enemy_minimap_vision.get_click_points(
                 enemy_rectangles)
-            print("Points abs = {}".format(points))
+            # print("Points abs = {}".format(points))
             # Then translate the points to be relative to the player
             points = self.get_relative_to_player(points)
             self.enemy_locs = points.copy()
-            print("Enemy_locs = {}".format(self.enemy_locs))
+            # print("Enemy_locs = {}".format(self.enemy_locs))
             return True
         return False
 

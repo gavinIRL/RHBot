@@ -189,13 +189,13 @@ class StandaloneCombat():
                 closest = x + y
                 nearestx = x
                 nearesty = y
-        previous_angle = self.centre_mass_angle
+        # previous_angle = self.centre_mass_angle
         self.centre_mass_angle = self.calc_angle(
             nearestx, nearesty)
-        if previous_angle != self.centre_mass_angle:
-            print("Angle calc: x={}, y={}, angle={}".format(
-                nearestx, nearesty, self.centre_mass_angle))
-            print(self.centre_mass_angle)
+        # if previous_angle != self.centre_mass_angle:
+        #     print("Angle calc: x={}, y={}, angle={}".format(
+        #         nearestx, nearesty, self.centre_mass_angle))
+        #     print(self.centre_mass_angle)
 
     def calc_angle(self, relx, rely):
         angle = math.degrees(math.atan2(rely, relx))

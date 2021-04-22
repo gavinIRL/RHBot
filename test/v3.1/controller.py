@@ -81,10 +81,6 @@ class Controller():
             os._exit(1)
 
     def start_countdown(self):
-        print("Bot starting in 5 seconds")
-        time.sleep(1)
-        print("Bot starting in 4 seconds")
-        time.sleep(1)
         print("Bot starting in 3 seconds")
         time.sleep(1)
         print("Bot starting in 2 seconds")

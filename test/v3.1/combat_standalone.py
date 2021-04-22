@@ -37,7 +37,6 @@ class StandaloneCombat():
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
             object_name="message_section_cleared")
-        print("Custom rect is {}".format(sect_clear_custom_rect))
         # initialize the WindowCapture class for sect_clear detection
         self.sect_clear_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", sect_clear_custom_rect)
@@ -46,7 +45,7 @@ class StandaloneCombat():
 
         # The next block of code is setup for detecting the combo count
         self.combo_count_filter, combo_count_custom_rect = grab_object_preset(
-            combo_count_name="combo_count")
+            object_name="combo_count")
         # initialize the WindowCapture class for combo_count detection
         self.combo_count_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", combo_count_custom_rect)
@@ -94,9 +93,10 @@ class StandaloneCombat():
                 if self.dunchk_momentum < 20:
                     self.dunchk_momentum += 1
                 if self.check_for_ongoing_combo():
-                    # print("Got to here #1")
+                    print("Got to here #1")
                     pass
                 elif self.check_for_enemies():
+                    print("Got to here #2")
                     self.calc_nearest_enemy()
             elif self.dunchk_momentum >= 1:
                 self.dunchk_momentum -= 1
@@ -140,11 +140,11 @@ class StandaloneCombat():
             self.can_find_current_player()
             points = self.enemy_minimap_vision.get_click_points(
                 enemy_rectangles)
-            # print("Points abs = {}".format(points))
+            print("Points abs = {}".format(points))
             # Then translate the points to be relative to the player
             points = self.get_relative_to_player(points)
             self.enemy_locs = points.copy()
-            # print("Enemy_locs = {}".format(self.enemy_locs))
+            print("Enemy_locs = {}".format(self.enemy_locs))
             return True
         return False
 
@@ -189,15 +189,15 @@ class StandaloneCombat():
                 closest = x + y
                 nearestx = x
                 nearesty = y
-        # previous_angle = self.centre_mass_angle
-        self.centre_mass_angle = self.grab_angle(
+        previous_angle = self.centre_mass_angle
+        self.centre_mass_angle = self.calc_angle(
             nearestx, nearesty)
-        # if previous_angle != self.centre_mass_angle:
-        #     print("Angle calc: x={}, y={}, angle={}".format(
-        #         nearestx, nearesty, self.centre_mass_angle))
-        #     print(self.centre_mass_angle)
+        if previous_angle != self.centre_mass_angle:
+            print("Angle calc: x={}, y={}, angle={}".format(
+                nearestx, nearesty, self.centre_mass_angle))
+            print(self.centre_mass_angle)
 
-    def grab_angle(self, relx, rely):
+    def calc_angle(self, relx, rely):
         angle = math.degrees(math.atan2(rely, relx))
         if angle <= 90:
             angle = angle * -1 + 90
@@ -247,12 +247,12 @@ class StandaloneCombat():
             pydirectinput.keyDown("right")
 
     def start_combo_handler(self):
-        self.running = True
         t = threading.Thread(target=self.combo_handler)
         t.start()
 
     def combo_handler(self):
         if not self.running:
+            self.running = True
             while self.running:
                 if len(self.combo_queue) > 0:
                     # print(self.combo_queue[0])
@@ -344,5 +344,6 @@ class StandaloneCombat():
 
 
 if __name__ == "__main__":
-    cs = StandaloneCombat()
+    cs = StandaloneCombat(controller=None)
+    time.sleep(2)
     cs.combat_mainloop()

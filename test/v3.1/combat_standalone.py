@@ -248,7 +248,7 @@ class StandaloneCombat():
 
     def start_combo_handler(self):
         self.running = True
-        t = threading.Thread(target=self.combo_handler, daemon=True)
+        t = threading.Thread(target=self.combo_handler)
         t.start()
 
     def combo_handler(self):

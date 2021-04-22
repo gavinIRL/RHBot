@@ -294,6 +294,12 @@ class StandaloneCombat():
         # And then append the instruction to move afterwards
         self.combo_queue.append(["move", 2])
 
+    def remove_all_keypresses(self):
+        for key in ["up", "down", "left", "right"]:
+            pydirectinput.keyUp(key)
+        for key in ["a", "s", "d", "f", "g", "h"]:
+            pydirectinput.keyUp(key)
+
     def move_towards_target(self):
         # Default pixels/sec test move rate was 50pixels in 2.5sec minimap
         # Which is 20pixels/sec

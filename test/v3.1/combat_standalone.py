@@ -57,7 +57,7 @@ class StandaloneCombat():
         self.player_filter, player_custom_rect = grab_object_preset(
             object_name="player_map_loc")
         # initialize the WindowCapture class for player detection
-        self.minimap_wincap = WindowCapture(
+        self.player_wincap = WindowCapture(
             "Rusty Hearts: Revolution - Reborn ", player_custom_rect)
         self.player_vision = Vision('playerv2_67.jpg')
 
@@ -208,7 +208,7 @@ class StandaloneCombat():
 
     def can_find_current_player(self):
         # Main logic for this method is below
-        minimap_screenshot = self.enemy_minimap_wincap.get_screenshot()
+        minimap_screenshot = self.player_wincap.get_screenshot()
         player_image = self.player_vision.apply_hsv_filter(
             minimap_screenshot, self.player_filter)
         player_rectangles = self.player_vision.find(

@@ -53,7 +53,10 @@ class Controller():
         # print(str(key))
         if key == KeyCode(char='q'):
             self.bot_running = False
-            return False
+            self.combatbat.running = False
+            # Need to pause for 1 second and then clear all keypresses
+            print("Exiting bot")
+            os._exit(1)
         if key == KeyCode(char='w'):
             self.loot_enabled = not self.loot_enabled
             if self.loot_enabled:

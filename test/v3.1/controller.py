@@ -51,14 +51,6 @@ class Controller():
 
     def on_press(self, key):
         # print(str(key))
-        if key == KeyCode(char='q'):
-            self.bot_running = False
-            self.combatbat.running = False
-            # Need to pause for 1 second and then clear all keypresses
-            time.sleep(1)
-            self.combatbat.remove_all_keypresses()
-            print("Exiting bot")
-            os._exit(1)
         if key == KeyCode(char='w'):
             self.loot_enabled = not self.loot_enabled
             if self.loot_enabled:
@@ -79,9 +71,14 @@ class Controller():
                 print("FREEMOVE OFF")
 
     def on_release(self, key):
-        if key == Key.esc:
-            # Stop listener
-            return False
+        if key == KeyCode(char='q'):
+            self.bot_running = False
+            self.combatbat.running = False
+            # Need to pause for 1 second and then clear all keypresses
+            time.sleep(1)
+            self.combatbat.remove_all_keypresses()
+            print("Exiting bot")
+            os._exit(1)
 
     def start_countdown(self):
         print("Bot starting in 5 seconds")

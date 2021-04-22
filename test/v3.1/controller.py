@@ -55,6 +55,8 @@ class Controller():
             self.bot_running = False
             self.combatbat.running = False
             # Need to pause for 1 second and then clear all keypresses
+            time.sleep(1)
+            self.combatbat.remove_all_keypresses()
             print("Exiting bot")
             os._exit(1)
         if key == KeyCode(char='w'):

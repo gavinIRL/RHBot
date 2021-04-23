@@ -219,3 +219,73 @@ class MSUnfocused():
     def grab_zoneprep(self):
         # This will
         pass
+
+
+class MSUFocused():
+    # The preferred layout of skills for this class is as follows:
+    # a = magic missile
+    # s =
+    # d =
+    # f = windy blast
+    # g =
+    # h = sandstorm
+
+    def __init__(self, level, focused) -> None:
+        self.level = level
+        self.focused = focused
+
+    def grab_base_cooldowns(self):
+        cooldowns = {"a": 5.3}
+        cooldowns["s"] = False
+        cooldowns["d"] = False
+        cooldowns["f"] = 5.5
+        cooldowns["g"] = False
+        cooldowns["h"] = 8.81
+
+        cooldowns["s+a"] = False
+        cooldowns["s+s"] = False
+        cooldowns["s+d"] = False
+        cooldowns["s+f"] = False
+        cooldowns["s+g"] = False
+        cooldowns["s+h"] = False
+
+        cooldowns["f1"] = False
+        cooldowns["f2"] = False
+        cooldowns["f3"] = False
+        cooldowns["f4"] = False
+        # Need to adjust based on level and if focused or not
+        return cooldowns
+
+    def grab_preferred_combo(self):
+        # For a given set of conditions this will choose
+        # the preferred attack combination
+        returnlist = []
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["point", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["x", 0.2])
+        returnlist.append(["point", 0.2])
+        return returnlist
+
+    def grab_zoneprep(self):
+        # This will
+        pass

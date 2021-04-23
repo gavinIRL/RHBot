@@ -18,12 +18,16 @@ def main_loop():
     # Initialise the actions object
     movement = Movement_Handler(test_mode=False)
 
+    # Grab the gamename from the text file
+    with open("gamename.txt") as f:
+        gamename = f.readline()
+
     # The next block of code is for detecting the object in question
     object_filter, object_custom_rect = grab_object_preset(
         object_name="other_player_map_loc")
     # initialize the WindowCapture class for object detection
     object_wincap = WindowCapture(
-        "Rusty Hearts: Revolution - Reborn ", object_custom_rect)
+        gamename, object_custom_rect)
     # initialize the Vision class
     object_vision = Vision('otherplayer.jpg')
 
@@ -40,7 +44,7 @@ def main_loop():
         object_name="dungeon_check")
     # This is only for testing and fixing the 150% screen scaling I have
     dunchk_wincap = WindowCapture(
-        "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
+        gamename, dunchk_custom_rect)
     dunchk_vision = Vision('dunchk_67.jpg')
 
     # Start the movement bot

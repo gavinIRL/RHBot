@@ -13,11 +13,15 @@ class StandaloneFreeMove():
         self.controller = controller
         self.enemy_detect_frames = 0
 
+        # Grab the gamename from the text file
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+
         # The next block of code is setup for detecting enemies on minimap
         self.enemy_filter, enemy_custom_rect = grab_object_preset(
             object_name="enemy_map_locv3")
         self.enemy_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", enemy_custom_rect)
+            gamename, enemy_custom_rect)
         self.enemy_vision = Vision('enemy67.jpg')
 
     def freemove_mainloop(self):

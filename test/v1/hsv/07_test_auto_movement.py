@@ -12,6 +12,9 @@ sleep(3)
 
 # Change the working directory to the folder this script is in.
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+# Grab the gamename from the text file
+with open("gamename.txt") as f:
+    gamename = f.readline()
 
 # Initialise the actions object
 # actions = Actions(test_mode=True)
@@ -25,7 +28,7 @@ object_filter, object_custom_rect = grab_object_preset(
 # object_custom_rect = list(map(lambda x: int(x*1.5), object_custom_rect))
 # initialize the WindowCapture class for object detection
 object_wincap = WindowCapture(
-    "Rusty Hearts: Revolution - Reborn ", custom_rect=object_custom_rect)
+    gamename, custom_rect=object_custom_rect)
 # initialize the Vision class
 object_vision = Vision('otherplayer.jpg')
 # initialize the trackbar window
@@ -46,7 +49,7 @@ dunchk_filter, dunchk_custom_rect = grab_object_preset(
 # This is only for testing and fixing the 150% screen scaling I have
 # dunchk_custom_rect = list(map(lambda x: int(x*1.5), dunchk_custom_rect))
 dunchk_wincap = WindowCapture(
-    "Rusty Hearts: Revolution - Reborn ", custom_rect=dunchk_custom_rect)
+    gamename, custom_rect=dunchk_custom_rect)
 dunchk_vision = Vision('dunchk_67.jpg')
 
 # Start the movement bot

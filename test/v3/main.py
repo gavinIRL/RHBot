@@ -74,6 +74,10 @@ class RHBotV3():
         # Allow 3 seconds to open the game window
         sleep(3)
 
+        # Grab the gamename from the text file
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+
         # Initialise the movement object and pass the state object
         self.movement = Movement_Handler(test_mode=False)
 
@@ -82,7 +86,7 @@ class RHBotV3():
             object_name="other_player_map_loc")
         # initialize the WindowCapture class for object detection
         self.minimap_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", object_custom_rect)
+            gamename, object_custom_rect)
         # initialize the Vision class
         self.object_vision = Vision('otherplayer67.jpg')
 
@@ -102,28 +106,28 @@ class RHBotV3():
         self.lootnr_filter, lootnr_custom_rect = grab_object_preset(
             object_name="loot_near")
         self.lootnr_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", lootnr_custom_rect)
+            gamename, lootnr_custom_rect)
         self.lootnr_vision = Vision('lootnear67filt.jpg')
 
         # The next block of code is setup for detecting far loot
         self.lootfr_filter, lootfr_custom_rect = grab_object_preset(
             object_name="loot_far")
         self.lootfr_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", lootfr_custom_rect)
+            gamename, lootfr_custom_rect)
         self.lootfr_vision = Vision('lootfar67filt.jpg')
 
         # The next block of code is setup for detecting if in a dungeon
         self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
             object_name="dungeon_check")
         self.dunchk_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
+            gamename, dunchk_custom_rect)
         self.dunchk_vision = Vision('dunchk_67.jpg')
 
         # The next block of code is setup for detecting if there is an x prompt
         self.xprompt_filter, xprompt_custom_rect = grab_object_preset(
             object_name="prompt_press_x_pickup")
         self.xprompt_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", xprompt_custom_rect)
+            gamename, xprompt_custom_rect)
         self.xprompt_vision = Vision("xprompt67filtv2.jpg")
 
         # Start the movement bot

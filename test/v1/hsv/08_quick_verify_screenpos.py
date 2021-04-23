@@ -10,7 +10,11 @@ from hsvfilter import grab_object_preset
 filter, custom_rect = grab_object_preset(
     object_name="dungeon_check")
 
-wincap = WindowCapture("Rusty Hearts: Revolution - Reborn ", custom_rect)
+# Grab the gamename from the text file
+with open("gamename.txt") as f:
+    gamename = f.readline()
+
+wincap = WindowCapture(gamename, custom_rect)
 loop_time = time()
 while(True):
     # get an updated image of the game

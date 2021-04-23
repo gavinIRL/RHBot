@@ -43,46 +43,51 @@ class StandaloneMoveLoot():
         # Initialise the movement object and pass the state object
         self.movement = Movement_Handler(test_mode=False)
 
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        # Grab the gamename from the text file
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+
         # The next block of code is setup for detecting the other player
         self.othr_plyr_filter, othr_plyr_custom_rect = grab_object_preset(
             object_name="other_player_map_loc")
         self.othr_plyr_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", othr_plyr_custom_rect)
+            gamename, othr_plyr_custom_rect)
         self.othr_plyr_vision = Vision('otherplayer67.jpg')
 
         # The next block of code is setup for detecting the current player
         self.player_filter, player_custom_rect = grab_object_preset(
             object_name="player_map_loc")
         self.player_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", player_custom_rect)
+            gamename, player_custom_rect)
         self.player_vision = Vision('playerv2_67.jpg')
 
         # The next block of code is setup for detecting enemies on minimap
         self.enemy_filter, enemy_custom_rect = grab_object_preset(
             object_name="enemy_map_locv3")
         self.enemy_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", enemy_custom_rect)
+            gamename, enemy_custom_rect)
         self.enemy_vision = Vision('enemy67.jpg')
 
         # The next block of code is setup for detecting nearby loot
         self.lootnr_filter, lootnr_custom_rect = grab_object_preset(
             object_name="loot_near")
         self.lootnr_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", lootnr_custom_rect)
+            gamename, lootnr_custom_rect)
         self.lootnr_vision = Vision('lootnear67filt.jpg')
 
         # The next block of code is setup for detecting if in a dungeon
         self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
             object_name="dungeon_check")
         self.dunchk_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
+            gamename, dunchk_custom_rect)
         self.dunchk_vision = Vision('dunchk_67.jpg')
 
         # The next block of code is setup for detecting if there is an x prompt
         self.xprompt_filter, xprompt_custom_rect = grab_object_preset(
             object_name="prompt_press_x_pickup")
         self.xprompt_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", xprompt_custom_rect)
+            gamename, xprompt_custom_rect)
         self.xprompt_vision = Vision("xprompt67filtv2.jpg")
 
         # Start the movement bot

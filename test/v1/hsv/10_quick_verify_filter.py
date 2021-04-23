@@ -16,7 +16,11 @@ filter, custom_rect = grab_object_preset(
 #custom_rect = list(map(lambda x: int(x*1.5), custom_rect))
 #wincap = WindowCapture(custom_rect=custom_rect)
 
-wincap = WindowCapture("Rusty Hearts: Revolution - Reborn ", custom_rect)
+# Grab the gamename from the text file
+with open("gamename.txt") as f:
+    gamename = f.readline()
+
+wincap = WindowCapture(gamename, custom_rect)
 # target = 'dunchk.jpg'
 # target_img = cv.imread(target, cv.IMREAD_UNCHANGED)
 # target_filtered =

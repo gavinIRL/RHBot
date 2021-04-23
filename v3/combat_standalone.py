@@ -34,12 +34,16 @@ class StandaloneCombat():
 
     def setup(self):
 
+        # Grab the gamename from the text file
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
             object_name="message_section_cleared")
         # initialize the WindowCapture class for sect_clear detection
         self.sect_clear_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", sect_clear_custom_rect)
+            gamename, sect_clear_custom_rect)
         # initialize the Vision class
         self.sect_clear_vision = Vision('SectionCleared67.jpg')
 
@@ -48,7 +52,7 @@ class StandaloneCombat():
             object_name="combo_count")
         # initialize the WindowCapture class for combo_count detection
         self.combo_count_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", combo_count_custom_rect)
+            gamename, combo_count_custom_rect)
         # initialize the Vision class
         self.combo_count_vision = Vision('combocount67.jpg')
 
@@ -57,7 +61,7 @@ class StandaloneCombat():
             object_name="player_map_loc")
         # initialize the WindowCapture class for player detection
         self.player_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", player_custom_rect)
+            gamename, player_custom_rect)
         self.player_vision = Vision('playerv2_67.jpg')
 
         # The next block of code is setup for detecting enemies on minimap
@@ -65,7 +69,7 @@ class StandaloneCombat():
         self.enemy_minimap_filter, enemy_custom_rect = grab_object_preset(
             object_name="enemy_map_locv3")
         self.enemy_minimap_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", enemy_custom_rect)
+            gamename, enemy_custom_rect)
         # initialize the Vision class
         self.enemy_minimap_vision = Vision('enemy67.jpg')
 
@@ -73,7 +77,7 @@ class StandaloneCombat():
         self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
             object_name="dungeon_check")
         self.dunchk_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", dunchk_custom_rect)
+            gamename, dunchk_custom_rect)
         self.dunchk_vision = Vision('dunchk_67.jpg')
 
     def combat_mainloop(self):

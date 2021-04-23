@@ -13,11 +13,15 @@ from hsvfilter import HsvFilter, grab_object_preset
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+# Grab the gamename from the text file
+with open("gamename.txt") as f:
+    gamename = f.readline()
+
 filter, custom_rect = grab_object_preset("player_map_loc", big_map=True)
 # WindowCapture.list_window_names()
 # initialize the WindowCapture class
-# wincap = WindowCapture("Rusty Hearts: Revolution - Reborn ")
-wincap2 = WindowCapture("Rusty Hearts: Revolution - Reborn ", custom_rect)
+# wincap = WindowCapture(gamename)
+wincap2 = WindowCapture(gamename, custom_rect)
 
 # initialize the Vision class
 vision_limestone = Vision('dunchk_67.jpg')

@@ -75,12 +75,16 @@ class Combat():
 
     def begin(self):
 
+        # Grab the gamename from the text file
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
             sect_clear_name="message_section_cleared")
         # initialize the WindowCapture class for sect_clear detection
         self.sect_clear_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", sect_clear_custom_rect)
+            gamename, sect_clear_custom_rect)
         # initialize the Vision class
         self.sect_clear_vision = Vision('SectionCleared67.jpg')
 
@@ -89,7 +93,7 @@ class Combat():
             combo_count_name="combo_count")
         # initialize the WindowCapture class for combo_count detection
         self.combo_count_wincap = WindowCapture(
-            "Rusty Hearts: Revolution - Reborn ", combo_count_custom_rect)
+            gamename, combo_count_custom_rect)
         # initialize the Vision class
         self.combo_count_vision = Vision('combocount67.jpg')
         # And finally run the actual bot

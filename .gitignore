@@ -14,3 +14,5 @@ otherplayertag.jpg
 otherplayertag100.jpg
 # hide json files
 *.json
+# hide gamename 
+gamename.txt

@@ -1,20 +1,15 @@
 # RHBot
 ## Summary
-Simple bot to automate combat, selling gear at end of level, and other basic functions. The title of the game this bot is used for will remain hidden until further in the development cycle to reduce the likelihood of a ban. The game in question is an old (>10years since launch) game that is an online multiplayer game on PC.
-
-## Motivation
-Alongside the DCW application (specifically the bot playground and creation aspect of DCW), I have an interest in assessing the automation of certain tasks. More specifically I have an interest in the efficiency of automating tasks in comparison to manually doing them. This bot application is intended as a learning experience for useful automation with a reasonably complex set of situations. The approaches to be taken include bot image recognition (probably using OpenCV or similar) and also the standard fixed-sequence movement patterns (using PyAutoGUI and/or PyDirectInput).
+Simple bot to automate combat, follow other players, and pick up loot. The title of the game this bot is used for will remain hidden until further in the development cycle to reduce the likelihood of a ban. The game in question is an old (>10years since launch) game that is an online multiplayer game on PC.
 
 ## Current Thoughts
-Restarting the V3 bot to a modular design, while only allowing one module to run at any one time has proven to be a much cleaner and more manageable way of implementing combat. While not fully finished yet, the change to a modular design has allowed for faster change implementation and bug fixing. 
-
-Looking forward, there is opportunity for a hotkey communication program which would for example allow enabling/disabling of loot mode on 3+ bots. Using a network share would be too basic and too slow, so instead the plan is to use TCP/IP. Current predicted timeline is post-v4 but pre-v5 bot.
+At this point I have reached the crossroads whereby the v3 bot can do everything that I require it to do in terms of being a follower, however it still relies on a heavy amount of user input. Moving forward I aim to reduce the amount of user input in particular during the early levelling phase. The plan will be to have the bots perform the stock in-town levelling quest completion and new quest acceptance, with the instructions coming by means of a socketed connection. I will likely create a new repo for the client and server rather than cluttering this repo further.
 
 ## Current Status
 * Version 1: Completed
 * Version 2: Completed (Partially - only loots nearby items, sufficient for quests)
-* Version 3: In Progress
-* Version 4: Not Started
+* Version 3: Completed (Support only for 1 class)
+* Version 4: In Progress
 * Version 5: Not Started
 * Version 6: Not Started
 

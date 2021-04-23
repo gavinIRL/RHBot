@@ -153,23 +153,24 @@ class WeaponBagUnfocused():
 
 class MSUnfocused():
     # The preferred layout of skills for this class is as follows:
-    # s = spiked mat
-    # d = charge shot
-    # f = lock on
-    # g = shockmine
-    # h = sentry laser
+    # a = magic missile
+    # s =
+    # d =
+    # f = windy blast
+    # g =
+    # h = sandstorm
 
     def __init__(self, level, focused) -> None:
         self.level = level
         self.focused = focused
 
     def grab_base_cooldowns(self):
-        cooldowns = {"a": False}
-        cooldowns["s"] = 5.3
-        cooldowns["d"] = 4.4
-        cooldowns["f"] = 8.8
-        cooldowns["g"] = 17
-        cooldowns["h"] = 41
+        cooldowns = {"a": 5.3}
+        cooldowns["s"] = False
+        cooldowns["d"] = False
+        cooldowns["f"] = 5.5
+        cooldowns["g"] = False
+        cooldowns["h"] = 8.81
 
         cooldowns["s+a"] = False
         cooldowns["s+s"] = False

@@ -116,6 +116,20 @@ class StandaloneMoveLoot():
         # After end stop all movement
         self.movement.movement_stop()
 
+    def check_if_in_dungeon(self):
+        # get an updated image of the game at specified area
+        dunchk_screenshot = self.dunchk_wincap.get_screenshot()
+        # pre-process the image to help with detection
+        dunchk_output_image = self.dunchk_vision.apply_hsv_filter(
+            dunchk_screenshot, self.dunchk_filter)
+        # do object detection, this time grab rectangles
+        dunchk_rectangles = self.dunchk_vision.find(
+            dunchk_output_image, threshold=0.31, epsilon=0.5)
+        # then return answer to whether currently in dungeon
+        if len(dunchk_rectangles) == 1:
+            return True
+        return False
+
     def perform_enemy_check(self):
         if self.check_for_enemies():
             self.enemy_detect_frames += 1
@@ -177,7 +191,7 @@ class StandaloneMoveLoot():
             lootnr_screenshot, self.lootnr_filter)
         # do object detection, this time grab rectangles
         lootnr_rectangles = self.lootnr_vision.find(
-            lootnr_output_image, threshold=0.27, epsilon=0.5)
+            lootnr_output_image, threshold=0.31, epsilon=0.5)
         # then return answer to whether currently in dungeon
         if len(lootnr_rectangles) >= 1:
             return True

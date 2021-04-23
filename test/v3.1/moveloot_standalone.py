@@ -196,3 +196,88 @@ class StandaloneMoveLoot():
         if len(xprompt_rectangles) == 1:
             return True
         return False
+
+    # Having these be separate methods as main loop too bulky
+    def can_find_both_players(self):
+        # This will return true if both players could be found
+        # Otherwise will set relative to 0,0 and return false
+        if self.can_find_other_player():
+            if self.can_find_current_player():
+                return True
+            # Need to use last known position otherwise
+            return True
+        return False
+
+    def can_find_current_player(self):
+        # Main logic for this method is below
+        minimap_screenshot = self.player_wincap.get_screenshot()
+        player_image = self.player_vision.apply_hsv_filter(
+            minimap_screenshot, self.player_filter)
+        player_rectangles = self.player_vision.find(
+            player_image, threshold=0.41, epsilon=0.5)
+        player_points = self.player_vision.get_click_points(
+            player_rectangles)
+        if len(player_points) == 1:
+            self.current_player_coords[0] = player_points[0][0]
+            self.current_player_coords[1] = player_points[0][1]
+            return True
+        else:
+            # Should this be set to 0,0 or left as is? Come back to this later
+            # Will leave as is for now, probably useful for enemy detect
+            return False
+
+    def can_find_other_player(self):
+        # then try to detect the other player
+        minimap_screenshot = self.othr_plyr_wincap.get_screenshot()
+        output_image = self.othr_plyr_vision.apply_hsv_filter(
+            minimap_screenshot, self.othr_plyr_filter)
+        # do object detection, this time grab the points
+        rectangles = self.othr_plyr_vision.find(
+            output_image, threshold=0.41, epsilon=0.5)
+        points = self.othr_plyr_vision.get_click_points(rectangles)
+        if len(points) == 1:
+            self.other_player_rel_coords[0] = points[0][0] - \
+                self.current_player_coords[0]
+            self.other_player_rel_coords[1] = self.current_player_coords[1] - points[0][1]
+            return True
+        elif len(points) >= 2:
+            # Will grab the point closest to the centre of the minimap and track that
+            # Allowing some small amount of redundancy for short-range following
+            # In event that the background is also picked up
+            middle_x = 0
+            middle_y = 0
+            dist = 1000
+            for x, y in points:
+                if (x+y) < dist:
+                    dist = x+y
+                    middle_x = x
+                    middle_y = y
+            self.other_player_rel_coords[0] = middle_x - \
+                self.current_player_coords[0]
+            self.other_player_rel_coords[1] = self.current_player_coords[1] - middle_y
+            return True
+        else:
+            # Should this be set to 0,0 or left as is? Come back to this later
+            # Maybe set it to the current player coords instead
+            # self.other_player_rel_coords = [0, 0]
+            return False
+
+    def move_to_other_player(self):
+        self.loot_movement_frames = 0
+        if self.can_find_both_players():
+            relx, rely = self.other_player_rel_coords
+            self.movement.movement_update_xy(relx, rely)
+            self.movement_frames += 1
+            if self.movement_frames % self.momentum_accel == 0:
+                if not self.momentum >= self.max_momentum:
+                    self.momentum += 1
+        else:
+            if self.momentum < 1:
+                self.movement.movement_update_xy(0, 0)
+                self.momentum = 0
+                # Have the consecutive move count only reset if momentum gone
+                self.movement_frames = 0
+            else:
+                self.momentum -= 1
+                # Only slightly remove the momentum progress
+                self.movement_frames -= (int(self.momentum_accel/2))

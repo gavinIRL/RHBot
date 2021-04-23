@@ -170,7 +170,7 @@ class MSUnfocused():
         cooldowns["d"] = False
         cooldowns["f"] = 5.5
         cooldowns["g"] = False
-        cooldowns["h"] = 8.81
+        cooldowns["h"] = 8.9
 
         cooldowns["s+a"] = False
         cooldowns["s+s"] = False
@@ -225,25 +225,27 @@ class MSUFocused():
     # The preferred layout of skills for this class is as follows:
     # a = magic missile
     # s =
-    # d =
+    # d = soul eroder
     # f = windy blast
-    # g =
+    # g = phantom missile
     # h = sandstorm
+    # s+a = pillar of light
+    # s+s = blinding beam
 
     def __init__(self, level, focused) -> None:
         self.level = level
         self.focused = focused
 
     def grab_base_cooldowns(self):
-        cooldowns = {"a": 5.3}
+        cooldowns = {"a": 4.4}
         cooldowns["s"] = False
-        cooldowns["d"] = False
+        cooldowns["d"] = 2.1
         cooldowns["f"] = 5.5
-        cooldowns["g"] = False
-        cooldowns["h"] = 8.81
+        cooldowns["g"] = 4.4
+        cooldowns["h"] = 8.9
 
-        cooldowns["s+a"] = False
-        cooldowns["s+s"] = False
+        cooldowns["s+a"] = 32
+        cooldowns["s+s"] = 41
         cooldowns["s+d"] = False
         cooldowns["s+f"] = False
         cooldowns["s+g"] = False

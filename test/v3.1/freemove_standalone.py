@@ -21,7 +21,6 @@ class StandaloneFreeMove():
         self.enemy_vision = Vision('enemy67.jpg')
 
     def freemove_mainloop(self):
-        # print("Entering freemove")
         loop_time = time.time()
         while self.controller.bot_running:
             # Will attempt to detect enemies, if so will enter combat mode
@@ -31,7 +30,6 @@ class StandaloneFreeMove():
                 if self.perform_enemy_check():
                     if (time.time() - self.controller.combat_cooldown) > 0:
                         self.controller.mode = "combat"
-                        # print("Entering automated combat")
                         break
             else:
                 time.sleep(0.25)
@@ -41,7 +39,6 @@ class StandaloneFreeMove():
                 time.sleep(0.001)
             loop_time = time.time()
             if not self.controller.freemove_enabled:
-                print("Returning to automatic navigation")
                 break
 
     def perform_enemy_check(self):

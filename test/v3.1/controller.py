@@ -40,8 +40,6 @@ class Controller():
             else:
                 print("Error, no mode selected")
                 time.sleep(2)
-        # print("Finished controller mainloop")
-        # self.listener.
 
     def start_keypress_listener(self):
         if self.listener == None:
@@ -50,7 +48,6 @@ class Controller():
             self.listener.start()
 
     def on_press(self, key):
-        # print(str(key))
         if key == KeyCode(char='w'):
             self.loot_enabled = not self.loot_enabled
             if self.loot_enabled:

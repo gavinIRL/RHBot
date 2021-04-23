@@ -82,27 +82,22 @@ class StandaloneCombat():
         # Need to start the combo
         self.start_combo_handler()
         while True:
-            # print("Looping combat mainloop")
             if self.check_if_in_dungeon():
                 if self.check_for_sect_clear():
                     self.controller.mode = "movement"
-                    # print("Break because sect clear")
                     self.controller.combat_cooldown = time.time() + 5
                     break
 
                 if self.dunchk_momentum < 20:
                     self.dunchk_momentum += 1
                 if self.check_for_ongoing_combo():
-                    # print("Got to here #1")
                     pass
                 elif self.check_for_enemies():
-                    # print("Got to here #2")
                     self.calc_nearest_enemy()
             elif self.dunchk_momentum >= 1:
                 self.dunchk_momentum -= 1
             else:
                 self.controller.mode = "movement"
-                # print("Break because dunchk momentum")
                 break
             # If loops are over 100fps, slow to 67fps
             if 100*(time.time() - loop_time) < 1:
@@ -112,7 +107,6 @@ class StandaloneCombat():
         self.running = False
 
     def check_if_in_dungeon(self):
-        # print("Got to here")
         # get an updated image of the game at specified area
         dunchk_screenshot = self.dunchk_wincap.get_screenshot()
         # pre-process the image to help with detection
@@ -140,31 +134,23 @@ class StandaloneCombat():
             self.can_find_current_player()
             points = self.enemy_minimap_vision.get_click_points(
                 enemy_rectangles)
-            # print("Points abs = {}".format(points))
             # Then translate the points to be relative to the player
             points = self.get_relative_to_player(points)
             self.enemy_locs = points.copy()
-            # print("Enemy_locs = {}".format(self.enemy_locs))
             return True
         return False
 
     def check_for_sect_clear(self):
         # then try to detect the sect_clear
         sc_ss = self.sect_clear_wincap.get_screenshot()
-        # print("size={}".format(len(sc_ss)))
         # pre-process the image to help with detection
         sect_clear_image = self.sect_clear_vision.apply_hsv_filter(
             sc_ss, self.sect_clear_filter)
-        # print("size={}".format(len(sect_clear_image)))
         # do object detection, this time grab rectangles
         sect_clear_rectangles = self.sect_clear_vision.find(
             sect_clear_image, threshold=0.34, epsilon=0.5)
         # then return answer to whether sect clear is showing
-        # print(sect_clear_rectangles)
         if len(sect_clear_rectangles) == 1:
-            # output_image = self.sect_clear_vision.draw_rectangles(
-            #     sc_ss, sect_clear_rectangles)
-            # cv.imwrite("test.jpg", output_image)
             return True
         return False
 
@@ -189,13 +175,8 @@ class StandaloneCombat():
                 closest = x + y
                 nearestx = x
                 nearesty = y
-        # previous_angle = self.centre_mass_angle
         self.centre_mass_angle = self.calc_angle(
             nearestx, nearesty)
-        # if previous_angle != self.centre_mass_angle:
-        #     print("Angle calc: x={}, y={}, angle={}".format(
-        #         nearestx, nearesty, self.centre_mass_angle))
-        #     print(self.centre_mass_angle)
 
     def calc_angle(self, relx, rely):
         angle = math.degrees(math.atan2(rely, relx))
@@ -203,7 +184,6 @@ class StandaloneCombat():
             angle = angle * -1 + 90
         else:
             angle = 360 + (angle-90) * -1
-        # print("Angle calc: x={}, y={}, angle={}".format(relx, rely, angle))
         return angle
 
     def can_find_current_player(self):
@@ -255,7 +235,6 @@ class StandaloneCombat():
             self.running = True
             while self.running:
                 if len(self.combo_queue) > 0:
-                    # print(self.combo_queue[0])
                     key, duration = self.combo_queue[0]
                     nextkey = None
                     if len(self.combo_queue) > 1:

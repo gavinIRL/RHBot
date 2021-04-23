@@ -18,9 +18,6 @@ class StandaloneMoveLoot():
         self.controller = controller
         # This is the variable which prevents getting stuck picking loot
         self.pressx_counter = 0
-        # This is the variable which resets the keyboard and mouse periodically
-        # Assume 1frame is ~15ms
-        self.general_frames = 0
         # This is the variable which will track cooldown on searching for loot
         # After the bot has gotten stuck, format is seconds
         # The value assigned will correspond to time when lootsearch can recommence
@@ -93,9 +90,9 @@ class StandaloneMoveLoot():
 
     def move_mainloop(self):
         loop_time = time()
+        reset_time = time() + 5
         while True:
             if self.check_if_in_dungeon():
-                self.general_frames += 1
                 if self.controller.combat_enabled:
                     if self.perform_enemy_check():
                         self.controller.mode = "combat"
@@ -106,10 +103,10 @@ class StandaloneMoveLoot():
             else:
                 sleep(0.4)
 
-            if self.general_frames >= 75:
+            if (time() - reset_time) > 0:
                 Actions.move_mouse_centre()
                 Actions.stop_keypresses(self.movement)
-                self.general_frames = 0
+                reset_time = time() + 5
 
             # If loops are over 100fps, slow to 67fps
             if 100*(time() - loop_time) < 1:

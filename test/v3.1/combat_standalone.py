@@ -323,7 +323,6 @@ class StandaloneCombat():
                             # Grab the cooldowns of all available keys
                             # Check if any are ready yet, if yes then go next loop
                             if self.can_create_preferred_available_order():
-                                nextkey = None
                                 pass
                             # If it isnt move towards the other player if detected
                             # And keep doing that until the next cooldown is up

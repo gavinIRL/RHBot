@@ -15,7 +15,9 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 class StandaloneCombat():
-    def __init__(self, controller, weapon="MSU") -> None:
+    # Weapon arg options are 2 letter for weapon and then either
+    # F or U for focused or unfocused
+    def __init__(self, controller, weapon="MSU", level=1) -> None:
         self.controller = controller
         # self.nearest_enemy_dist = 1
         self.dist_threshold = 125
@@ -32,10 +34,12 @@ class StandaloneCombat():
 
         # This will decide which class to use
         self.weapon = weapon
+        # This will assign correct skills for level
+        self.level = level
         # This will hold the cooldown times for each skill
-        self.cooldowns = None
+        self.cooldowns = {"popthis": 1}
         # This will track when a key can be next pressed
-        self.cd_tracker = None
+        self.cd_tracker = {"popthis": 1}
         # This will be the class to use
         self.combos = None
         # This will be hold the current keypress queue
@@ -413,14 +417,23 @@ class StandaloneCombat():
                 break
 
     def initialise_wep_class(self):
+        # First create the classes with required information
         if self.weapon == "MSU":
-            self.combos = combo.MSUnfocused()
+            self.combos = combo.MSUnfocused(level=self.level)
         elif self.weapon == "MSF":
-            self.combos = combo.MSFocused()
+            self.combos = combo.MSFocused(level=self.level)
         elif self.weapon == "WBU":
-            self.combos = combo.WeaponBagUnfocused()
+            self.combos = combo.WeaponBagUnfocused(level=self.level)
         elif self.weapon == "WBF":
-            self.combos = combo.WeaponBagFocused()
+            self.combos = combo.WeaponBagFocused(level=self.level)
+
+        # Second figure out which keys to track cooldowns for
+        for key, value in self.combos.grab_base_cooldowns():
+            if value:
+                self.cooldowns[key] = value
+                self.cd_tracker[key] = time.time()
+        self.cooldowns.pop("popthis")
+        self.cd_tracker.pop("popthis")
 
 
 if __name__ == "__main__":

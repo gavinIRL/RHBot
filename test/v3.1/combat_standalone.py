@@ -271,6 +271,43 @@ class StandaloneCombat():
                 for key in ["up", "down", "left", "right"]:
                     pydirectinput.keyUp(key)
 
+    def combo_handler_MS(self):
+        if not self.running:
+            self.running = True
+            while self.running:
+                if len(self.combo_queue) > 0:
+                    key, duration = self.combo_queue[0]
+                    nextkey = None
+                    if len(self.combo_queue) > 1:
+                        nextkey, _ = self.combo_queue[1]
+                        if nextkey == "point":
+                            # Need to point at centre mass of enemies or nearest in range enemy
+                            self.point_at_target()
+                    if key is None:
+                        time.sleep(duration)
+                    elif key == "move":
+                        # Need to calculate time to press buttons in function
+                        # And then press the required buttons
+                        self.move_towards_target()
+                    else:
+                        pydirectinput.keyDown(key)
+                        time.sleep(duration)
+                        pydirectinput.keyUp(key)
+                        time.sleep(0.07)
+                    if nextkey == "point":
+                        for key in ["up", "down", "left", "right"]:
+                            pydirectinput.keyUp(key)
+                    if len(self.combo_queue) > 0:
+                        self.combo_queue.pop(0)
+                    else:
+                        print("Error, tried to pop when array was size 0")
+                else:
+                    self.combo_queue = self.combos.grab_preferred_combo().copy()
+            else:
+                self.combo_queue = []
+                for key in ["up", "down", "left", "right"]:
+                    pydirectinput.keyUp(key)
+
     def add_move_next_action(self):
         # Only grab the first i.e. current action and remove the rest
         self.combo_queue = self.combo_queue[:1]

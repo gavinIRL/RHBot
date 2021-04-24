@@ -355,9 +355,6 @@ class StandaloneCombat():
         # Based on the preferred combo order
         return False
 
-    def can_find_other_player(self):
-        return False
-
     def move_towards_other_player(self, duration):
         # This will move the current character towards the other player
         # but only for a specified duration of time

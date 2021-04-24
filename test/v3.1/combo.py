@@ -17,9 +17,8 @@ class WeaponBagFocused():
     # f1 = stun grenade
     # f2 = concentration
 
-    def __init__(self, level=1, focused=True) -> None:
+    def __init__(self, level=1) -> None:
         self.level = level
-        self.focused = focused
 
     def grab_base_cooldowns(self):
         cooldowns = {"a": 5.5}
@@ -90,9 +89,8 @@ class WeaponBagUnfocused():
     # g = shockmine
     # h = sentry laser
 
-    def __init__(self, level, focused) -> None:
+    def __init__(self, level=1) -> None:
         self.level = level
-        self.focused = focused
 
     def grab_base_cooldowns(self):
         cooldowns = {"a": False}
@@ -160,9 +158,8 @@ class MSUnfocused():
     # g =
     # h = sandstorm
 
-    def __init__(self, level, focused) -> None:
+    def __init__(self, level=1) -> None:
         self.level = level
-        self.focused = focused
 
     def grab_base_cooldowns(self):
         cooldowns = {"a": 5.3}
@@ -221,9 +218,8 @@ class MSFocused():
     # s+a = pillar of light
     # s+s = blinding beam
 
-    def __init__(self, level, focused) -> None:
+    def __init__(self, level=1) -> None:
         self.level = level
-        self.focused = focused
 
     def grab_base_cooldowns(self):
         cooldowns = {"a": 4.4}

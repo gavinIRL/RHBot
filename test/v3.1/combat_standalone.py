@@ -378,11 +378,15 @@ class StandaloneCombat():
         for key in ["a", "s", "d", "f", "g", "h"]:
             pydirectinput.keyUp(key)
 
-    def move_towards_target(self):
+    def move_towards_target(self, coords=False):
         # Default pixels/sec test move rate was 50pixels in 2.5sec minimap
         # Which is 20pixels/sec
-        xdist_to_move = self.target_relative_coords[0]
-        ydist_to_move = self.target_relative_coords[1]
+        if coords:
+            xdist_to_move = coords[0]
+            ydist_to_move = coords[1]
+        else:
+            xdist_to_move = self.target_relative_coords[0]
+            ydist_to_move = self.target_relative_coords[1]
         if xdist_to_move > 0:
             pydirectinput.keyDown("right")
         elif xdist_to_move < 0:

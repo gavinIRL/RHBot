@@ -204,6 +204,8 @@ class StandaloneCombat():
                 nearesty = y
         self.centre_mass_angle = self.calc_angle(
             nearestx, nearesty)
+        # Then set the "target" enemy
+        self.target_relative_coords = [nearestx, nearesty]
 
     def calc_angle(self, relx, rely):
         angle = math.degrees(math.atan2(rely, relx))
@@ -335,7 +337,7 @@ class StandaloneCombat():
                             # If it isnt move towards the other player if detected
                             # And keep doing that until the next cooldown is up
                             elif self.can_find_other_player():
-                                self.move_towards_other_player(duration)
+                                self.move_towards_other_player()
                             # Or else move opposite direction to enemies but stay in range
                             else:
                                 self.move_towards_safety()
@@ -355,16 +357,33 @@ class StandaloneCombat():
         # Based on the preferred combo order
         return False
 
-    def move_towards_other_player(self, duration):
+    def move_towards_other_player(self):
         # This will move the current character towards the other player
-        # but only for a specified duration of time
         # Usually while waiting for cooldowns
-        pass
+        # Then do the movement towards other player
+        self.move_towards_target(self.other_player_rel_coords)
+        # If has taken more than enough time then all fine
+        # Otherwise it will loop again and probably end up
+        # back here again, not sure if this is an issue or not
 
     def move_towards_safety(self):
         # This will attempt to stay within range of average enemy position
         # But move away from them to hopefully dodge attacks
-        pass
+        # First grab the coords and get opposite
+        movex = self.target_relative_coords[0]
+        movey = self.target_relative_coords[1]
+        abx = abs(movex)
+        aby = abs(movey)
+        # Then figure out how far to move to stay within range
+        ratio = (abx + aby)/self.dist_threshold
+        # Check if already too far away from target then move closer
+        if ratio < 1:
+            # If within range then move back to max range
+            self.move_towards_target(
+                [int((movex/(abx+aby))*self.dist_threshold), int(movey/(abx+aby)*self.dist_threshold)])
+        else:
+            # Move halfway towards the nearest enemy
+            self.move_towards_target([int(movex/2), int(movey/2)])
 
     def add_move_next_action(self):
         # Only grab the first i.e. current action and remove the rest

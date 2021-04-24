@@ -186,6 +186,10 @@ class MSUnfocused():
         cooldowns["f2"] = False
         cooldowns["f3"] = False
         cooldowns["f4"] = False
+
+        for key, cd in cooldowns:
+            if not cd:
+                cooldowns.pop(key)
         # Need to adjust based on level and if focused or not
         return cooldowns
 

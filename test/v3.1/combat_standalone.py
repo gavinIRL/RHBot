@@ -15,7 +15,7 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 
 class StandaloneCombat():
-    def __init__(self, controller) -> None:
+    def __init__(self, controller, weapon="MSU") -> None:
         self.controller = controller
         self.combo_queue = []
         # self.nearest_enemy_dist = 1
@@ -28,9 +28,13 @@ class StandaloneCombat():
         self.current_player_coords = [0, 0]
         self.enemy_locs = []
         self.running = False
-        self.combos = combo.WeaponBagFocused()
 
         self.setup()
+
+        self.weapon = weapon
+        self.cooldowns = None
+        self.combos = None
+        self.initialise_wep_class()
 
     def setup(self):
 
@@ -361,6 +365,16 @@ class StandaloneCombat():
                 pydirectinput.keyUp("up")
                 pydirectinput.keyUp("down")
                 break
+
+    def initialise_wep_class(self):
+        if self.weapon == "MSU":
+            self.combos = combo.MSUnfocused()
+        elif self.weapon == "MSF":
+            self.combos = combo.MSFocused()
+        elif self.weapon == "WBU":
+            self.combos = combo.WeaponBagUnfocused()
+        elif self.weapon == "WBF":
+            self.combos = combo.WeaponBagFocused()
 
 
 if __name__ == "__main__":

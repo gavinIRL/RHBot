@@ -17,7 +17,6 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 class StandaloneCombat():
     def __init__(self, controller, weapon="MSU") -> None:
         self.controller = controller
-        self.combo_queue = []
         # self.nearest_enemy_dist = 1
         self.dist_threshold = 125
         self.centre_mass_angle = 90
@@ -31,9 +30,17 @@ class StandaloneCombat():
 
         self.setup()
 
+        # This will decide which class to use
         self.weapon = weapon
+        # This will hold the cooldown times for each skill
         self.cooldowns = None
+        # This will track when a key can be next pressed
+        self.cd_tracker = None
+        # This will be the class to use
         self.combos = None
+        # This will be hold the current keypress queue
+        self.combo_queue = []
+        # This method fills out each of the above vars
         self.initialise_wep_class()
 
     def setup(self):
@@ -300,11 +307,27 @@ class StandaloneCombat():
                             self.move_towards_other_player(duration)
                     elif key == "point":
                         pass
-                    else:
-                        pydirectinput.keyDown(key)
-                        time.sleep(duration)
-                        pydirectinput.keyUp(key)
-                        time.sleep(0.07)
+                    elif key in self.cooldowns:
+                        if time.time() > self.cd_tracker[key]:
+                            self.cd_tracker[key] = time.time() + \
+                                self.cooldowns[key]
+                            pydirectinput.keyDown(key)
+                            time.sleep(duration)
+                            pydirectinput.keyUp(key)
+                            time.sleep(0.07)
+                        else:
+                            # Grab the cooldowns of all available keys
+                            # Check if any are ready yet, if yes then go next loop
+                            if self.can_create_preferred_available_order():
+                                nextkey = None
+                                pass
+                            # If it isnt move towards the other player if detected
+                            # And keep doing that until the next cooldown is up
+                            elif self.can_find_other_player():
+                                self.move_towards_other_player(duration)
+                            # Or else move opposite direction to enemies but stay in range
+                            else:
+                                self.move_towards_safety()
                     if nextkey == "point":
                         for key in ["up", "down", "left", "right"]:
                             pydirectinput.keyUp(key)
@@ -314,10 +337,25 @@ class StandaloneCombat():
                 self.combo_queue = []
                 self.remove_all_keypresses()
 
+    def can_create_preferred_available_order(self):
+        # This will check the current available keys
+        # And if any are not on cooldown i.e. available to use
+        # Will create a new order for the combo queue
+        # Based on the preferred combo order
+        return False
+
     def can_find_other_player(self):
         return False
 
     def move_towards_other_player(self, duration):
+        # This will move the current character towards the other player
+        # but only for a specified duration of time
+        # Usually while waiting for cooldowns
+        pass
+
+    def move_towards_safety(self):
+        # This will attempt to stay within range of average enemy position
+        # But move away from them to hopefully dodge attacks
         pass
 
     def add_move_next_action(self):

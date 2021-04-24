@@ -221,7 +221,7 @@ class MSUnfocused():
         pass
 
 
-class MSUFocused():
+class MSUnFocused():
     # The preferred layout of skills for this class is as follows:
     # a = magic missile
     # s =

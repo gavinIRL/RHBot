@@ -200,7 +200,21 @@ class MSUnfocused():
         returnlist.append(["point", 0.2])
         returnlist.append(["f", 0.2])
         returnlist.append(["h", 0.2])
-        return returnlist
+        # But need to make sure they have been unlocked first
+        checklist = self.grab_base_cooldowns()
+        truelist = []
+        for entry in enumerate(returnlist):
+            if entry[0] in checklist:
+                truelist.append(entry)
+            elif entry[0] == "point":
+                truelist.append(entry)
+            elif entry[0] == "x":
+                truelist.append(entry)
+            elif entry[0] == "move":
+                truelist.append(entry)
+            elif entry[0] == "move_player":
+                truelist.append(entry)
+        return truelist
 
     def grab_zoneprep(self):
         # This will

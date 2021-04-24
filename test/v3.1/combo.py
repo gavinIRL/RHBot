@@ -168,9 +168,11 @@ class MSUnfocused():
         cooldowns = {"a": 5.3}
         cooldowns["s"] = False
         cooldowns["d"] = False
-        cooldowns["f"] = 5.5
+        if self.level >= 2:
+            cooldowns["f"] = 5.5
         cooldowns["g"] = False
-        cooldowns["h"] = 8.9
+        if self.level >= 2:
+            cooldowns["h"] = 8.9
 
         cooldowns["s+a"] = False
         cooldowns["s+s"] = False
@@ -185,6 +187,9 @@ class MSUnfocused():
         cooldowns["f4"] = False
         # Need to adjust based on level and if focused or not
         return cooldowns
+
+    def grab_preferred_order(self):
+        return ("a", "f", "h")
 
     def grab_preferred_combo(self):
         # For a given set of conditions this will choose

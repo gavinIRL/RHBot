@@ -401,7 +401,7 @@ class StandaloneCombat():
         if ratio < 1:
             # If within range then move back to max range
             self.move_towards_target(
-                [int((movex/(abx+aby))*self.dist_threshold), int(movey/(abx+aby)*self.dist_threshold)])
+                [int((-movex/(abx+aby))*self.dist_threshold), int(-movey/(abx+aby)*self.dist_threshold)])
         else:
             # Move halfway towards the nearest enemy
             self.move_towards_target([int(movex/2), int(movey/2)])

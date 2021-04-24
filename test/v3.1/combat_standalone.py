@@ -27,6 +27,7 @@ class StandaloneCombat():
         self.dunchk_momentum = 10
         self.target_relative_coords = [0, 0]
         self.current_player_coords = [0, 0]
+        self.other_player_rel_coords = [0, 0]
         self.enemy_locs = []
         self.running = False
 
@@ -94,6 +95,13 @@ class StandaloneCombat():
         self.dunchk_wincap = WindowCapture(
             gamename, dunchk_custom_rect)
         self.dunchk_vision = Vision('dunchk_67.jpg')
+
+        # The next block of code is setup for detecting the other player
+        self.othr_plyr_filter, othr_plyr_custom_rect = grab_object_preset(
+            object_name="other_player_map_loc")
+        self.othr_plyr_wincap = WindowCapture(
+            gamename, othr_plyr_custom_rect)
+        self.othr_plyr_vision = Vision('otherplayer67.jpg')
 
     def combat_mainloop(self):
         loop_time = time.time()
@@ -433,6 +441,42 @@ class StandaloneCombat():
                 self.cd_tracker[key] = time.time()
         self.cooldowns.pop("popthis")
         self.cd_tracker.pop("popthis")
+
+    def can_find_other_player(self):
+        # then try to detect the other player
+        minimap_screenshot = self.othr_plyr_wincap.get_screenshot()
+        output_image = self.othr_plyr_vision.apply_hsv_filter(
+            minimap_screenshot, self.othr_plyr_filter)
+        # do object detection, this time grab the points
+        rectangles = self.othr_plyr_vision.find(
+            output_image, threshold=0.41, epsilon=0.5)
+        points = self.othr_plyr_vision.get_click_points(rectangles)
+        if len(points) == 1:
+            self.other_player_rel_coords[0] = points[0][0] - \
+                self.current_player_coords[0]
+            self.other_player_rel_coords[1] = self.current_player_coords[1] - points[0][1]
+            return True
+        elif len(points) >= 2:
+            # Will grab the point closest to the centre of the minimap and track that
+            # Allowing some small amount of redundancy for short-range following
+            # In event that the background is also picked up
+            middle_x = 0
+            middle_y = 0
+            dist = 1000
+            for x, y in points:
+                if (x+y) < dist:
+                    dist = x+y
+                    middle_x = x
+                    middle_y = y
+            self.other_player_rel_coords[0] = middle_x - \
+                self.current_player_coords[0]
+            self.other_player_rel_coords[1] = self.current_player_coords[1] - middle_y
+            return True
+        else:
+            # Should this be set to 0,0 or left as is? Come back to this later
+            # Maybe set it to the current player coords instead
+            # self.other_player_rel_coords = [0, 0]
+            return False
 
 
 if __name__ == "__main__":

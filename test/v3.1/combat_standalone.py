@@ -355,7 +355,28 @@ class StandaloneCombat():
         # And if any are not on cooldown i.e. available to use
         # Will create a new order for the combo queue
         # Based on the preferred combo order
-        return False
+        available = []
+        for key, cd_time in self.cd_tracker:
+            if time.time > cd_time:
+                available.append(key)
+        if len(available) == 0:
+            return False
+        else:
+            self.add_keys_to_queue(available, True)
+            return True
+
+    def add_keys_to_queue(self, available, overwrite=False):
+        prioritised = []
+        # First need to sort the keys in order of priority
+        for key in self.combos.grab_preferred_order():
+            if key in available:
+                prioritised.append(key)
+        # Overwrite if necessary
+        if overwrite:
+            self.combo_queue = []
+        # Then add to combo queue
+        for key in prioritised:
+            self.combo_queue.append([key, 0.15])
 
     def move_towards_other_player(self):
         # This will move the current character towards the other player

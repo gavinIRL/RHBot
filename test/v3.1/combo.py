@@ -170,9 +170,13 @@ class MSUnfocused():
         cooldowns["d"] = False
         if self.level >= 2:
             cooldowns["f"] = 5.5
+        else:
+            cooldowns["h"] = False
         cooldowns["g"] = False
         if self.level >= 2:
             cooldowns["h"] = 8.9
+        else:
+            cooldowns["h"] = False
 
         cooldowns["s+a"] = False
         cooldowns["s+s"] = False
@@ -195,30 +199,10 @@ class MSUnfocused():
         # For a given set of conditions this will choose
         # the preferred attack combination
         returnlist = []
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
+        returnlist.append(["a", 0.2])
         returnlist.append(["point", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["point", 0.2])
+        returnlist.append(["f", 0.2])
+        returnlist.append(["h", 0.2])
         return returnlist
 
     def grab_zoneprep(self):
@@ -226,7 +210,7 @@ class MSUnfocused():
         pass
 
 
-class MSUnFocused():
+class MSFocused():
     # The preferred layout of skills for this class is as follows:
     # a = magic missile
     # s =
@@ -250,7 +234,10 @@ class MSUnFocused():
         cooldowns["h"] = 8.9
 
         cooldowns["s+a"] = 32
-        cooldowns["s+s"] = 41
+        if self.level >= 30:
+            cooldowns["s+s"] = 41
+        else:
+            cooldowns["s+s"] = False
         cooldowns["s+d"] = False
         cooldowns["s+f"] = False
         cooldowns["s+g"] = False
@@ -263,34 +250,18 @@ class MSUnFocused():
         # Need to adjust based on level and if focused or not
         return cooldowns
 
+    def grab_preferred_order(self):
+        return ("a", "g", "h", "f", "s+s", "d")
+
     def grab_preferred_combo(self):
         # For a given set of conditions this will choose
         # the preferred attack combination
         returnlist = []
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
+        returnlist.append(["a", 0.2])
+        returnlist.append(["g", 0.2])
+        returnlist.append(["h", 0.2])
         returnlist.append(["point", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["x", 0.2])
-        returnlist.append(["point", 0.2])
+        returnlist.append(["f", 0.2])
         return returnlist
 
     def grab_zoneprep(self):

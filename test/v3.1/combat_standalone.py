@@ -293,6 +293,13 @@ class StandaloneCombat():
                         # Need to calculate time to press buttons in function
                         # And then press the required buttons
                         self.move_towards_target()
+                    elif key == "moveplayer":
+                        # Check if can find other player, then move towards
+                        # But only for a specific duration
+                        if self.can_find_other_player():
+                            self.move_towards_other_player(duration)
+                    elif key == "point":
+                        pass
                     else:
                         pydirectinput.keyDown(key)
                         time.sleep(duration)
@@ -301,16 +308,17 @@ class StandaloneCombat():
                     if nextkey == "point":
                         for key in ["up", "down", "left", "right"]:
                             pydirectinput.keyUp(key)
-                    if len(self.combo_queue) > 0:
-                        self.combo_queue.pop(0)
-                    else:
-                        print("Error, tried to pop when array was size 0")
                 else:
                     self.combo_queue = self.combos.grab_preferred_combo().copy()
             else:
                 self.combo_queue = []
-                for key in ["up", "down", "left", "right"]:
-                    pydirectinput.keyUp(key)
+                self.remove_all_keypresses()
+
+    def can_find_other_player(self):
+        return False
+
+    def move_towards_other_player(self, duration):
+        pass
 
     def add_move_next_action(self):
         # Only grab the first i.e. current action and remove the rest

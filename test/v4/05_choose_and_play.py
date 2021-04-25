@@ -6,6 +6,8 @@ from pynput.keyboard import Key, Listener, KeyCode
 from pynput import mouse
 import time
 import os
+import pydirectinput as pyautogui
+import json
 
 
 class TestController():
@@ -47,7 +49,7 @@ class TestController():
             time.sleep(0.5)
         elif self.recording_ready:
             # In this case will start a recording
-            pass
+            self.recorder.start_recording()
 
     def start_mouse_listener(self):
         self.mouse_listener = mouse.Listener(
@@ -74,6 +76,9 @@ class TestController():
         elif self.playback_input_flag:
             # add the key to existing string
             self.playback_string += str(key.char)
+        elif self.recording_ready:
+            # Need to figure out what to do here
+            pass
         else:
             if key == KeyCode(char='w'):
                 self.loot_enabled = not self.loot_enabled
@@ -95,6 +100,7 @@ class TestController():
                     print("FREEMOVE OFF")
 
     def on_release(self, key):
+        # Need to have an exit recording or playback only button (=?)
         if key == KeyCode(char='q'):
             self.bot_running = False
             # self.combatbat.running = False
@@ -180,6 +186,7 @@ class Recorder():
     def start_recording(self):
         # This will be the main recording logic flow
         # Maybe will need to do this in controller?
+        self.start_time = time()
         pass
 
     def record_event(self, event_type, event_time, button, pos=None):
@@ -204,10 +211,64 @@ class Playback():
         self.controller = controller
 
     def playActions(self, filename):
-        # The usual logic here, not going to include it here
+        # The usual logic here
         # Only difference is that first thing need to do is sleep for 3 seconds
+        time.sleep(3)
+        # and then will move the mouse to stop any flow/mwb problems
+        script_dir = os.path.dirname(__file__)
+        filepath = os.path.join(
+            script_dir,
+            'recordings',
+            filename
+        )
+        with open(filepath, 'r') as jsonfile:
+            # parse the json
+            data = json.load(jsonfile)
 
-        pass
+            # loop over each action
+            # Because we are not waiting any time before executing the first action, any delay before the initial
+            # action is recorded will not be reflected in the playback.
+            for index, action in enumerate(data):
+                action_start_time = time()
+
+                # look for escape input to exit
+                if action['button'] == 'Key.esc':
+                    break
+
+                # perform the action
+                if action['type'] == 'keyDown':
+                    key = self.controller.convert_pynput_to_pag(
+                        action['button'])
+                    pyautogui.keyDown(key)
+                    print("keyDown on {}".format(key))
+                elif action['type'] == 'keyUp':
+                    key = self.controller.convert_pynput_to_pag(
+                        action['button'])
+                    pyautogui.keyUp(key)
+                    print("keyUp on {}".format(key))
+                elif action['type'] == 'click':
+                    pyautogui.click(action['pos'][0],
+                                    action['pos'][1], duration=0.15)
+                    print("click on {}".format(action['pos']))
+
+                # then sleep until next action should occur
+                try:
+                    next_action = data[index + 1]
+                except IndexError:
+                    # this was the last action in the list
+                    break
+                elapsed_time = next_action['time'] - action['time']
+
+                # if elapsed_time is negative, that means our actions are not ordered correctly. throw an error
+                if elapsed_time < 0:
+                    raise Exception('Unexpected action ordering.')
+
+                # adjust elapsed_time to account for our code taking time to run
+                elapsed_time -= (time() - action_start_time)
+                if elapsed_time < 0:
+                    elapsed_time = 0
+                print('sleeping for {}'.format(elapsed_time))
+                time.sleep(elapsed_time)
 
 
 if __name__ == "__main__":

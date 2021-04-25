@@ -134,6 +134,25 @@ class TestController():
         return cleaned_key
 
 
+class EventType():
+    KEYDOWN = 'keyDown'
+    KEYUP = 'keyUp'
+    CLICK = 'click'
+
+
+class Recorder():
+    def __init__(self, controller) -> None:
+        self.controller = controller
+        # declare mouse_listener globally so that keyboard on_release can stop it
+        self.mouse_listener = None
+        # declare our start_time globally so that the callback functions can reference it
+        self.start_time = None
+        # keep track of unreleased keys to prevent over-reporting press events
+        self.unreleased_keys = []
+        # storing all input events
+        self.input_events = []
+
+
 if __name__ == "__main__":
     cont = TestController(freemove=True)
     cont.start_controller()

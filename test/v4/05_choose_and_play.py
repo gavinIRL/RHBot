@@ -22,9 +22,9 @@ class TestController():
         self.combat_enabled = combat
         self.freemove_enabled = freemove
         self.playback_input_flag = False
-        self.playback_ready = False
+        self.playback_ongoing = False
         self.playback_string = ""
-        self.recording_ready = False
+        self.recording_ongoing = False
         self.recorder = Recorder(self)
         self.playback = Playback(self)
 
@@ -41,15 +41,15 @@ class TestController():
             time.sleep(0.5)
 
     def perform_record_playback_checks(self):
-        if self.playback_ready:
+        if self.playback_ongoing:
             # This is when the playback gets called
             self.playback.playActions(self.playback_string+".json")
             time.sleep(0.5)
-            self.playback_ready = False
+            self.playback_ongoing = False
         elif self.playback_input_flag:
             # This is for when inputting the details
             time.sleep(0.5)
-        elif self.recording_ready:
+        elif self.recording_ongoing:
             # In this case will start a recording
             self.recorder.start_recording()
 
@@ -66,40 +66,52 @@ class TestController():
             self.listener.start()
 
     def on_press(self, key):
-        if key == KeyCode(char='t'):
+        if self.recording_ongoing:
+            # Log the event if not the end key
+            pass
+
+        elif self.playback_ongoing:
+            # Do nothing
+            pass
+
+        elif self.playback_input_flag:
+            # add the key to existing string
+            self.playback_string += str(key.char)
+
+        elif key == KeyCode(char='t'):
             self.playback_input_flag = not self.playback_input_flag
             if self.playback_input_flag:
                 self.playback_string = ""
                 print("Select a recording number")
             else:
                 # To-do: Start the playback
-                print("Starting recording number "+self.playback_string)
-                self.playback_ready = True
-        elif self.playback_input_flag:
-            # add the key to existing string
-            self.playback_string += str(key.char)
-        elif self.recording_ready:
-            # Need to figure out what to do here
-            pass
-        else:
-            if key == KeyCode(char='w'):
-                self.loot_enabled = not self.loot_enabled
-                if self.loot_enabled:
-                    print("LOOT ON")
-                else:
-                    print("LOOT OFF")
-            if key == KeyCode(char='e'):
-                self.combat_enabled = not self.combat_enabled
-                if self.combat_enabled:
-                    print("COMBAT ON")
-                else:
-                    print("COMBAT OFF")
-            if key == KeyCode(char='r'):
-                self.freemove_enabled = not self.freemove_enabled
-                if self.freemove_enabled:
-                    print("FREEMOVE ON")
-                else:
-                    print("FREEMOVE OFF")
+                print("Starting playback of #"+self.playback_string)
+                self.playback_ongoing = True
+
+        elif key == KeyCode(char='y'):
+            self.recording_ongoing = True
+            print("Starting recording in 3 seconds")
+
+        elif key == KeyCode(char='w'):
+            self.loot_enabled = not self.loot_enabled
+            if self.loot_enabled:
+                print("LOOT ON")
+            else:
+                print("LOOT OFF")
+
+        elif key == KeyCode(char='e'):
+            self.combat_enabled = not self.combat_enabled
+            if self.combat_enabled:
+                print("COMBAT ON")
+            else:
+                print("COMBAT OFF")
+
+        elif key == KeyCode(char='r'):
+            self.freemove_enabled = not self.freemove_enabled
+            if self.freemove_enabled:
+                print("FREEMOVE ON")
+            else:
+                print("FREEMOVE OFF")
 
     def on_release(self, key):
         # Need to have an exit recording or playback only button (=?)
@@ -115,7 +127,7 @@ class TestController():
     def on_click(self, x, y, button, pressed):
         # when pressed is False, that means it's a release event.
         # let's listen only to mouse click releases
-        if self.recording_ready:
+        if self.recording_ongoing:
             if not pressed:
                 # Need to get the ratio compared to window top left
                 # This will allow common usage on other size monitors
@@ -136,12 +148,19 @@ class TestController():
         # This will grab the current rectangle coords of game window
         # and then turn the click values into a ratio of positions
         # versus the game window
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+        # Now grab the window rectangle
+
         return x, y
 
     def convert_relative_to_click(self, x, y):
         # This will grab the current rectangle coords of game window
         # and then turn the ratio of positions versus the game window
         # into true x,y coords
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+        # Now grab the window rectangle
         return x, y
 
     def convert_pynput_to_pag(button):

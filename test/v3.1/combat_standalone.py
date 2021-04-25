@@ -256,7 +256,7 @@ class StandaloneCombat():
             pydirectinput.keyDown("right")
 
     def start_combo_handler(self):
-        t = threading.Thread(target=self.combo_handler)
+        t = threading.Thread(target=self.combo_handler_MS)
         t.start()
 
     def combo_handler(self):

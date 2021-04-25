@@ -35,7 +35,7 @@ def main():
         'recordings')
     # Now get the number of files in recordings folder already
     _, _, files = next(os.walk(dest_dir))
-    dest_file_count = len(files)
+    dest_file_count = len(files) + 1
     dest_file_name = str(dest_file_count)
     filepath = os.path.join(
         dest_dir,

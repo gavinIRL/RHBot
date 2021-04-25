@@ -21,7 +21,8 @@ class TestController():
         self.playback_ready = False
         self.playback_string = ""
         self.recording_ready = False
-        self.recorder = Recorder()
+        self.recorder = Recorder(self)
+        self.playback = Playback(self)
 
     def start_controller(self):
         self.start_countdown()
@@ -38,7 +39,7 @@ class TestController():
     def perform_record_playback_checks(self):
         if self.playback_ready:
             # This is when the playback gets called
-            self.playActions(self.playback_string+".json")
+            self.playback.playActions(self.playback_string+".json")
             time.sleep(0.5)
             self.playback_ready = False
         elif self.playback_input_flag:
@@ -52,7 +53,7 @@ class TestController():
         self.mouse_listener = mouse.Listener(
             on_click=self.on_click, suppress=True)
         self.mouse_listener.start()
-        self.mouse_listener.wait()
+        self.mouse_listener.wait()  # Need to test if this is required
 
     def start_keypress_listener(self):
         if self.listener == None:
@@ -129,12 +130,6 @@ class TestController():
         # versus the game window
         return x, y
 
-    def playActions(self, filename):
-        # The usual logic here, not going to include it here
-        # Only difference is that first thing need to do is sleep for 3 seconds
-
-        pass
-
     def convert_pynput_to_pag(button):
         PYNPUT_SPECIAL_CASE_MAP = {
             'alt_l': 'altleft',
@@ -202,6 +197,17 @@ class Recorder():
         else:
             pass
             # print('{} on {} at {}'.format(event_type, button, event_time))
+
+
+class Playback():
+    def __init__(self, controller) -> None:
+        self.controller = controller
+
+    def playActions(self, filename):
+        # The usual logic here, not going to include it here
+        # Only difference is that first thing need to do is sleep for 3 seconds
+
+        pass
 
 
 if __name__ == "__main__":

@@ -71,16 +71,24 @@ def record_event(event_type, event_time, button, pos=None):
 def on_press(key):
     # we only want to record the first keypress event until that key has been
     # released
-    global unreleased_keys
-    if key in unreleased_keys:
-        return
+    # stop listeners with the escape key
+    if key == keyboard.Key.esc:
+        # Stop mouse listener
+        global mouse_listener
+        mouse_listener.stop()
+        # Stop keyboard listener
+        raise keyboard.Listener.StopException
     else:
-        unreleased_keys.append(key)
+        global unreleased_keys
+        if key in unreleased_keys:
+            return
+        else:
+            unreleased_keys.append(key)
 
-    try:
-        record_event(EventType.KEYDOWN, elapsed_time(), key.char)
-    except AttributeError:
-        record_event(EventType.KEYDOWN, elapsed_time(), key)
+        try:
+            record_event(EventType.KEYDOWN, elapsed_time(), key.char)
+        except AttributeError:
+            record_event(EventType.KEYDOWN, elapsed_time(), key)
 
 
 def on_release(key):

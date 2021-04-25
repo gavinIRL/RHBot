@@ -42,7 +42,7 @@ class TestController():
                 pass
         elif self.playback_flag:
             # add the key to existing string
-            self.playback_string += str(key)
+            self.playback_string += str(key.char)
         else:
             if key == KeyCode(char='w'):
                 self.loot_enabled = not self.loot_enabled

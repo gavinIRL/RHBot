@@ -19,6 +19,7 @@ class TestController():
         self.playback_ready = False
         self.playback_string = ""
         self.recording_ready = False
+        self.recorder = Recorder()
 
     def start_controller(self):
         self.start_countdown()
@@ -93,6 +94,14 @@ class TestController():
             print("Exiting bot")
             os._exit(1)
 
+    def on_click(self, x, y, button, pressed):
+        # when pressed is False, that means it's a release event.
+        # let's listen only to mouse click releases
+        if self.recording_ready:
+            if not pressed:
+                self.recorder.record_event(
+                    EventType.CLICK, self.recorder.elapsed_time(), button, (x, y))
+
     def start_countdown(self):
         print("Bot starting in 3 seconds")
         time.sleep(1)
@@ -144,13 +153,37 @@ class Recorder():
     def __init__(self, controller) -> None:
         self.controller = controller
         # declare mouse_listener globally so that keyboard on_release can stop it
-        self.mouse_listener = None
+        self.mouse_listener = controller.listener
         # declare our start_time globally so that the callback functions can reference it
         self.start_time = None
         # keep track of unreleased keys to prevent over-reporting press events
         self.unreleased_keys = []
         # storing all input events
         self.input_events = []
+
+    def elapsed_time(self):
+        return time() - self.start_time
+
+    def start_recording(self):
+        # This will be the main recording logic flow
+        # Maybe will need to do this in controller?
+        pass
+
+    def record_event(self, event_type, event_time, button, pos=None):
+        self.input_events.append({
+            'time': event_time,
+            'type': event_type,
+            'button': str(button),
+            'pos': pos
+        })
+
+        if event_type == EventType.CLICK:
+            pass
+            # print('{} on {} pos {} at {}'.format(
+            #     event_type, button, pos, event_time))
+        else:
+            pass
+            # print('{} on {} at {}'.format(event_type, button, event_time))
 
 
 if __name__ == "__main__":

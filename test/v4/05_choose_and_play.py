@@ -3,6 +3,7 @@
 # It will wait in the background until a certain key is pressed
 # and then it will perform another action
 from pynput.keyboard import Key, Listener, KeyCode
+from pynput import mouse
 import time
 import os
 
@@ -11,6 +12,7 @@ class TestController():
     def __init__(self, loot=True, combat=True, freemove=False) -> None:
         self.mode = "movement"
         self.listener = None
+        self.mouse_listener = None
         self.bot_running = False
         self.loot_enabled = loot
         self.combat_enabled = combat
@@ -23,6 +25,7 @@ class TestController():
 
     def start_controller(self):
         self.start_countdown()
+        self.start_mouse_listener()
         self.start_keypress_listener()
         while self.bot_running:
             # First check if any playback or record flags are on
@@ -44,6 +47,12 @@ class TestController():
         elif self.recording_ready:
             # In this case will start a recording
             pass
+
+    def start_mouse_listener(self):
+        self.mouse_listener = mouse.Listener(
+            on_click=self.on_click, suppress=True)
+        self.mouse_listener.start()
+        self.mouse_listener.wait()
 
     def start_keypress_listener(self):
         if self.listener == None:
@@ -99,8 +108,11 @@ class TestController():
         # let's listen only to mouse click releases
         if self.recording_ready:
             if not pressed:
+                # Need to get the ratio compared to window top left
+                # This will allow common usage on other size monitors
+                xratio, yratio = self.convert_click_to_relative(x, y)
                 self.recorder.record_event(
-                    EventType.CLICK, self.recorder.elapsed_time(), button, (x, y))
+                    EventType.CLICK, self.recorder.elapsed_time(), button, (xratio, yratio))
 
     def start_countdown(self):
         print("Bot starting in 3 seconds")
@@ -110,6 +122,12 @@ class TestController():
         print("Bot starting in 1 seconds")
         time.sleep(1)
         self.bot_running = True
+
+    def convert_click_to_relative(self, x, y):
+        # This will grab the current rectangle coords of game window
+        # and then turn the click values into a ratio of positions
+        # versus the game window
+        return x, y
 
     def playActions(self, filename):
         # The usual logic here, not going to include it here

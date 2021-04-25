@@ -18,10 +18,16 @@ class TestController():
         self.playback_flag = False
         self.playback_string = ""
 
+    def start_controller(self):
+        self.start_countdown()
+        self.start_keypress_listener()
+        while self.bot_running:
+            time.sleep(0.5)
+
     def start_keypress_listener(self):
         if self.listener == None:
             self.listener = Listener(on_press=self.on_press,
-                                     on_release=self.on_release)
+                                     on_release=self.on_release, suppress=True)
             self.listener.start()
 
     def on_press(self, key):
@@ -66,3 +72,17 @@ class TestController():
             # self.combatbat.remove_all_keypresses()
             print("Exiting bot")
             os._exit(1)
+
+    def start_countdown(self):
+        print("Bot starting in 3 seconds")
+        time.sleep(1)
+        print("Bot starting in 2 seconds")
+        time.sleep(1)
+        print("Bot starting in 1 seconds")
+        time.sleep(1)
+        self.bot_running = True
+
+
+if __name__ == "__main__":
+    cont = TestController(freemove=True)
+    cont.start_controller()

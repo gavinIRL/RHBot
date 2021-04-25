@@ -18,23 +18,31 @@ class TestController():
         self.playback_input_flag = False
         self.playback_ready = False
         self.playback_string = ""
+        self.recording_ready = False
 
     def start_controller(self):
         self.start_countdown()
         self.start_keypress_listener()
         while self.bot_running:
-            if self.playback_ready:
-                # This is when the playback gets called
-                self.playActions(self.playback_string+".json")
-                time.sleep(0.5)
-                self.playback_ready = False
-            if self.playback_input_flag:
-                # This is for when inputting the details
-                time.sleep(0.5)
-            else:
-                # Shouldn't need to stop everything
-                # As shouldn't be in a dungeon when doing this
-                time.sleep(0.5)
+            # First check if any playback or record flags are on
+            self.perform_record_playback_checks()
+            # Then continue with the usual loop
+            # Shouldn't need to stop everything
+            # As shouldn't be in a dungeon when doing this
+            time.sleep(0.5)
+
+    def perform_record_playback_checks(self):
+        if self.playback_ready:
+            # This is when the playback gets called
+            self.playActions(self.playback_string+".json")
+            time.sleep(0.5)
+            self.playback_ready = False
+        elif self.playback_input_flag:
+            # This is for when inputting the details
+            time.sleep(0.5)
+        elif self.recording_ready:
+            # In this case will start a recording
+            pass
 
     def start_keypress_listener(self):
         if self.listener == None:

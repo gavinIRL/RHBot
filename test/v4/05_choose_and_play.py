@@ -9,6 +9,8 @@ import os
 import pydirectinput as pyautogui
 import json
 
+pyautogui.FAILSAFE = True
+
 
 class TestController():
     def __init__(self, loot=True, combat=True, freemove=False) -> None:

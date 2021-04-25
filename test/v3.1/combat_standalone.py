@@ -321,6 +321,11 @@ class StandaloneCombat():
                             self.move_towards_other_player(duration)
                     elif key == "point":
                         pass
+                    elif key == "x":
+                        pydirectinput.keyDown(key)
+                        time.sleep(duration)
+                        pydirectinput.keyUp(key)
+                        time.sleep(0.07)
                     elif key in self.cooldowns:
                         if time.time() > self.cd_tracker[key]:
                             self.cd_tracker[key] = time.time() + \

@@ -138,6 +138,12 @@ class TestController():
         # versus the game window
         return x, y
 
+    def convert_relative_to_click(self, x, y):
+        # This will grab the current rectangle coords of game window
+        # and then turn the ratio of positions versus the game window
+        # into true x,y coords
+        return x, y
+
     def convert_pynput_to_pag(button):
         PYNPUT_SPECIAL_CASE_MAP = {
             'alt_l': 'altleft',
@@ -171,7 +177,7 @@ class EventType():
 
 
 class Recorder():
-    def __init__(self, controller) -> None:
+    def __init__(self, controller: TestController) -> None:
         self.controller = controller
         # declare mouse_listener globally so that keyboard on_release can stop it
         self.mouse_listener = controller.listener
@@ -209,7 +215,7 @@ class Recorder():
 
 
 class Playback():
-    def __init__(self, controller) -> None:
+    def __init__(self, controller: TestController) -> None:
         self.controller = controller
 
     def playActions(self, filename):
@@ -248,9 +254,12 @@ class Playback():
                         action['button'])
                     pyautogui.keyUp(key)
                     print("keyUp on {}".format(key))
+
                 elif action['type'] == 'click':
-                    pyautogui.click(action['pos'][0],
-                                    action['pos'][1], duration=0.15)
+                    # To-do: need to convert ratio into actual positions
+                    x, y = self.controller.convert_relative_to_click(action['pos'][0],
+                                                                     action['pos'][1])
+                    pyautogui.click(x, y, duration=0.15)
                     print("click on {}".format(action['pos']))
 
                 # then sleep until next action should occur

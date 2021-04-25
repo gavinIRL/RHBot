@@ -51,7 +51,7 @@ class TestController():
             time.sleep(0.5)
         elif self.recording_ongoing:
             # In this case will start a recording
-            self.recorder.start_recording()
+            time.sleep(0.5)
 
     def start_mouse_listener(self):
         self.mouse_listener = mouse.Listener(
@@ -68,7 +68,18 @@ class TestController():
     def on_press(self, key):
         if self.recording_ongoing:
             # Log the event if not the end key
-            pass
+            if key == KeyCode(char='='):
+                self.recording_ongoing = False
+                self.recorder.write_recording_to_file()
+            else:
+                if key not in self.recorder.unreleased_keys:
+                    self.recorder.unreleased_keys.append(key)
+                    try:
+                        self.recorder.record_event(
+                            EventType.KEYDOWN, self.recorder.elapsed_time(), key.char)
+                    except AttributeError:
+                        self.recorder.record_event(
+                            EventType.KEYDOWN, self.recorder.elapsed_time(), key)
 
         elif self.playback_ongoing:
             # Do nothing
@@ -90,6 +101,7 @@ class TestController():
 
         elif key == KeyCode(char='y'):
             self.recording_ongoing = True
+            self.recorder.start_time = time.time()
             print("Starting recording in 3 seconds")
 
         elif key == KeyCode(char='w'):
@@ -210,11 +222,23 @@ class Recorder():
     def elapsed_time(self):
         return time() - self.start_time
 
-    def start_recording(self):
-        # This will be the main recording logic flow
-        # Maybe will need to do this in controller?
-        self.start_time = time()
-        pass
+    def write_recording_to_file(self):
+        # Here will write to the json file
+        # write the output to a file
+        script_dir = os.path.dirname(__file__)
+        dest_dir = os.path.join(
+            script_dir,
+            'recordings')
+        # Now get the number of files in recordings folder already
+        _, _, files = next(os.walk(dest_dir))
+        dest_file_count = len(files) + 1
+        dest_file_name = str(dest_file_count)
+        filepath = os.path.join(
+            dest_dir,
+            '{}.json'.format(dest_file_name)
+        )
+        with open(filepath, 'w') as outfile:
+            json.dump(self.input_events, outfile, indent=4)
 
     def record_event(self, event_type, event_time, button, pos=None):
         self.input_events.append({

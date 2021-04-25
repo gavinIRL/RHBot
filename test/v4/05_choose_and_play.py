@@ -15,14 +15,26 @@ class TestController():
         self.loot_enabled = loot
         self.combat_enabled = combat
         self.freemove_enabled = freemove
-        self.playback_flag = False
+        self.playback_input_flag = False
+        self.playback_ready = False
         self.playback_string = ""
 
     def start_controller(self):
         self.start_countdown()
         self.start_keypress_listener()
         while self.bot_running:
-            time.sleep(0.5)
+            if self.playback_ready:
+                # This is when the playback gets called
+                self.playActions(self.playback_string+".json")
+                time.sleep(0.5)
+                self.playback_ready = False
+            if self.playback_input_flag:
+                # This is for when inputting the details
+                time.sleep(0.5)
+            else:
+                # Shouldn't need to stop everything
+                # As shouldn't be in a dungeon when doing this
+                time.sleep(0.5)
 
     def start_keypress_listener(self):
         if self.listener == None:
@@ -32,15 +44,15 @@ class TestController():
 
     def on_press(self, key):
         if key == KeyCode(char='t'):
-            self.playback_flag = not self.playback_flag
-            if self.playback_flag:
+            self.playback_input_flag = not self.playback_input_flag
+            if self.playback_input_flag:
                 self.playback_string = ""
                 print("Select a recording number")
             else:
                 # To-do: Start the playback
                 print("Starting recording number "+self.playback_string)
-                pass
-        elif self.playback_flag:
+                self.playback_ready = True
+        elif self.playback_input_flag:
             # add the key to existing string
             self.playback_string += str(key.char)
         else:
@@ -81,6 +93,37 @@ class TestController():
         print("Bot starting in 1 seconds")
         time.sleep(1)
         self.bot_running = True
+
+    def playActions(self, filename):
+        # The usual logic here, not going to include it here
+        # Only difference is that first thing need to do is sleep for 3 seconds
+
+        pass
+
+    def convert_pynput_to_pag(button):
+        PYNPUT_SPECIAL_CASE_MAP = {
+            'alt_l': 'altleft',
+            'alt_r': 'altright',
+            'alt_gr': 'altright',
+            'caps_lock': 'capslock',
+            'ctrl_l': 'ctrlleft',
+            'ctrl_r': 'ctrlright',
+            'page_down': 'pagedown',
+            'page_up': 'pageup',
+            'shift_l': 'shiftleft',
+            'shift_r': 'shiftright',
+            'num_lock': 'numlock',
+            'print_screen': 'printscreen',
+            'scroll_lock': 'scrolllock',
+        }
+
+        # example: 'Key.F9' should return 'F9', 'w' should return as 'w'
+        cleaned_key = button.replace('Key.', '')
+
+        if cleaned_key in PYNPUT_SPECIAL_CASE_MAP:
+            return PYNPUT_SPECIAL_CASE_MAP[cleaned_key]
+
+        return cleaned_key
 
 
 if __name__ == "__main__":

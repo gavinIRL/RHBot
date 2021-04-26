@@ -8,12 +8,15 @@ import time
 import os
 import pydirectinput as pyautogui
 import json
+from windowcapture import WindowCapture
 
 pyautogui.FAILSAFE = True
 
 
 class TestController():
     def __init__(self, loot=True, combat=True, freemove=False, rec_pb_only=False) -> None:
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
         self.mode = "movement"
         self.listener = None
         self.mouse_listener = None
@@ -30,6 +33,10 @@ class TestController():
         self.playback = Playback(self)
         # This variable is for ignoring any move/combat bot loops
         self.rec_pb_only = rec_pb_only
+
+        with open("gamename.txt") as f:
+            gamename = f.readline()
+        self.game_wincap = WindowCapture(gamename)
 
     def start_controller(self):
         self.start_countdown()
@@ -179,7 +186,7 @@ class TestController():
             if not pressed:
                 # Need to get the ratio compared to window top left
                 # This will allow common usage on other size monitors
-                xratio, yratio = self.convert_click_to_relative(x, y)
+                xratio, yratio = self.convert_click_to_ratio(x, y)
                 self.recorder.record_event(
                     EventType.CLICK, self.recorder.elapsed_time(), button, (xratio, yratio))
 
@@ -198,24 +205,32 @@ class TestController():
         for key in ["a", "s", "d", "f", "g", "h"]:
             pyautogui.keyUp(key)
 
-    def convert_click_to_relative(self, x, y):
+    def convert_click_to_ratio(self, truex, truey):
         # This will grab the current rectangle coords of game window
         # and then turn the click values into a ratio of positions
         # versus the game window
-        with open("gamename.txt") as f:
-            gamename = f.readline()
-        # Now grab the window rectangle
+        self.game_wincap.update_window_position()
+        # Turn the screen pos into window pos
+        relx = truex - self.game_wincap.window_rect[0]
+        rely = truey - self.game_wincap.window_rect[1]
+        # Then convert to a ratio
+        ratx = relx/self.game_wincap.w
+        raty = rely/self.game_wincap.h
 
-        return x, y
+        return ratx, raty
 
-    def convert_relative_to_click(self, x, y):
+    def convert_ratio_to_click(self, ratx, raty):
         # This will grab the current rectangle coords of game window
         # and then turn the ratio of positions versus the game window
         # into true x,y coords
-        with open("gamename.txt") as f:
-            gamename = f.readline()
-        # Now grab the window rectangle
-        return x, y
+        self.game_wincap.update_window_position()
+        # Turn the ratios into relative
+        relx = int(ratx * self.game_wincap.w)
+        rely = int(raty * self.game_wincap.h)
+        # Turn the relative into true
+        truex = relx + self.game_wincap.window_rect[0]
+        truey = rely + self.game_wincap.window_rect[1]
+        return truex, truey
 
     def convert_pynput_to_pag(button):
         PYNPUT_SPECIAL_CASE_MAP = {
@@ -351,8 +366,8 @@ class Playback():
 
                 elif action['type'] == 'click':
                     # To-do: need to convert ratio into actual positions
-                    x, y = self.controller.convert_relative_to_click(action['pos'][0],
-                                                                     action['pos'][1])
+                    x, y = self.controller.convert_ratio_to_click(action['pos'][0],
+                                                                  action['pos'][1])
                     pyautogui.click(x, y, duration=0.15)
                     # print("click on {}".format(action['pos']))
 

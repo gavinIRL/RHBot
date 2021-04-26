@@ -34,11 +34,17 @@ class TestController():
         self.start_keypress_listener()
         while self.bot_running:
             # First check if any playback or record flags are on
-            self.perform_record_playback_checks()
+            if self.perform_record_playback_checks():
+                pass
             # Then continue with the usual loop
             # Shouldn't need to stop everything
             # As shouldn't be in a dungeon when doing this
-            time.sleep(0.5)
+            else:
+                # Perform the usual loop stuff here
+                # Will also need to add logic to the combat and move
+                # main loops to break if any of the rec/playback checks
+                # return true
+                time.sleep(0.5)
 
     def perform_record_playback_checks(self):
         if self.playback_ongoing:
@@ -46,12 +52,15 @@ class TestController():
             self.playback.playActions(self.playback_string+".json")
             time.sleep(0.5)
             self.playback_ongoing = False
+            return True
         elif self.playback_input_flag:
             # This is for when inputting the details
             time.sleep(0.5)
+            return True
         elif self.recording_ongoing:
             # In this case will start a recording
             time.sleep(0.5)
+            return True
 
     def start_mouse_listener(self):
         self.mouse_listener = mouse.Listener(

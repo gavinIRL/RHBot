@@ -303,11 +303,16 @@ class Playback():
     def __init__(self, controller: TestController) -> None:
         self.controller = controller
 
+    def move_mouse_centre():
+        pyautogui.moveTo(900, 500, 0.05)
+
     def playActions(self, filename):
         # The usual logic here
         # Only difference is that first thing need to do is sleep for 3 seconds
         time.sleep(3)
         # and then will move the mouse to stop any flow/mwb problems
+        self.move_mouse_centre()
+        # And then continue
         script_dir = os.path.dirname(__file__)
         filepath = os.path.join(
             script_dir,

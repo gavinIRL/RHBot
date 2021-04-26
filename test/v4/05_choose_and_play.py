@@ -24,6 +24,7 @@ class TestController():
         self.playback_input_flag = False
         self.playback_ongoing = False
         self.playback_string = ""
+        self.recording_ready = False
         self.recording_ongoing = False
         self.recorder = Recorder(self)
         self.playback = Playback(self)
@@ -57,8 +58,16 @@ class TestController():
             # This is for when inputting the details
             time.sleep(0.5)
             return True
+        elif self.recording_ready:
+            # Start recording
+            time.sleep(3)
+            print("Now recording!")
+            self.recording_ongoing = True
+            self.recording_ready = False
+            self.recorder.start_time = time.time()
+            return True
         elif self.recording_ongoing:
-            # allow the recording to go on
+            # This is to allow recording to go on
             time.sleep(0.5)
             return True
 
@@ -110,10 +119,7 @@ class TestController():
 
         elif key == KeyCode(char='y'):
             print("Starting recording in 3 seconds")
-            time.sleep(3)
-            print("Now recording!")
-            self.recorder.start_time = time.time()
-            self.recording_ongoing = True
+            self.recording_ready = True
 
         elif key == KeyCode(char='w'):
             self.loot_enabled = not self.loot_enabled

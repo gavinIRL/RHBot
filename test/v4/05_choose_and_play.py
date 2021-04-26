@@ -58,7 +58,7 @@ class TestController():
             time.sleep(0.5)
             return True
         elif self.recording_ongoing:
-            # In this case will start a recording
+            # allow the recording to go on
             time.sleep(0.5)
             return True
 
@@ -109,9 +109,11 @@ class TestController():
                 self.playback_ongoing = True
 
         elif key == KeyCode(char='y'):
-            self.recording_ongoing = True
-            self.recorder.start_time = time.time()
             print("Starting recording in 3 seconds")
+            time.sleep(3)
+            print("Now recording!")
+            self.recorder.start_time = time.time()
+            self.recording_ongoing = True
 
         elif key == KeyCode(char='w'):
             self.loot_enabled = not self.loot_enabled
@@ -136,6 +138,20 @@ class TestController():
 
     def on_release(self, key):
         # Need to have an exit recording or playback only button (=?)
+        if self.recording_ongoing:
+            if key == KeyCode(char='-'):
+                # Wipe all the collected data
+                self.recording_ongoing = False
+                self.recorder.unreleased_keys = []
+                self.recorder.input_events = []
+        if self.playback_ongoing:
+            if key == KeyCode(char='-'):
+                # find a way to stop the action playback
+                self.playback_ongoing = False
+                # Now need to release all keys while waiting for the
+                # playback to catch up
+                self.remove_all_keypresses()
+
         if key == KeyCode(char='q'):
             self.bot_running = False
             # self.combatbat.running = False
@@ -164,6 +180,12 @@ class TestController():
         print("Bot starting in 1 seconds")
         time.sleep(1)
         self.bot_running = True
+
+    def remove_all_keypresses(self):
+        for key in ["up", "down", "left", "right"]:
+            pyautogui.keyUp(key)
+        for key in ["a", "s", "d", "f", "g", "h"]:
+            pyautogui.keyUp(key)
 
     def convert_click_to_relative(self, x, y):
         # This will grab the current rectangle coords of game window
@@ -291,21 +313,25 @@ class Playback():
             for index, action in enumerate(data):
                 action_start_time = time()
 
-                # look for escape input to exit
-                if action['button'] == 'Key.esc':
+                # Need to exit if the terminate key is pressed
+                if not self.controller.playback_ongoing:
                     break
+
+                # look for escape input to exit
+                # if action['button'] == 'Key.esc':
+                #     break
 
                 # perform the action
                 if action['type'] == 'keyDown':
                     key = self.controller.convert_pynput_to_pag(
                         action['button'])
                     pyautogui.keyDown(key)
-                    print("keyDown on {}".format(key))
+                    # print("keyDown on {}".format(key))
                 elif action['type'] == 'keyUp':
                     key = self.controller.convert_pynput_to_pag(
                         action['button'])
                     pyautogui.keyUp(key)
-                    print("keyUp on {}".format(key))
+                    # print("keyUp on {}".format(key))
 
                 elif action['type'] == 'click':
                     # To-do: need to convert ratio into actual positions
@@ -330,7 +356,7 @@ class Playback():
                 elapsed_time -= (time() - action_start_time)
                 if elapsed_time < 0:
                     elapsed_time = 0
-                print('sleeping for {}'.format(elapsed_time))
+                # print('sleeping for {}'.format(elapsed_time))
                 time.sleep(elapsed_time)
 
 

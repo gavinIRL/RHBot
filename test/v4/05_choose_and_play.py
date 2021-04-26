@@ -13,7 +13,7 @@ pyautogui.FAILSAFE = True
 
 
 class TestController():
-    def __init__(self, loot=True, combat=True, freemove=False) -> None:
+    def __init__(self, loot=True, combat=True, freemove=False, rec_pb_only=False) -> None:
         self.mode = "movement"
         self.listener = None
         self.mouse_listener = None
@@ -28,6 +28,8 @@ class TestController():
         self.recording_ongoing = False
         self.recorder = Recorder(self)
         self.playback = Playback(self)
+        # This variable is for ignoring any move/combat bot loops
+        self.rec_pb_only = rec_pb_only
 
     def start_controller(self):
         self.start_countdown()
@@ -37,6 +39,9 @@ class TestController():
             # First check if any playback or record flags are on
             if self.perform_record_playback_checks():
                 pass
+            # Otherwise if this is rec/pb only then skip the usual logic
+            elif self.rec_pb_only:
+                time.sleep(0.5)
             # Then continue with the usual loop
             # Shouldn't need to stop everything
             # As shouldn't be in a dungeon when doing this

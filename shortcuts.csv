@@ -1,0 +1,10 @@
+﻿Hotkeys,,
+key,action,scenario
+q,stop bot entirely,all
+w,toggle looting,non-rec/pb
+e,toggle combat,non-rec/pb
+r,toggle freemove,non-rec/pb
+t,select playback,non-rec
+y,start recording,non-pb
+-,cancel rec/pb,rec/pb
+=,end recording,rec

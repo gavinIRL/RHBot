@@ -354,7 +354,7 @@ class Playback():
                     x, y = self.controller.convert_relative_to_click(action['pos'][0],
                                                                      action['pos'][1])
                     pyautogui.click(x, y, duration=0.15)
-                    print("click on {}".format(action['pos']))
+                    # print("click on {}".format(action['pos']))
 
                 # then sleep until next action should occur
                 try:

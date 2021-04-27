@@ -17,12 +17,13 @@ class ConvertTest():
         with open("gamename.txt") as f:
             gamename = f.readline()
         self.game_wincap = WindowCapture(gamename)
+        # self.rely = 0
 
     def convert_click_to_ratio(self, truex, truey):
         # This will grab the current rectangle coords of game window
         # and then turn the click values into a ratio of positions
         # versus the game window
-        self.game_wincap.update_window_position()
+        self.game_wincap.update_window_position(border=False)
         # Turn the screen pos into window pos
         relx = truex - self.game_wincap.window_rect[0]
         rely = truey - self.game_wincap.window_rect[1]
@@ -36,7 +37,7 @@ class ConvertTest():
         # This will grab the current rectangle coords of game window
         # and then turn the ratio of positions versus the game window
         # into true x,y coords
-        self.game_wincap.update_window_position()
+        self.game_wincap.update_window_position(border=False)
         # Turn the ratios into relative
         relx = int(ratx * self.game_wincap.w)
         rely = int(raty * self.game_wincap.h)
@@ -50,12 +51,20 @@ class ConvertTest():
             while True:
                 x, y = pyautogui.position()
                 ratx, raty = self.convert_click_to_ratio(x, y)
-                ratx = "{:.2f}".format(ratx)
-                raty = "{:.2f}".format(raty)
+                # ratx = "{:.2f}".format(ratx)
+                # raty = "{:.2f}".format(raty)
+                convx, convy = self.convert_ratio_to_click(
+                    float(ratx), float(raty))
                 positionStr = 'X: ' + \
                     str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
-                positionStr += ' ratX: ' + \
-                    str(ratx).rjust(4) + ' ratY: ' + str(raty).rjust(4)
+                # positionStr += ' ratX: ' + \
+                #     str(ratx).rjust(4) + ' ratY: ' + str(raty).rjust(4)
+                positionStr += ' convX: ' + \
+                    str(convx).rjust(4) + ' convY: ' + str(convy).rjust(4)
+                # positionStr += ' relY: ' + \
+                #     str(self.rely).rjust(4) + ' winY: ' + \
+                #     str(self.game_wincap.window_rect[1]).rjust(4)
+
                 print(positionStr, end='')
                 print('\b' * len(positionStr), end='', flush=True)
                 time.sleep(0.5)

@@ -18,7 +18,7 @@ class MouseTest():
         self.mouse_listener = mouse.Listener(
             on_click=self.on_click)
         self.mouse_listener.start()
-        self.mouse_listener.wait()
+        # self.mouse_listener.wait()
 
     def convert_click_to_ratio(self, truex, truey):
         # This will grab the current rectangle coords of game window
@@ -26,11 +26,15 @@ class MouseTest():
         # versus the game window
         self.game_wincap.update_window_position(border=False)
         # Turn the screen pos into window pos
-        relx = truex - self.game_wincap.window_rect[0]
-        rely = truey - self.game_wincap.window_rect[1]
+        relx = truex - self.game_wincap.window_rect[0] * 1.5
+        rely = truey - self.game_wincap.window_rect[1] * 1.5
+        print("relx={}, rely={}".format(relx, rely))
+        print("winx={}, winy={}".format(
+            self.game_wincap.window_rect[0], self.game_wincap.window_rect[1]))
+        print("winwidth={}".format(self.game_wincap.w))
         # Then convert to a ratio
-        ratx = relx/self.game_wincap.w
-        raty = rely/self.game_wincap.h
+        ratx = relx/(self.game_wincap.w*1.5)
+        raty = rely/(self.game_wincap.h*1.5)
 
         return ratx, raty
 
@@ -43,8 +47,8 @@ class MouseTest():
         relx = int(ratx * self.game_wincap.w)
         rely = int(raty * self.game_wincap.h)
         # Turn the relative into true
-        truex = relx + self.game_wincap.window_rect[0]
-        truey = rely + self.game_wincap.window_rect[1]
+        truex = int(relx + self.game_wincap.window_rect[0] * 1.5)
+        truey = int(rely + self.game_wincap.window_rect[1] * 1.5)
         return truex, truey
 
     def on_click(self, x, y, button, pressed):
@@ -56,8 +60,9 @@ class MouseTest():
             print("x={}, y={}".format(x, y))
             xratio, yratio = self.convert_click_to_ratio(x, y)
             print("xrat={}, yrat={}".format(xratio, yratio))
-            xconv, yconv = self.convert_ratio_to_click(xratio, yratio)
-            print("xconv={}, yconv={}".format(xconv, yconv))
+            # xconv, yconv = self.convert_ratio_to_click(xratio, yratio)
+            # print("xconv={}, yconv={}".format(xconv, yconv))
+            print("-------------------------------")
 
     def start(self):
         self.start_mouse_listener()

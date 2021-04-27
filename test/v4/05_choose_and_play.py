@@ -393,11 +393,14 @@ class Playback():
                     # To-do: need to convert ratio into actual positions
                     # print("ratiox={}".format(action['pos'][0]), end='')
                     # print("  ratioy={}".format(action['pos'][1]))
-
+                    # print("Action pos = {}".format(action["pos"]))
                     x, y = self.controller.convert_ratio_to_click(action['pos'][0],
                                                                   action['pos'][1])
+                    # print("x={}, y={}".format(x, y))
                     # print("truex={}".format(x), end='')
                     # print("  truey={}".format(y))
+                    x = int(x/1.5)
+                    y = int(y/1.5)
                     pyautogui.click(x, y, duration=0.15)
                     # print("click on {}".format(action['pos']))
 

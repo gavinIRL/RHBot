@@ -58,7 +58,7 @@ class MouseTest():
             # This will allow common usage on other size monitors
             print("x={}, y={}".format(x, y))
             xratio, yratio = self.convert_click_to_ratio(x, y)
-            # print("xrat={}, yrat={}".format(xratio, yratio))
+            print("xrat={}, yrat={}".format(xratio, yratio))
             xconv, yconv = self.convert_ratio_to_click(xratio, yratio)
             print("xconv={}, yconv={}".format(xconv, yconv))
             print("-------------------------------")

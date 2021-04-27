@@ -251,7 +251,7 @@ class TestController():
         truey = rely + self.game_wincap.window_rect[1]
         return truex, truey
 
-    def convert_pynput_to_pag(button):
+    def convert_pynput_to_pag(self, button):
         PYNPUT_SPECIAL_CASE_MAP = {
             'alt_l': 'altleft',
             'alt_r': 'altright',
@@ -344,7 +344,9 @@ class Playback():
     def playActions(self, filename):
         # The usual logic here
         # Only difference is that first thing need to do is sleep for 3 seconds
-        time.sleep(3)
+        print("Starting playback in 2 seconds")
+        time.sleep(2)
+        print("Starting playback")
         # and then will move the mouse to stop any flow/mwb problems
         self.move_mouse_centre()
         # And then continue
@@ -409,6 +411,7 @@ class Playback():
                     elapsed_time = 0
                 # print('sleeping for {}'.format(elapsed_time))
                 time.sleep(elapsed_time)
+        print("Finished playback")
 
 
 if __name__ == "__main__":

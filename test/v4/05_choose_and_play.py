@@ -338,7 +338,7 @@ class Playback():
     def __init__(self, controller: TestController) -> None:
         self.controller = controller
 
-    def move_mouse_centre():
+    def move_mouse_centre(self):
         pyautogui.moveTo(900, 500, 0.05)
 
     def playActions(self, filename):

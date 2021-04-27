@@ -101,6 +101,8 @@ class TestController():
             if key == KeyCode(char='='):
                 self.recording_ongoing = False
                 self.recorder.write_recording_to_file()
+                print("Finished recording #{}".format(
+                    self.recorder.dest_file_count))
             else:
                 if key not in self.recorder.unreleased_keys:
                     self.recorder.unreleased_keys.append(key)
@@ -287,6 +289,7 @@ class Recorder():
         self.unreleased_keys = []
         # storing all input events
         self.input_events = []
+        self.dest_file_count = 0
 
     def elapsed_time(self):
         return time.time() - self.start_time
@@ -300,8 +303,8 @@ class Recorder():
             'recordings')
         # Now get the number of files in recordings folder already
         _, _, files = next(os.walk(dest_dir))
-        dest_file_count = len(files) + 1
-        dest_file_name = str(dest_file_count)
+        self.dest_file_count = len(files) + 1
+        dest_file_name = str(self.dest_file_count)
         filepath = os.path.join(
             dest_dir,
             '{}.json'.format(dest_file_name)

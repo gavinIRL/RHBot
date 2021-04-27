@@ -119,17 +119,22 @@ class TestController():
 
         elif self.playback_input_flag:
             # add the key to existing string
-            self.playback_string += str(key.char)
-
-        elif key == KeyCode(char='t'):
-            self.playback_input_flag = not self.playback_input_flag
-            if self.playback_input_flag:
-                self.playback_string = ""
-                print("Select a recording number")
-            else:
-                # To-do: Start the playback
+            # This is causing a bug if press escape
+            if key == KeyCode(char='t'):
+                self.playback_input_flag = not self.playback_input_flag
                 print("Starting playback of #"+self.playback_string)
                 self.playback_ongoing = True
+            else:
+                try:
+                    self.playback_string += str(key.char)
+                except:
+                    pass
+
+        elif key == KeyCode(char='t'):
+            # This can only be reached if not entering playback number
+            self.playback_input_flag = not self.playback_input_flag
+            self.playback_string = ""
+            print("Select a recording number")
 
         elif key == KeyCode(char='y'):
             print("Starting recording in 3 seconds")

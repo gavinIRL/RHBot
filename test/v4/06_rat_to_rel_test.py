@@ -50,9 +50,11 @@ class ConvertTest():
             while True:
                 x, y = pyautogui.position()
                 ratx, raty = self.convert_click_to_ratio(x, y)
+                ratx = "{:.2f}".format(ratx)
+                raty = "{:.2f}".format(raty)
                 positionStr = 'X: ' + \
                     str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
-                positionStr += 'ratX: ' + \
+                positionStr += ' ratX: ' + \
                     str(ratx).rjust(4) + ' ratY: ' + str(raty).rjust(4)
                 print(positionStr, end='')
                 print('\b' * len(positionStr), end='', flush=True)

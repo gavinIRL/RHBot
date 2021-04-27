@@ -82,7 +82,7 @@ class WindowCapture:
                 print(hex(hwnd), win32gui.GetWindowText(hwnd))
         win32gui.EnumWindows(winEnumHandler, None)
 
-    def update_window_position(self):
+    def update_window_position(self, border=True):
         # get the window size
         self.window_rect = win32gui.GetWindowRect(self.hwnd)
         self.w = self.window_rect[2] - self.window_rect[0]
@@ -92,10 +92,14 @@ class WindowCapture:
         border_pixels = 8
         titlebar_pixels = 30
         if self.custom_rect is None:
-            self.w = self.w - (border_pixels * 2)
-            self.h = self.h - titlebar_pixels - border_pixels
-            self.cropped_x = border_pixels
-            self.cropped_y = titlebar_pixels
+            if border:
+                self.w = self.w - (border_pixels * 2)
+                self.h = self.h - titlebar_pixels - border_pixels
+                self.cropped_x = border_pixels
+                self.cropped_y = titlebar_pixels
+            else:
+                self.cropped_x = 0
+                self.cropped_y = 0
         # Otherwise use a specified rectangle
         else:
             self.w = self.custom_rect[2] - self.custom_rect[0]

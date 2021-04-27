@@ -84,9 +84,9 @@ class WindowCapture:
 
     def update_window_position(self):
         # get the window size
-        window_rect = win32gui.GetWindowRect(self.hwnd)
-        self.w = window_rect[2] - window_rect[0]
-        self.h = window_rect[3] - window_rect[1]
+        self.window_rect = win32gui.GetWindowRect(self.hwnd)
+        self.w = self.window_rect[2] - self.window_rect[0]
+        self.h = self.window_rect[3] - self.window_rect[1]
 
         # account for the window border and titlebar and cut them off
         border_pixels = 8
@@ -105,8 +105,8 @@ class WindowCapture:
 
         # set the cropped coordinates offset so we can translate screenshot
         # images into actual screen positions
-        self.offset_x = window_rect[0] + self.cropped_x
-        self.offset_y = window_rect[1] + self.cropped_y
+        self.offset_x = self.window_rect[0] + self.cropped_x
+        self.offset_y = self.window_rect[1] + self.cropped_y
 
     # translate a pixel position on a screenshot image to a pixel position on the screen.
     # pos = (x, y)

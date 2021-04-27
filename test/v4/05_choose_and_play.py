@@ -85,14 +85,14 @@ class TestController():
 
     def start_mouse_listener(self):
         self.mouse_listener = mouse.Listener(
-            on_click=self.on_click, suppress=True)
+            on_click=self.on_click)
         self.mouse_listener.start()
         self.mouse_listener.wait()  # Need to test if this is required
 
     def start_keypress_listener(self):
         if self.listener == None:
             self.listener = Listener(on_press=self.on_press,
-                                     on_release=self.on_release, suppress=True)
+                                     on_release=self.on_release)
             self.listener.start()
 
     def on_press(self, key):
@@ -289,7 +289,7 @@ class Recorder():
         self.input_events = []
 
     def elapsed_time(self):
-        return time() - self.start_time
+        return time.time() - self.start_time
 
     def write_recording_to_file(self):
         # Here will write to the json file
@@ -354,7 +354,7 @@ class Playback():
             # Because we are not waiting any time before executing the first action, any delay before the initial
             # action is recorded will not be reflected in the playback.
             for index, action in enumerate(data):
-                action_start_time = time()
+                action_start_time = time.time()
 
                 # Need to exit if the terminate key is pressed
                 if not self.controller.playback_ongoing:
@@ -396,7 +396,7 @@ class Playback():
                     raise Exception('Unexpected action ordering.')
 
                 # adjust elapsed_time to account for our code taking time to run
-                elapsed_time -= (time() - action_start_time)
+                elapsed_time -= (time.time() - action_start_time)
                 if elapsed_time < 0:
                     elapsed_time = 0
                 # print('sleeping for {}'.format(elapsed_time))

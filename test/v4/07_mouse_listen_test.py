@@ -35,7 +35,6 @@ class MouseTest():
         # Then convert to a ratio
         ratx = relx/(self.game_wincap.w*1.5)
         raty = rely/(self.game_wincap.h*1.5)
-
         return ratx, raty
 
     def convert_ratio_to_click(self, ratx, raty):
@@ -47,8 +46,8 @@ class MouseTest():
         relx = int(ratx * self.game_wincap.w)
         rely = int(raty * self.game_wincap.h)
         # Turn the relative into true
-        truex = int(relx + self.game_wincap.window_rect[0] * 1.5)
-        truey = int(rely + self.game_wincap.window_rect[1] * 1.5)
+        truex = int((relx + self.game_wincap.window_rect[0]) * 1.5)
+        truey = int((rely + self.game_wincap.window_rect[1]) * 1.5)
         return truex, truey
 
     def on_click(self, x, y, button, pressed):
@@ -59,9 +58,9 @@ class MouseTest():
             # This will allow common usage on other size monitors
             print("x={}, y={}".format(x, y))
             xratio, yratio = self.convert_click_to_ratio(x, y)
-            print("xrat={}, yrat={}".format(xratio, yratio))
-            # xconv, yconv = self.convert_ratio_to_click(xratio, yratio)
-            # print("xconv={}, yconv={}".format(xconv, yconv))
+            # print("xrat={}, yrat={}".format(xratio, yratio))
+            xconv, yconv = self.convert_ratio_to_click(xratio, yratio)
+            print("xconv={}, yconv={}".format(xconv, yconv))
             print("-------------------------------")
 
     def start(self):

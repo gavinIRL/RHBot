@@ -25,12 +25,15 @@ class ConvertTest():
         # versus the game window
         self.game_wincap.update_window_position(border=False)
         # Turn the screen pos into window pos
-        relx = truex - self.game_wincap.window_rect[0]
-        rely = truey - self.game_wincap.window_rect[1]
+        relx = truex - self.game_wincap.window_rect[0] * 1.5
+        rely = truey - self.game_wincap.window_rect[1] * 1.5
+        print("relx={}, rely={}".format(relx, rely))
+        print("winx={}, winy={}".format(
+            self.game_wincap.window_rect[0], self.game_wincap.window_rect[1]))
+        print("winwidth={}".format(self.game_wincap.w))
         # Then convert to a ratio
-        ratx = relx/self.game_wincap.w
-        raty = rely/self.game_wincap.h
-
+        ratx = relx/(self.game_wincap.w*1.5)
+        raty = rely/(self.game_wincap.h*1.5)
         return ratx, raty
 
     def convert_ratio_to_click(self, ratx, raty):
@@ -42,8 +45,8 @@ class ConvertTest():
         relx = int(ratx * self.game_wincap.w)
         rely = int(raty * self.game_wincap.h)
         # Turn the relative into true
-        truex = relx + self.game_wincap.window_rect[0]
-        truey = rely + self.game_wincap.window_rect[1]
+        truex = int((relx + self.game_wincap.window_rect[0]) * 1.5)
+        truey = int((rely + self.game_wincap.window_rect[1]) * 1.5)
         return truex, truey
 
     def start(self):
@@ -51,16 +54,16 @@ class ConvertTest():
             while True:
                 x, y = pyautogui.position()
                 ratx, raty = self.convert_click_to_ratio(x, y)
-                # ratx = "{:.2f}".format(ratx)
-                # raty = "{:.2f}".format(raty)
+                ratx = "{:.4f}".format(ratx)
+                raty = "{:.4f}".format(raty)
                 convx, convy = self.convert_ratio_to_click(
                     float(ratx), float(raty))
                 positionStr = 'X: ' + \
                     str(x).rjust(4) + ' Y: ' + str(y).rjust(4)
-                # positionStr += ' ratX: ' + \
-                #     str(ratx).rjust(4) + ' ratY: ' + str(raty).rjust(4)
-                positionStr += ' convX: ' + \
-                    str(convx).rjust(4) + ' convY: ' + str(convy).rjust(4)
+                positionStr += ' ratX: ' + \
+                    str(ratx).rjust(4) + ' ratY: ' + str(raty).rjust(4)
+                # positionStr += ' convX: ' + \
+                #     str(convx).rjust(4) + ' convY: ' + str(convy).rjust(4)
                 # positionStr += ' relY: ' + \
                 #     str(self.rely).rjust(4) + ' winY: ' + \
                 #     str(self.game_wincap.window_rect[1]).rjust(4)

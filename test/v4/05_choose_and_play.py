@@ -250,8 +250,8 @@ class TestController():
         relx = int(ratx * self.game_wincap.w)
         rely = int(raty * self.game_wincap.h)
         # Turn the relative into true
-        truex = int(relx + self.game_wincap.window_rect[0] * 1.5)
-        truey = int(rely + self.game_wincap.window_rect[1] * 1.5)
+        truex = int((relx + self.game_wincap.window_rect[0]) * 1.5)
+        truey = int((rely + self.game_wincap.window_rect[1]) * 1.5)
         return truex, truey
 
     def convert_pynput_to_pag(self, button):

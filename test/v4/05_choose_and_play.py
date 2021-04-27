@@ -162,6 +162,18 @@ class TestController():
                 self.recording_ongoing = False
                 self.recorder.unreleased_keys = []
                 self.recorder.input_events = []
+            else:
+                try:
+                    self.recorder.unreleased_keys.remove(key)
+                except ValueError:
+                    print('ERROR: {} not in unreleased_keys'.format(key))
+                try:
+                    self.recorder.record_event(
+                        EventType.KEYUP, self.recorder.elapsed_time(), key.char)
+                except AttributeError:
+                    self.recorder.record_event(
+                        EventType.KEYUP, self.recorder.elapsed_time(), key)
+
         if self.playback_ongoing:
             if key == KeyCode(char='-'):
                 # find a way to stop the action playback

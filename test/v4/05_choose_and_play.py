@@ -228,27 +228,30 @@ class TestController():
         # This will grab the current rectangle coords of game window
         # and then turn the click values into a ratio of positions
         # versus the game window
-        self.game_wincap.update_window_position()
+        self.game_wincap.update_window_position(border=False)
         # Turn the screen pos into window pos
-        relx = truex - self.game_wincap.window_rect[0]
-        rely = truey - self.game_wincap.window_rect[1]
+        relx = truex - self.game_wincap.window_rect[0] * 1.5
+        rely = truey - self.game_wincap.window_rect[1] * 1.5
+        # print("relx={}, rely={}".format(relx, rely))
+        # print("winx={}, winy={}".format(
+        #     self.game_wincap.window_rect[0], self.game_wincap.window_rect[1]))
+        # print("winwidth={}".format(self.game_wincap.w))
         # Then convert to a ratio
-        ratx = relx/self.game_wincap.w
-        raty = rely/self.game_wincap.h
-
+        ratx = relx/(self.game_wincap.w*1.5)
+        raty = rely/(self.game_wincap.h*1.5)
         return ratx, raty
 
     def convert_ratio_to_click(self, ratx, raty):
         # This will grab the current rectangle coords of game window
         # and then turn the ratio of positions versus the game window
         # into true x,y coords
-        self.game_wincap.update_window_position()
+        self.game_wincap.update_window_position(border=False)
         # Turn the ratios into relative
         relx = int(ratx * self.game_wincap.w)
         rely = int(raty * self.game_wincap.h)
         # Turn the relative into true
-        truex = relx + self.game_wincap.window_rect[0]
-        truey = rely + self.game_wincap.window_rect[1]
+        truex = int(relx + self.game_wincap.window_rect[0] * 1.5)
+        truey = int(rely + self.game_wincap.window_rect[1] * 1.5)
         return truex, truey
 
     def convert_pynput_to_pag(self, button):

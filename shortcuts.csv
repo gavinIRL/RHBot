@@ -1,10 +1,10 @@
-﻿Hotkeys,,
-key,action,scenario
-q,stop bot entirely,all
-w,toggle looting,non-rec/pb
-e,toggle combat,non-rec/pb
-r,toggle freemove,non-rec/pb
-t,select playback,non-rec
-y,start recording,non-pb
--,cancel rec/pb,rec/pb
-=,end recording,rec
+﻿Hotkeys,,,
+newkey,oldkey,action,scenario
+F4,q,stop bot entirely,all
+F5,w,toggle looting,non-rec/pb
+F6,e,toggle combat,non-rec/pb
+F7,r,toggle freemove,non-rec/pb
+F8,t,select playback,non-rec
+F10,y,start recording,non-pb
+F11,-,cancel rec/pb,rec/pb
+F12,=,end recording,rec

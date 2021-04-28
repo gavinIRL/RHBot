@@ -8,8 +8,8 @@ At this point I have reached the crossroads whereby the v3 bot can do everything
 ## Current Status
 * Version 1: Completed
 * Version 2: Completed (Partially - only loots nearby items, sufficient for quests)
-* Version 3: Completed (Support only for 1 class)
-* Version 4: In Progress
+* Version 3: Completed (Support only for 1 class, Version 3.1 includes hotkeys)
+* Version 4: In Progress (Version 4.1 latest version, integrates recording and playback into main bot)
 * Version 5: Not Started
 * Version 6: Not Started
 
@@ -24,7 +24,7 @@ Version 1 with the additional ability to detect and pick up all loot objects. Cu
 Version 2 with the additional ability to detect when enemies are present and perform basic attacks or combos. Initial version will only work with one ranged class for simplicity but will be updated to allow all 12 classes later. 
 
 ### Version 4 - Follower Bot, Loot Pickup, Basic Combat, Stock Movements/Actions in Town
-Version 3 with the stock town movements during levelling automated (at least to lvl 10). Will consist of multiple hotkeys for the bot to carry out the stock actions.
+Version 3 with the stock town movements during levelling automated (at least to lvl 10). Will consist of multiple hotkeys for the bot to carry out the stock actions. Plan to integrate into the existing bot rather than having an additional bot. Aim to have it running on main pc also for quick record and distribute purposes.
 
 ### Version 5 - Standalone Bot with Loot Pickup, Full Combat, Single-Level Clear
 Taking the loot pickup and combat skills from Version 4 but with an independent navigation system. The idea will be to identify the current area and follow a pre-programmed route through the area either as quickly as possible or as thoroughly as possible.

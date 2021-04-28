@@ -98,7 +98,7 @@ class TestController():
     def on_press(self, key):
         if self.recording_ongoing:
             # Log the event if not the end key
-            if key == KeyCode(char='='):
+            if key == KeyCode(char='F12'):
                 self.recording_ongoing = False
                 self.recorder.write_recording_to_file()
                 print("Finished recording #{}".format(
@@ -120,7 +120,7 @@ class TestController():
         elif self.playback_input_flag:
             # add the key to existing string
             # This is causing a bug if press escape
-            if key == KeyCode(char='t'):
+            if key == KeyCode(char='F8'):
                 self.playback_input_flag = not self.playback_input_flag
                 print("Starting playback of #"+self.playback_string)
                 self.playback_ongoing = True
@@ -130,31 +130,31 @@ class TestController():
                 except:
                     pass
 
-        elif key == KeyCode(char='t'):
+        elif key == KeyCode(char='F8'):
             # This can only be reached if not entering playback number
             self.playback_input_flag = not self.playback_input_flag
             self.playback_string = ""
             print("Select a recording number")
 
-        elif key == KeyCode(char='y'):
+        elif key == KeyCode(char='F10'):
             print("Starting recording in 3 seconds")
             self.recording_ready = True
 
-        elif key == KeyCode(char='w'):
+        elif key == KeyCode(char='F5'):
             self.loot_enabled = not self.loot_enabled
             if self.loot_enabled:
                 print("LOOT ON")
             else:
                 print("LOOT OFF")
 
-        elif key == KeyCode(char='e'):
+        elif key == KeyCode(char='F6'):
             self.combat_enabled = not self.combat_enabled
             if self.combat_enabled:
                 print("COMBAT ON")
             else:
                 print("COMBAT OFF")
 
-        elif key == KeyCode(char='r'):
+        elif key == KeyCode(char='F7'):
             self.freemove_enabled = not self.freemove_enabled
             if self.freemove_enabled:
                 print("FREEMOVE ON")
@@ -164,7 +164,7 @@ class TestController():
     def on_release(self, key):
         # Need to have an exit recording or playback only button (=?)
         if self.recording_ongoing:
-            if key == KeyCode(char='-'):
+            if key == KeyCode(char='F11'):
                 # Wipe all the collected data
                 self.recording_ongoing = False
                 self.recorder.unreleased_keys = []
@@ -182,14 +182,14 @@ class TestController():
                         EventType.KEYUP, self.recorder.elapsed_time(), key)
 
         if self.playback_ongoing:
-            if key == KeyCode(char='-'):
+            if key == KeyCode(char='F11'):
                 # find a way to stop the action playback
                 self.playback_ongoing = False
                 # Now need to release all keys while waiting for the
                 # playback to catch up
                 self.remove_all_keypresses()
 
-        if key == KeyCode(char='q'):
+        if key == KeyCode(char='F4'):
             self.bot_running = False
             # self.combatbat.running = False
             # Need to pause for 1 second and then clear all keypresses

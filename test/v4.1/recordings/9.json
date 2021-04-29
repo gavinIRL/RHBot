@@ -1,0 +1,1244 @@
+[
+    {
+        "time": 0.6558573246002197,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 0.7346317768096924,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 2.266085624694824,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.5578019699326076,
+            0.41990798828941867
+        ]
+    },
+    {
+        "time": 3.3433234691619873,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 3.422112226486206,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 16.5669002532959,
+        "type": "keyDown",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 16.64668607711792,
+        "type": "keyUp",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 19.16307020187378,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.7013996889580093,
+            0.6256796319531577
+        ]
+    },
+    {
+        "time": 20.21115803718567,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6557801969932607,
+            0.7017984107068173
+        ]
+    },
+    {
+        "time": 21.2244131565094,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.44841886988076723,
+            0.5980761187787537
+        ]
+    },
+    {
+        "time": 23.48672604560852,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 23.542707204818726,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 25.63881802558899,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 25.742669820785522,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 26.3980872631073,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 26.502442121505737,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 29.16685438156128,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 29.270203590393066,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 30.23067283630371,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 30.33421301841736,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 31.367106914520264,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 31.429975032806396,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 33.664783239364624,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.64282011404873,
+            0.6273525721455459
+        ]
+    },
+    {
+        "time": 36.670875787734985,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 36.790762186050415,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 48.03014016151428,
+        "type": "keyDown",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 48.0460946559906,
+        "type": "keyDown",
+        "button": "Key.up",
+        "pos": null
+    },
+    {
+        "time": 48.270495653152466,
+        "type": "keyUp",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 48.454005002975464,
+        "type": "keyUp",
+        "button": "Key.up",
+        "pos": null
+    },
+    {
+        "time": 49.07059335708618,
+        "type": "keyDown",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 49.19007873535156,
+        "type": "keyUp",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 50.126402616500854,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 50.20711660385132,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 51.47034549713135,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 51.5909583568573,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 52.10264325141907,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 52.20640969276428,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 53.19837927818298,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 53.278029441833496,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 54.15819978713989,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 54.22298455238342,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 54.62295126914978,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 54.71060752868652,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 55.502713680267334,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 55.6074013710022,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 57.50470447540283,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6148263348885433,
+            0.6516102049351735
+        ]
+    },
+    {
+        "time": 59.56701159477234,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 59.64686703681946,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 62.11115002632141,
+        "type": "keyDown",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 62.17398118972778,
+        "type": "keyUp",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 62.66285753250122,
+        "type": "keyDown",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 62.74264407157898,
+        "type": "keyUp",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 63.406893253326416,
+        "type": "keyDown",
+        "button": "Key.down",
+        "pos": null
+    },
+    {
+        "time": 63.51063919067383,
+        "type": "keyUp",
+        "button": "Key.down",
+        "pos": null
+    },
+    {
+        "time": 63.7101674079895,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 63.79086637496948,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 64.2782506942749,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 64.34223461151123,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 64.69483494758606,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 64.77564835548401,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 65.47873783111572,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 65.55826735496521,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 66.56689953804016,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 66.67064499855042,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 67.3106472492218,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 67.39036226272583,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 68.06246614456177,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 68.18214702606201,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 70.02505207061768,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.5505443234836703,
+            0.6976160602258469
+        ]
+    },
+    {
+        "time": 71.97440838813782,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 72.05419445037842,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 77.00697946548462,
+        "type": "keyDown",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 77.34265160560608,
+        "type": "keyUp",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 77.88681030273438,
+        "type": "keyDown",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 77.99049997329712,
+        "type": "keyUp",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 79.05476427078247,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 79.13431406021118,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 80.25394654273987,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 80.35869789123535,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 80.76642775535583,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 80.84624648094177,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 81.7261106967926,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 81.80689549446106,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 82.68678259849548,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 82.76649165153503,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 83.65526747703552,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 83.7180986404419,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 85.81426572799683,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6433385173665112,
+            0.6256796319531577
+        ]
+    },
+    {
+        "time": 86.8705108165741,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 86.9502649307251,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 94.51013541221619,
+        "type": "keyDown",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 94.53407168388367,
+        "type": "keyDown",
+        "button": "Key.up",
+        "pos": null
+    },
+    {
+        "time": 94.75045919418335,
+        "type": "keyUp",
+        "button": "Key.right",
+        "pos": null
+    },
+    {
+        "time": 94.89409804344177,
+        "type": "keyUp",
+        "button": "Key.up",
+        "pos": null
+    },
+    {
+        "time": 95.30198359489441,
+        "type": "keyDown",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 95.38235306739807,
+        "type": "keyUp",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 96.27120018005371,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 96.33406376838684,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 97.49421811103821,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 97.57496881484985,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 98.28618502616882,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 98.34206652641296,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 99.07839131355286,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 99.14221954345703,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 101.93705224990845,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.5578019699326076,
+            0.4215809284818068
+        ]
+    },
+    {
+        "time": 103.14252376556396,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 103.24627017974854,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 116.49482154846191,
+        "type": "keyDown",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 116.59006714820862,
+        "type": "keyUp",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 117.13455176353455,
+        "type": "keyDown",
+        "button": "Key.down",
+        "pos": null
+    },
+    {
+        "time": 117.23834896087646,
+        "type": "keyUp",
+        "button": "Key.down",
+        "pos": null
+    },
+    {
+        "time": 117.68707489967346,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 117.75090408325195,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 118.43908858299255,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 118.49406552314758,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 119.7027235031128,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 119.75844073295593,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 120.4307131767273,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 120.51076793670654,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 121.38279604911804,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 121.48665189743042,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 121.98222756385803,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 122.10210490226746,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 123.0067286491394,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 123.0865843296051,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 123.76687479019165,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 123.84666538238525,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 124.7269184589386,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 124.7906723022461,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 125.28705477714539,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 125.35087966918945,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 126.51113605499268,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 126.53410863876343,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 127.14311456680298,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 127.22239112854004,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 128.4062683582306,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 128.4864308834076,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 129.13433265686035,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 129.19903087615967,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 131.1547145843506,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6044582685329186,
+            0.5955667084901715
+        ]
+    },
+    {
+        "time": 132.18253254890442,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 132.26231908798218,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 136.11856842041016,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 136.19846963882446,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 136.75882482528687,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 136.83873963356018,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 138.52632880210876,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 138.6061851978302,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 139.9184284210205,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 140.03910613059998,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 141.45799803733826,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6049766718506998,
+            0.5972396486825596
+        ]
+    },
+    {
+        "time": 142.2066044807434,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 142.28644514083862,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 148.7186233997345,
+        "type": "keyDown",
+        "button": "Key.up",
+        "pos": null
+    },
+    {
+        "time": 148.74230241775513,
+        "type": "keyUp",
+        "button": "Key.up",
+        "pos": null
+    },
+    {
+        "time": 149.29401469230652,
+        "type": "keyDown",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 149.39827179908752,
+        "type": "keyUp",
+        "button": "x",
+        "pos": null
+    },
+    {
+        "time": 150.28606581687927,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 150.31000137329102,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 151.42266941070557,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 151.52639317512512,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 152.56679439544678,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 152.62263822555542,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 153.53467798233032,
+        "type": "keyDown",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 153.61449599266052,
+        "type": "keyUp",
+        "button": "Key.enter",
+        "pos": null
+    },
+    {
+        "time": 154.71831035614014,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 154.81402254104614,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 155.83104991912842,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 155.894917011261,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 156.71834325790405,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 156.7741777896881,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 158.40234303474426,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6832555728356662,
+            0.5453785027185278
+        ]
+    },
+    {
+        "time": 159.3028757572174,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 159.40663051605225,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 164.85527229309082,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 164.95007038116455,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 165.97502040863037,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 166.0707676410675,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 166.82255458831787,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 166.91893935203552,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 167.79046607017517,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 167.87027835845947,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 168.73431038856506,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 168.81428146362305,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 169.98251485824585,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 170.0462794303894,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 172.29260206222534,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6837739761534474,
+            0.5386867419489754
+        ]
+    },
+    {
+        "time": 173.079008102417,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 173.182763338089,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 177.5990071296692,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 177.65418791770935,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 178.77483797073364,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 178.87844562530518,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 185.7593982219696,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 185.8621232509613,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 186.44686913490295,
+        "type": "keyDown",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 186.5273199081421,
+        "type": "keyUp",
+        "button": "Key.esc",
+        "pos": null
+    },
+    {
+        "time": 189.6466100215912,
+        "type": "keyDown",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 189.72643756866455,
+        "type": "keyUp",
+        "button": "m",
+        "pos": null
+    },
+    {
+        "time": 190.43605971336365,
+        "type": "click",
+        "button": "Button.left",
+        "pos": [
+            0.6837739761534474,
+            0.5386867419489754
+        ]
+    }
+]

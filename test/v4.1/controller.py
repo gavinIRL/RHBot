@@ -5,6 +5,9 @@ import os
 import pydirectinput as pyautogui
 import json
 from windowcapture import WindowCapture
+from combat_standalone import StandaloneCombat
+from moveloot_standalone import StandaloneMoveLoot
+from freemove_standalone import StandaloneFreeMove
 
 pyautogui.FAILSAFE = True
 
@@ -29,6 +32,10 @@ class Controller2():
         self.playback = Playback(self)
         # This variable is for ignoring any move/combat bot loops
         self.rec_pb_only = rec_pb_only
+        self.movebot = StandaloneMoveLoot(self)
+        self.combatbat = StandaloneCombat(self)
+        self.freemovebot = StandaloneFreeMove(self)
+        self.combat_cooldown = 0
 
         with open("gamename.txt") as f:
             gamename = f.readline()
@@ -49,11 +56,17 @@ class Controller2():
             # Shouldn't need to stop everything
             # As shouldn't be in a dungeon when doing this
             else:
-                # Perform the usual loop stuff here
-                # Will also need to add logic to the combat and move
-                # main loops to break if any of the rec/playback checks
-                # return true
-                time.sleep(0.5)
+                if self.mode == "movement":
+                    if not self.freemove_enabled:
+                        self.movebot.move_mainloop()
+                    else:
+                        self.freemovebot.freemove_mainloop()
+                elif self.mode == "combat":
+                    if (time.time() - self.combat_cooldown) > 0:
+                        self.combatbat.combat_mainloop()
+                else:
+                    print("Error, no mode selected")
+                    time.sleep(2)
 
     def perform_record_playback_checks(self):
         if self.playback_ongoing:

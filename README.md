@@ -9,7 +9,7 @@ At this point I have reached the crossroads whereby the v3 bot can do everything
 * Version 1: Completed
 * Version 2: Completed (Partially - only loots nearby items, sufficient for quests)
 * Version 3: Completed (Support only for 1 class, Version 3.1 includes hotkeys)
-* Version 4: In Progress (Version 4.1 latest version, integrates recording and playback into main bot)
+* Version 4: Completed (Partially - includes recordings for first 10 levels)
 * Version 5: Not Started
 * Version 6: Not Started
 

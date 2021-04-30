@@ -481,7 +481,7 @@ class StandaloneCombat():
             self.combos = combo.WeaponBagFocused(level=self.level)
 
         # Second figure out which keys to track cooldowns for
-        for key, value in self.combos.grab_base_cooldowns():
+        for key, value in self.combos.grab_base_cooldowns().items():
             if value:
                 self.cooldowns[key] = value
                 self.cd_tracker[key] = time.time()

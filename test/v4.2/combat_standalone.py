@@ -10,6 +10,8 @@ import time
 import pydirectinput
 import math
 import cv2 as cv
+from win32api import GetSystemMetrics
+import ctypes
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -53,6 +55,9 @@ class StandaloneCombat():
         # Grab the gamename from the text file
         with open("gamename.txt") as f:
             gamename = f.readline()
+
+        # Find out the display scaling - either 100% or 150%
+        scaling = self.get_monitor_scaling()
 
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
@@ -523,6 +528,13 @@ class StandaloneCombat():
             # Maybe set it to the current player coords instead
             # self.other_player_rel_coords = [0, 0]
             return False
+
+    def get_monitor_scaling():
+        user32 = ctypes.windll.user32
+        w_orig = GetSystemMetrics(0)
+        user32.SetProcessDPIAware()
+        [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
+        return float(("{:.2f}".format(w/w_orig)))
 
 
 if __name__ == "__main__":

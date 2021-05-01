@@ -361,7 +361,7 @@ class StandaloneCombat():
         # Will create a new order for the combo queue
         # Based on the preferred combo order
         available = []
-        for key, cd_time in self.cd_tracker:
+        for key, cd_time in self.cd_tracker.items():
             if time.time > cd_time:
                 available.append(key)
         if len(available) == 0:

@@ -435,5 +435,5 @@ class Playback():
 
 
 if __name__ == "__main__":
-    cont = Controller2(freemove=True, rec_pb_only=True)
+    cont = Controller2()
     cont.start_controller()

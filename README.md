@@ -3,7 +3,7 @@
 Simple bot to automate combat, follow other players, and pick up loot. The title of the game this bot is used for will remain hidden until further in the development cycle to reduce the likelihood of a ban. The game in question is an old (>10years since launch) game that is an online multiplayer game on PC.
 
 ## Current Thoughts
-At this point I have reached the crossroads whereby the v3 bot can do everything that I require it to do in terms of being a follower, however it still relies on a heavy amount of user input. Moving forward I aim to reduce the amount of user input in particular during the early levelling phase. The plan will be to have the bots perform the stock in-town levelling quest completion and new quest acceptance, with the instructions coming by means of a socketed connection. I will likely create a new repo for the client and server rather than cluttering this repo further.
+At this point I have stock recordings for in-town movements however the in-town movements are not always completely identical especially with certain other characters. The plan will be to change to a more dynamic system whereby the instructions come by means of a socketed connection. I will likely create a new repo for the client and server rather than cluttering this repo further.
 
 ## Current Status
 * Version 1: Completed
@@ -12,6 +12,8 @@ At this point I have reached the crossroads whereby the v3 bot can do everything
 * Version 4: Completed (Partially - includes recordings for first 10 levels)
 * Version 5: Not Started
 * Version 6: Not Started
+* Version 7: Not Started
+* Version 8: Not Started
 
 ## Plans
 ### Version 1 - Follower Bot
@@ -26,11 +28,17 @@ Version 2 with the additional ability to detect when enemies are present and per
 ### Version 4 - Follower Bot, Loot Pickup, Basic Combat, Stock Movements/Actions in Town
 Version 3 with the stock town movements during levelling automated (at least to lvl 10). Will consist of multiple hotkeys for the bot to carry out the stock actions. Plan to integrate into the existing bot rather than having an additional bot. Aim to have it running on main pc also for quick record and distribute purposes.
 
-### Version 5 - Standalone Bot with Loot Pickup, Full Combat, Single-Level Clear
-Taking the loot pickup and combat skills from Version 4 but with an independent navigation system. The idea will be to identify the current area and follow a pre-programmed route through the area either as quickly as possible or as thoroughly as possible.
+### Version 5 - Follower Bot, Loot Pickup, Basic Combat, Town Movements through Socket from Primary User
+Version 4 with an alternative method of communication to the bots from the primary user, will allow a single set of inputs/actions to be sent to all connected bots. More flexible than record->distribute->play used in Version 4.
 
-### Version 6 - Standalone Bot with Loot Pickup, Full Combat, Sell and Repair, Multi-Level Clear
-Version 5 with the additional ability to perform the buy/sell actions required at the end of each level, and start another level.
+### Version 6 - Follower Bot, Loot Pickup, Basic Combat, Town Movements through Socket from Primary User, Automatic Sell and Repair
+Version 5 with the ability for the bots to automatically sell all (useless) loot and repair all gear at end of a level.
+
+### Version 7 - Standalone Bot with Single-Level Clear
+Taking all of the features from Version 6 but with an independent navigation system. The idea will be to identify the current area and follow a pre-programmed route through the area either as quickly as possible or as thoroughly as possible. Will clear a level and then wait for the user to either choose a new
+
+### Version 8 - Standalone Bot with Loot Pickup, Full Combat, Multi-Level Clear
+Version 7 with the additional ability to perform the buy/sell actions required at the end of each level, and start another level.
 
 ## All Other Planned Features
 The following are features not explicitly mentioned in the previous section that will be implemented.
@@ -42,5 +50,5 @@ The following are features not explicitly mentioned in the previous section that
 1) General dungeon handler instead of hardcoded for 1 dungeon.
 2) Impending enemy attack detection.
 3) Automated enemy attack blocking.
-4) GPU scaling rather than single CPU core scaling
+4) GPU scaling rather than single CPU core scaling (not necessarily required as get 10-100fps on the bot most of the time)
 

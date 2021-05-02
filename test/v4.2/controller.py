@@ -8,6 +8,8 @@ from windowcapture import WindowCapture
 from combat_standalone import StandaloneCombat
 from moveloot_standalone import StandaloneMoveLoot
 from freemove_standalone import StandaloneFreeMove
+from win32api import GetSystemMetrics
+import ctypes
 
 pyautogui.FAILSAFE = True
 
@@ -287,6 +289,13 @@ class Controller2():
             return PYNPUT_SPECIAL_CASE_MAP[cleaned_key]
 
         return cleaned_key
+
+    def get_monitor_scaling():
+        user32 = ctypes.windll.user32
+        w_orig = GetSystemMetrics(0)
+        user32.SetProcessDPIAware()
+        [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
+        return float(("{:.2f}".format(w/w_orig)))
 
 
 class EventType():

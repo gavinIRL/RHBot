@@ -53,42 +53,60 @@ class StandaloneMoveLoot():
             object_name="other_player_map_loc")
         self.othr_plyr_wincap = WindowCapture(
             gamename, othr_plyr_custom_rect)
-        self.othr_plyr_vision = Vision('otherplayer67.jpg')
+        if self.controller.scaling == 1.5:
+            self.othr_plyr_vision = Vision('otherplayer67.jpg')
+        elif self.controller.scaling == 1.0:
+            self.othr_plyr_vision = Vision('otherplayer100.jpg')
 
-        # The next block of code is setup for detecting the current player
+            # The next block of code is setup for detecting the current player
         self.player_filter, player_custom_rect = grab_object_preset(
             object_name="player_map_loc")
         self.player_wincap = WindowCapture(
             gamename, player_custom_rect)
-        self.player_vision = Vision('playerv2_67.jpg')
+        if self.controller.scaling == 1.5:
+            self.player_vision = Vision('playerv2_67.jpg')
+        elif self.controller.scaling == 1.0:
+            self.player_vision = Vision('playerv2_100.jpg')
 
-        # The next block of code is setup for detecting enemies on minimap
+            # The next block of code is setup for detecting enemies on minimap
         self.enemy_filter, enemy_custom_rect = grab_object_preset(
             object_name="enemy_map_locv3")
         self.enemy_wincap = WindowCapture(
             gamename, enemy_custom_rect)
-        self.enemy_vision = Vision('enemy67.jpg')
+        if self.controller.scaling == 1.5:
+            self.enemy_vision = Vision('enemy67.jpg')
+        elif self.controller.scaling == 1.0:
+            self.enemy_vision = Vision('enemy100.jpg')
 
-        # The next block of code is setup for detecting nearby loot
+            # The next block of code is setup for detecting nearby loot
         self.lootnr_filter, lootnr_custom_rect = grab_object_preset(
             object_name="loot_near")
         self.lootnr_wincap = WindowCapture(
             gamename, lootnr_custom_rect)
-        self.lootnr_vision = Vision('lootnear67filt.jpg')
+        if self.controller.scaling == 1.5:
+            self.lootnr_vision = Vision('lootnear67filt.jpg')
+        elif self.controller.scaling == 1.0:
+            self.lootnr_vision = Vision('lootnear100filt.jpg')
 
-        # The next block of code is setup for detecting if in a dungeon
+            # The next block of code is setup for detecting if in a dungeon
         self.dunchk_filter, dunchk_custom_rect = grab_object_preset(
             object_name="dungeon_check")
         self.dunchk_wincap = WindowCapture(
             gamename, dunchk_custom_rect)
-        self.dunchk_vision = Vision('dunchk_67.jpg')
+        if self.controller.scaling == 1.5:
+            self.dunchk_vision = Vision('dunchk_67.jpg')
+        elif self.controller.scaling == 1.0:
+            self.dunchk_vision = Vision('dunchk_100.jpg')
 
-        # The next block of code is setup for detecting if there is an x prompt
+            # The next block of code is setup for detecting if there is an x prompt
         self.xprompt_filter, xprompt_custom_rect = grab_object_preset(
             object_name="prompt_press_x_pickup")
         self.xprompt_wincap = WindowCapture(
             gamename, xprompt_custom_rect)
-        self.xprompt_vision = Vision("xprompt67filtv2.jpg")
+        if self.controller.scaling == 1.5:
+            self.xprompt_vision = Vision("xprompt67filtv2.jpg")
+        elif self.controller.scaling == 1.0:
+            self.xprompt_vision = Vision("xprompt100filtv2.jpg")
 
         # Start the movement bot
         self.movement.movement_start()

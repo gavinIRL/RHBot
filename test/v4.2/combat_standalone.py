@@ -10,8 +10,6 @@ import time
 import pydirectinput
 import math
 import cv2 as cv
-from win32api import GetSystemMetrics
-import ctypes
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
@@ -56,9 +54,6 @@ class StandaloneCombat():
         with open("gamename.txt") as f:
             gamename = f.readline()
 
-        # Find out the display scaling - either 100% or 150%
-        scaling = self.get_monitor_scaling()
-
         # The next block of code is setup for detecting the section cleared msg
         self.sect_clear_filter, sect_clear_custom_rect = grab_object_preset(
             object_name="message_section_cleared")
@@ -66,9 +61,9 @@ class StandaloneCombat():
         self.sect_clear_wincap = WindowCapture(
             gamename, sect_clear_custom_rect)
         # initialize the Vision class
-        if scaling == 1.5:
+        if self.controller.scaling == 1.5:
             self.sect_clear_vision = Vision('SectionCleared67.jpg')
-        elif scaling == 1.0:
+        elif self.controller.scaling == 1.0:
             self.sect_clear_vision = Vision('SectionCleared100.jpg')
 
         # The next block of code is setup for detecting the combo count
@@ -78,9 +73,9 @@ class StandaloneCombat():
         self.combo_count_wincap = WindowCapture(
             gamename, combo_count_custom_rect)
         # initialize the Vision class
-        if scaling == 1.5:
+        if self.controller.scaling == 1.5:
             self.combo_count_vision = Vision('combocount67.jpg')
-        elif scaling == 1.0:
+        elif self.controller.scaling == 1.0:
             self.combo_count_vision = Vision('combocount100.jpg')
 
         # The next block of code is setup for detecting the current player
@@ -89,9 +84,9 @@ class StandaloneCombat():
         # initialize the WindowCapture class for player detection
         self.player_wincap = WindowCapture(
             gamename, player_custom_rect)
-        if scaling == 1.5:
+        if self.controller.scaling == 1.5:
             self.player_vision = Vision('playerv2_67.jpg')
-        elif scaling == 1.0:
+        elif self.controller.scaling == 1.0:
             self.player_vision = Vision('playerv2_100.jpg')
 
         # The next block of code is setup for detecting enemies on minimap
@@ -101,9 +96,9 @@ class StandaloneCombat():
         self.enemy_minimap_wincap = WindowCapture(
             gamename, enemy_custom_rect)
         # initialize the Vision class
-        if scaling == 1.5:
+        if self.controller.scaling == 1.5:
             self.enemy_minimap_vision = Vision('enemy67.jpg')
-        elif scaling == 1.0:
+        elif self.controller.scaling == 1.0:
             self.enemy_minimap_vision = Vision('enemy100.jpg')
 
         # The next block of code is setup for detecting if in a dungeon
@@ -111,9 +106,9 @@ class StandaloneCombat():
             object_name="dungeon_check")
         self.dunchk_wincap = WindowCapture(
             gamename, dunchk_custom_rect)
-        if scaling == 1.5:
+        if self.controller.scaling == 1.5:
             self.dunchk_vision = Vision('dunchk_67.jpg')
-        elif scaling == 1.0:
+        elif self.controller.scaling == 1.0:
             self.dunchk_vision = Vision('dunchk_100.jpg')
 
         # The next block of code is setup for detecting the other player
@@ -121,9 +116,9 @@ class StandaloneCombat():
             object_name="other_player_map_loc")
         self.othr_plyr_wincap = WindowCapture(
             gamename, othr_plyr_custom_rect)
-        if scaling == 1.5:
+        if self.controller.scaling == 1.5:
             self.othr_plyr_vision = Vision('otherplayer67.jpg')
-        elif scaling == 1.0:
+        elif self.controller.scaling == 1.0:
             self.othr_plyr_vision = Vision('otherplayer100.jpg')
 
     def combat_mainloop(self):
@@ -546,13 +541,6 @@ class StandaloneCombat():
             # Maybe set it to the current player coords instead
             # self.other_player_rel_coords = [0, 0]
             return False
-
-    def get_monitor_scaling():
-        user32 = ctypes.windll.user32
-        w_orig = GetSystemMetrics(0)
-        user32.SetProcessDPIAware()
-        [w, h] = [user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)]
-        return float(("{:.2f}".format(w/w_orig)))
 
 
 if __name__ == "__main__":

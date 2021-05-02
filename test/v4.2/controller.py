@@ -293,7 +293,7 @@ class Controller2():
 
         return cleaned_key
 
-    def get_monitor_scaling():
+    def get_monitor_scaling(self):
         user32 = ctypes.windll.user32
         w_orig = GetSystemMetrics(0)
         user32.SetProcessDPIAware()

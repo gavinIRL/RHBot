@@ -22,7 +22,10 @@ class StandaloneFreeMove():
             object_name="enemy_map_locv3")
         self.enemy_wincap = WindowCapture(
             gamename, enemy_custom_rect)
-        self.enemy_vision = Vision('enemy67.jpg')
+        if self.controller.scaling == 1.5:
+            self.enemy_vision = Vision('enemy67.jpg')
+        elif self.controller.scaling == 1.0:
+            self.enemy_vision = Vision('enemy100.jpg')
 
     def freemove_mainloop(self):
         loop_time = time.time()

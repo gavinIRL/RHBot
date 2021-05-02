@@ -39,6 +39,9 @@ class Controller2():
         self.freemovebot = StandaloneFreeMove(self)
         self.combat_cooldown = 0
 
+        # Find out the display scaling - either 100% or 150%
+        self.scaling = self.get_monitor_scaling()
+
         with open("gamename.txt") as f:
             gamename = f.readline()
         self.game_wincap = WindowCapture(gamename)

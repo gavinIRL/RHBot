@@ -420,9 +420,9 @@ class Playback():
                     # print("x={}, y={}".format(x, y))
                     # print("truex={}".format(x), end='')
                     # print("  truey={}".format(y))
-                    x = int(x/1.5)
-                    y = int(y/1.5)
-                    pyautogui.click(x, y, duration=0.15)
+                    x = int(x/self.controller.scaling)
+                    y = int(y/self.controller.scaling)
+                    pyautogui.click(x, y, duration=0.1)
                     # print("click on {}".format(action['pos']))
 
                 # then sleep until next action should occur

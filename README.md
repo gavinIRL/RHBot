@@ -3,14 +3,14 @@
 Simple bot to automate combat, follow other players, and pick up loot. The title of the game this bot is used for will remain hidden until further in the development cycle to reduce the likelihood of a ban. The game in question is an old (>10years since launch) game that is an online multiplayer game on PC.
 
 ## Current Thoughts
-At this point I have stock recordings for in-town movements however the in-town movements are not always completely identical especially with certain other characters. The plan will be to change to a more dynamic system whereby the instructions come by means of a socketed connection. I will likely create a new repo for the client and server rather than cluttering this repo further.
+Currently working on the multi-bot manual control in https://github.com/gavinIRL/RHBotArray. Plan to test in the RHBot repo before separating the user "client" from the bot "server" and holding in separate repos. The RHBot will be the server and the RHBotArray will be the client and possibly renamed to RHBotController.
 
 ## Current Status
 * Version 1: Completed
 * Version 2: Completed (Partially - only loots nearby items, sufficient for quests)
 * Version 3: Completed (Support only for 1 class, Version 3.1 includes hotkeys)
 * Version 4: Completed (Partially - includes recordings for first 10 levels)
-* Version 5: Not Started
+* Version 5: In Progress (See https://github.com/gavinIRL/RHBotArray)
 * Version 6: Not Started
 * Version 7: Not Started
 * Version 8: Not Started

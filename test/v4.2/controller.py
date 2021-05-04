@@ -244,8 +244,8 @@ class Controller2():
         # versus the game window
         self.game_wincap.update_window_position(border=False)
         # Turn the screen pos into window pos
-        relx = truex - self.game_wincap.window_rect[0] * self.scaling
-        rely = truey - self.game_wincap.window_rect[1] * self.scaling
+        relx = (truex - self.game_wincap.window_rect[0]) * self.scaling
+        rely = (truey - self.game_wincap.window_rect[1]) * self.scaling
         # print("relx={}, rely={}".format(relx, rely))
         # print("winx={}, winy={}".format(
         #     self.game_wincap.window_rect[0], self.game_wincap.window_rect[1]))
@@ -253,6 +253,9 @@ class Controller2():
         # Then convert to a ratio
         ratx = relx/(self.game_wincap.w*self.scaling)
         raty = rely/(self.game_wincap.h*self.scaling)
+        # Test convert back to a click
+        # convx, convy = self.convert_ratio_to_click(ratx, raty)
+        # print("convx={}, convy={}".format(convx, convy))
         return ratx, raty
 
     def convert_ratio_to_click(self, ratx, raty):
@@ -264,8 +267,8 @@ class Controller2():
         relx = int(ratx * self.game_wincap.w)
         rely = int(raty * self.game_wincap.h)
         # Turn the relative into true
-        truex = int((relx + self.game_wincap.window_rect[0]) * self.scaling)
-        truey = int((rely + self.game_wincap.window_rect[1]) * self.scaling)
+        truex = int((relx + self.game_wincap.window_rect[0]))
+        truey = int((rely + self.game_wincap.window_rect[1]))
         return truex, truey
 
     def convert_pynput_to_pag(self, button):

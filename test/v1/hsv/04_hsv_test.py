@@ -10,11 +10,13 @@ from hsvfilter import HsvFilter, grab_object_preset
 # Doing this because I'll be putting the files from each video in their own folder on GitHub
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+with open("gamename.txt") as f:
+    gamename = f.readline()
+
 filter, custom_rect = grab_object_preset("enemy_map_loc")
 WindowCapture.list_window_names()
 # initialize the WindowCapture class
-wincap = WindowCapture(custom_rect=list(
-    map(lambda x: int(x*1.5), custom_rect)))
+wincap = WindowCapture(gamename)
 
 # initialize the Vision class
 vision_limestone = Vision('player_nodir2.jpg')
